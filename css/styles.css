@@ -188,25 +188,3 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
-
-/* Agregados para la estética del menú login */
-
-img.login {
-  width: 50px;
-}
-
-#do-login{
-  width: 500px;
-}
-
-h1#inicio-sesion{
-  text-shadow: 1px 1px 1px black;
-  font-size: 300%;
-}
-
-div.container div.login{
-  background-color: rgb(208, 235, 255);
-  width: 500px;
-  border-radius: 30px;
-  border-style:groove;
-}

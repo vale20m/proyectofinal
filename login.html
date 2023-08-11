@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <link href="css/login.css" rel="stylesheet">
   <style>
     body {
       background-color: rgb(248, 249, 250);
@@ -18,27 +19,36 @@
 
 <body>
   <main class="mt-5">
-    <div class="container text-center">
+    <div class="container text-center" id="div-login">
       <!-- Agregamos formulario para el funcionamiento del login -->
-      <h1 id="inicio-sesion">Inicio de sesión</h1>
-      <br>
+      <div class="mb-4">
+        <h1 id="inicio-sesion">Inicio de sesión</h1>
+        <img src="img/login.png" id="login-img">
+      </div>
       <form action="index.html">
-        <img src="/img/login.png" id="do-login">
         <div class="container login">
-          <br>
-          <h1>Ingresa tus datos</h1>
-          <br>
-          <img src="/img/email.jpg" class="login">
-          <input type="email" name="email" id="email" placeholder="Email" required>
-          <br><br>
-          <img src="/img/password.png" class="login">
-          <input type="password" name="password" id="password" placeholder="Contraseña" required>
-          <br><br>
-          <input type="checkbox" name="mostrar" id="mostrar">
-          <label for="mostrar">Mostrar contraseña</label>
-          <br><br>
-          <button type="submit" value="Enviar login" id="enviar">Iniciar sesión</button>
-          <br><br>
+          <div>
+            <h1 class="mt-5">Ingresa tus datos</h1>
+          </div>
+          <div class="mt-5">
+            <img src="/img/email.jpg" class="login">
+            <input type="email" name="email" id="email" placeholder="Ingrese su email" class="mt-2" required>
+          </div>
+
+          <div class="mt-3">
+            <img src="/img/password.png" class="login">
+            <input type="password" name="password" id="password" placeholder="Ingrese su contraseña" required>
+          </div>
+          
+          <div class="mt-4">
+            <input type="checkbox" name="mostrar" id="mostrar">
+            <label for="mostrar">Mostrar contraseña</label>
+          </div>
+
+          <div class="mt-4">
+            <button type="submit" value="Enviar login" id="enviar">Iniciar sesión</button>
+          </div>
+
         </div>
       </form>
     </div>

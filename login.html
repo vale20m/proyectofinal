@@ -19,22 +19,27 @@
 <body>
   <main class="mt-5">
     <div class="container text-center">
+      <!-- Agregamos formulario para el funcionamiento del login -->
       <h1 id="inicio-sesion">Inicio de sesión</h1>
       <br>
       <form action="index.html">
         <img src="/img/login.png" id="do-login">
-        <h1>Ingresa tus datos</h1>
-        <br>
-        <img src="/img/email.jpg" class="login pull-left">
-        <input type="email" name="email" id="email" placeholder="Email" required>
-        <br><br>
-        <img src="/img/password.png" class="login">
-        <input type="password" name="password" id="password" placeholder="Contraseña" required>
-        <br><br>
-        <input type="checkbox" name="mostrar" id="mostrar">
-        <label for="mostrar">Mostrar contraseña</label>
-        <br><br>
-        <button type="submit" value="Enviar login" id="enviar">Iniciar sesión</button>
+        <div class="container login">
+          <br>
+          <h1>Ingresa tus datos</h1>
+          <br>
+          <img src="/img/email.jpg" class="login pull-left">
+          <input type="email" name="email" id="email" placeholder="Email" required>
+          <br><br>
+          <img src="/img/password.png" class="login">
+          <input type="password" name="password" id="password" placeholder="Contraseña" required>
+          <br><br>
+          <input type="checkbox" name="mostrar" id="mostrar">
+          <label for="mostrar">Mostrar contraseña</label>
+          <br><br>
+          <button type="submit" value="Enviar login" id="enviar">Iniciar sesión</button>
+          <br><br>
+        </div>
       </form>
     </div>
   </main>

@@ -197,7 +197,6 @@ img.login {
 
 #do-login{
   width: 500px;
-  background-color: rgb(248, 249, 250);
 }
 
 h1#inicio-sesion{
@@ -207,7 +206,7 @@ h1#inicio-sesion{
 
 div.container div.login{
   background-color: rgb(208, 235, 255);
-  width: 67%;
+  width: 500px;
   border-radius: 30px;
   border-style:groove;
 }

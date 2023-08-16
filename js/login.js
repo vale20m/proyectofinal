@@ -12,7 +12,7 @@ botonMostrar.addEventListener("change", function(){
     }
 });
 
-// Funcion para guardar el "user"
+// Función para guardar el "user"
 
 const formulario = document.querySelector("#formulario");
 

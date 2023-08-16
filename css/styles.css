@@ -188,6 +188,9 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
+
+/* Código para el estilo de la tabla y los productos */
+
 .auto-table:hover {
   background-color: #dbdbdbdc; /* Cambia el color de fondo al pasar el mouse */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);

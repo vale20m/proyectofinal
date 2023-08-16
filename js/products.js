@@ -9,19 +9,15 @@ function showData(dataArray) {
   for (const item of dataArray) {
     let imagen = item.image;
     container.innerHTML +=  `
-    <h1> ${item.name}s</h1>
-    <table border="30" class="auto-table">
+    <h3> ${item.name}s</h3>
+    <table border="25" class="auto-table list-group">
         <tr>
-            <td width="40%"><img src="${imagen}" alt="${item.name}" width="100%"></td> 
+            <td width="40%"><img src="${imagen}" alt="${item.name}" width="100%" class="img-thumbnail"></td> 
             <td width="20%"> <h4>Costo</h4> ${item.currency}  -  ${item.cost}</td>
             <td width="50%"><h4>Info: </h4>${item.description}</td>
-            <td width="20%"><h4>Vendidos:</h4> ${item.soldCount}</td>
+            <td width="20%" class = "cambio1"><small class= "text-muted" >Vendidos: ${item.soldCount}</small></td>
         </tr>
-    </table>
-    <style>
-    .auto-table:hover {
-      background-color: #dbdbdbdc; /* Cambia el color de fondo al pasar el mouse */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Agrega un sombreado al pasar el mouse */</style>`;
+    </table>`;
   }
 }
 

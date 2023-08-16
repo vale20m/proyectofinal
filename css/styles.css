@@ -188,3 +188,10 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
+.auto-table:hover {
+  background-color: #dbdbdbdc; /* Cambia el color de fondo al pasar el mouse */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.cambio1 {
+  text-align: center;
+}

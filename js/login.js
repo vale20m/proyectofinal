@@ -11,3 +11,11 @@ botonMostrar.addEventListener("change", function(){
         mostrar = false;
     }
 });
+
+// Funcion para guardar el "user"
+
+const formulario = document.querySelector("#formulario");
+
+formulario.addEventListener('submit', function(){
+    localStorage.setItem("user", 1);
+});

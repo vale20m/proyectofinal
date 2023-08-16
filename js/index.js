@@ -1,12 +1,18 @@
 document.addEventListener("DOMContentLoaded", function(){
 
+    const cerrarSesion = document.querySelector("#boton-login");
+
     if(localStorage.getItem("user")!=1){
         window.location.replace('login.html');
     }
 
-    document.addEventListener("unload", function(){
-        
-    })
+    if(localStorage.getItem("user")==1){
+        cerrarSesion.innerHTML = "Cerrar sesión";
+        cerrarSesion.addEventListener("click", function(){
+            localStorage.setItem("user", 0);
+            cerrarSesion.href = "index.html";
+        });
+    }
 
     document.getElementById("autos").addEventListener("click", function() {
         localStorage.setItem("catID", 101);

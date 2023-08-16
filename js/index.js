@@ -1,10 +1,12 @@
-localStorage.setItem("user", 0);
-
 document.addEventListener("DOMContentLoaded", function(){
 
-    if(localStorage.getItem("user")==0){
+    if(localStorage.getItem("user")!=1){
         window.location.replace('login.html');
     }
+
+    document.addEventListener("unload", function(){
+        
+    })
 
     document.getElementById("autos").addEventListener("click", function() {
         localStorage.setItem("catID", 101);

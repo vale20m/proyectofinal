@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function(){
 
-    const cerrarSesion = document.querySelector("#boton-login");
-
     if(localStorage.getItem("user")!=1){
         window.location.replace('login.html');
     }
+
+    const cerrarSesion = document.querySelector("#boton-login");
 
     if(localStorage.getItem("user")==1){
         cerrarSesion.innerHTML = "Cerrar sesión";

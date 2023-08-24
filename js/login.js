@@ -12,10 +12,11 @@ botonMostrar.addEventListener("change", function(){
     }
 });
 
-// Función para guardar el "user"
+// Función para guardar el "user" y el email del usuario
 
 const formulario = document.querySelector("#formulario");
+const email = document.querySelector("#email");
 
 formulario.addEventListener('submit', function(){
-    localStorage.setItem("user", 1);
+    localStorage.setItem("email", email.value);
 });

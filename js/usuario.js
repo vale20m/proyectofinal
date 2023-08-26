@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function(){
     if(localStorage.getItem("email") == undefined){
 
         perfil.removeAttribute("href");
+        perfil.innerHTML = "Redireccionando";
         for (let a = 0; a <= 1; a++){
             setTimeout( () => perfil.innerHTML = "Redireccionando", 1200*a);
             for (let b = 0; b <= 2; b++){

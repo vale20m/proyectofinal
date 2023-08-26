@@ -7,9 +7,14 @@ document.addEventListener("DOMContentLoaded", function(){
 
     if(localStorage.getItem("email") == undefined){
 
-        perfil.innerHTML = "Redireccionando...";
         perfil.removeAttribute("href");
-        setTimeout( () => window.location.replace('login.html'), 2000);
+        for (let a = 0; a <= 1; a++){
+            setTimeout( () => perfil.innerHTML = "Redireccionando", 1200*a);
+            for (let b = 0; b <= 2; b++){
+                setTimeout( () => perfil.innerHTML += ".", 300 + 300*b + 1200*a);
+            }
+        }
+        setTimeout( () => window.location.replace('login.html'), 2400);
 
     } else {
 

@@ -34,4 +34,9 @@ async function tomarDatosAutos (url){
   }
 }
 
-tomarDatosAutos(DATA_AUTOS);
+//tomarDatosAutos(DATA_AUTOS);
+
+let CategoryNum = localStorage.getItem("catID")
+let DATA_PRODUCTOS = "https://japceibal.github.io/emercado-api/cats_products/" + CategoryNum + ".json";
+
+tomarDatosAutos(DATA_PRODUCTOS);

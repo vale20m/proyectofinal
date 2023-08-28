@@ -7,6 +7,13 @@ document.addEventListener("DOMContentLoaded", function(){
 
     if(localStorage.getItem("email") == undefined){
 
+        /*
+        perfil.removeAttribute("href");
+        perfil.innerHTML = "Redireccionando...";
+        setTimeout( () => window.location.replace('login.html'), 2000);
+        */
+
+        /*
         perfil.removeAttribute("href");
         perfil.innerHTML = "Redireccionando";
         for (let a = 0; a <= 1; a++){
@@ -16,6 +23,14 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
         setTimeout( () => window.location.replace('login.html'), 2400);
+        */
+
+        perfil.removeAttribute("href");
+        perfil.innerHTML = "Redireccionando en 3...";
+        for (let a = 2; a >= 1; a--){
+            setTimeout( () => perfil.innerHTML = "Redireccionando en " + a + "...", 2000/a);
+        }
+        setTimeout( () => window.location.replace('login.html'), 3000);
 
     } else {
 

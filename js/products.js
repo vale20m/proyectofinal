@@ -1,8 +1,17 @@
-const DATA_AUTOS = "https://japceibal.github.io/emercado-api/cats_products/101.json";
+/* Guardamos el valor de la categoría a la que ingresa el usuario
+(establecida en el localStorage) y la incluimos en la URL de la API.
+También definimos un "acceso" (container) a la ubicacion en la que guardaremos
+los elementos extraidos de la API */
 
-const container = document.getElementById("infoAutos"); // "Traemos" utilizando el DOM el div de id "container" para colocar la información en él
+let CategoryNum = localStorage.getItem("catID");
+
+let DATA_PRODUCTOS = "https://japceibal.github.io/emercado-api/cats_products/" + CategoryNum + ".json";
+
+const container = document.getElementById("info");
 
 
+/* Establecemos la estructura con la que se van a incluir los productos de la
+API en el documento HTML */
 
 function showData(dataArray) {
   // El for itera sobre los elementos del array
@@ -22,9 +31,9 @@ function showData(dataArray) {
 }
 
 
+// Realizamos la llamada a través del fetch para obtener la información de la API
 
-
-async function tomarDatosAutos (url){
+async function tomarDatos (url){
   let response = await fetch(url);
   if (response.ok){
     let responseContents = await response.json();
@@ -34,9 +43,15 @@ async function tomarDatosAutos (url){
   }
 }
 
-//tomarDatosAutos(DATA_AUTOS);
+tomarDatos(DATA_PRODUCTOS);
 
-let CategoryNum = localStorage.getItem("catID")
-let DATA_PRODUCTOS = "https://japceibal.github.io/emercado-api/cats_products/" + CategoryNum + ".json";
 
-tomarDatosAutos(DATA_PRODUCTOS);
+/*
+
+const DATA_AUTOS = "https://japceibal.github.io/emercado-api/cats_products/101.json";
+
+const container = document.getElementById("infoAutos"); // "Traemos" utilizando el DOM el div de id "container" para colocar la información en él
+
+//tomarDatos(DATA_AUTOS);
+
+*/

@@ -16,6 +16,7 @@ API en el documento HTML */
 
 function showData(dataArray) {
   // El for itera sobre los elementos del array
+  container.innerHTML = "";
   for (const item of dataArray) {
     let imagen = item.image;
     container.innerHTML +=  `
@@ -31,22 +32,25 @@ function showData(dataArray) {
   }
 }
 
+let arregloProductos = [];
+
+function guardarProductos(array){
+  for (const producto of array) {
+    arregloProductos.push(producto);
+  }
+}
 
 // Realizamos la llamada a través del fetch para obtener la información de la API
 
 // Creamos una variable para guardar los productos
-
-let arregloProductos = [];
 
 async function tomarDatos (url){
   let response = await fetch(url);
   if (response.ok){
     let responseContents = await response.json();
 
-    // Agregamos los productos al arreglo "arregloProductos" mediante un "for of"
-    for (const product of responseContents.products) {
-      arregloProductos.push(product);
-    }
+    // Agregamos los productos al arreglo "arregloProductos" la funcion "guardarProductos";
+    guardarProductos(responseContents.products);
 
     showData(responseContents.products);
   } else {
@@ -55,37 +59,48 @@ async function tomarDatos (url){
 }
 
 tomarDatos(DATA_PRODUCTOS);
-
-/*
-
-const DATA_AUTOS = "https://japceibal.github.io/emercado-api/cats_products/101.json";
-
-const container = document.getElementById("infoAutos"); // "Traemos" utilizando el DOM el div de id "container" para colocar la información en él
-
-//tomarDatos(DATA_AUTOS);
-
-*/
+console.log(arregloProductos);
 
 // Desarrollamos el código para filtrar los productos
 
 // Botones de orden (ascendente, descendente y por cantidad):
 
-const botonOrdenAsc = document.querySelector("#sortAsc");
 const botonOrdenDesc = document.querySelector("#sortDesc");
-const botonOrdenVentas = document.querySelector("#sortByCount");
+const botonOrdenAsc = document.querySelector("#sortAsc");
+const botonOrdenVentas = document.querySelector("#sortByRel");
+
+botonOrdenDesc.addEventListener("click", function(){
+  const productosOrdenDesc = arregloProductos.sort((producto1, producto2) => producto2.cost - producto1.cost);
+  showData(productosOrdenDesc);
+});
 
 botonOrdenAsc.addEventListener("click", function(){
-  productosOrden = arregloProductos.sort((a, b) => a.name.localCompare(b.name));
-  showData(productosOrden);
+  const productosOrdenAsc = arregloProductos.sort((producto1, producto2) => producto1.cost - producto2.cost);
+  showData(productosOrdenAsc);
+});
+
+botonOrdenVentas.addEventListener("click", function(){
+  const productosOrdenVentas = arregloProductos.sort((producto1, producto2) => producto2.soldCount - producto1.soldCount);
+  showData(productosOrdenVentas);
 });
 
 // Casillas de cantidad (a elección):
 
-const cantMin = document.querySelector("#rangeFilterCountMin");
-const cantMax = document.querySelector("#rangeFilterCountMax");
+const precioMin = document.querySelector("#rangeFilterPriceMin");
+const precioMax = document.querySelector("#rangeFilterPriceMax");
 
 // Boton para filtrar y limpiar busqueda (en relacion a las casillas anteriores):
 
-const filtrar = document.querySelector("#rangeFilterCount");
+const filtrar = document.querySelector("#rangeFilterPrice");
 const limpiar = document.querySelector("#clearRangeFilter");
 
+filtrar.addEventListener("click", function(){
+  const productosFiltrados = arregloProductos.filter((producto) => (producto.cost >= precioMin.value && producto.cost <= precioMax.value));
+  showData(productosFiltrados);
+});
+
+limpiar.addEventListener("click", function(){
+  precioMax.value = "";
+  precioMin.value = "";
+  showData(arregloProductos);
+});

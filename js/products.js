@@ -13,6 +13,7 @@ const container = document.getElementById("info");
 /* Establecemos la estructura con la que se van a incluir los productos de la
 API en el documento HTML */
 
+
 function showData(dataArray) {
   // El for itera sobre los elementos del array
   for (const item of dataArray) {
@@ -33,10 +34,20 @@ function showData(dataArray) {
 
 // Realizamos la llamada a través del fetch para obtener la información de la API
 
+// Creamos una variable para guardar los productos
+
+let arregloProductos = [];
+
 async function tomarDatos (url){
   let response = await fetch(url);
   if (response.ok){
     let responseContents = await response.json();
+
+    // Agregamos los productos al arreglo "arregloProductos" mediante un "for of"
+    for (const product of responseContents.products) {
+      arregloProductos.push(product);
+    }
+
     showData(responseContents.products);
   } else {
     alert("HTTP ERROR: " + response.status);
@@ -44,7 +55,6 @@ async function tomarDatos (url){
 }
 
 tomarDatos(DATA_PRODUCTOS);
-
 
 /*
 
@@ -55,3 +65,27 @@ const container = document.getElementById("infoAutos"); // "Traemos" utilizando 
 //tomarDatos(DATA_AUTOS);
 
 */
+
+// Desarrollamos el código para filtrar los productos
+
+// Botones de orden (ascendente, descendente y por cantidad):
+
+const botonOrdenAsc = document.querySelector("#sortAsc");
+const botonOrdenDesc = document.querySelector("#sortDesc");
+const botonOrdenVentas = document.querySelector("#sortByCount");
+
+botonOrdenAsc.addEventListener("click", function(){
+  productosOrden = arregloProductos.sort((a, b) => a.name.localCompare(b.name));
+  showData(productosOrden);
+});
+
+// Casillas de cantidad (a elección):
+
+const cantMin = document.querySelector("#rangeFilterCountMin");
+const cantMax = document.querySelector("#rangeFilterCountMax");
+
+// Boton para filtrar y limpiar busqueda (en relacion a las casillas anteriores):
+
+const filtrar = document.querySelector("#rangeFilterCount");
+const limpiar = document.querySelector("#clearRangeFilter");
+

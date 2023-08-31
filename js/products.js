@@ -20,7 +20,7 @@ function showData(dataArray) {
   for (const item of dataArray) {
     let imagen = item.image;
     container.innerHTML +=  `
-    <h3> ${item.name}s</h3>
+    <h3>${item.name}</h3>
     <table border="25" class="auto-table list-group">
         <tr>
             <td width="40%"><img src="${imagen}" alt="${item.name}" width="100%" class="img-thumbnail"></td> 
@@ -44,6 +44,8 @@ function guardarProductos(array){
 
 // Creamos una variable para guardar los productos
 
+const categoriaConteiner = document.querySelector(".lead");
+
 async function tomarDatos (url){
   let response = await fetch(url);
   if (response.ok){
@@ -53,13 +55,15 @@ async function tomarDatos (url){
     guardarProductos(responseContents.products);
 
     showData(responseContents.products);
+
+    const categoria = responseContents.catName;
+    categoriaConteiner.innerHTML += `Aqui podes ver todos nuestros  <u>${categoria}</u>`
   } else {
     alert("HTTP ERROR: " + response.status);
   }
 }
 
 tomarDatos(DATA_PRODUCTOS);
-console.log(arregloProductos);
 
 // Desarrollamos el código para filtrar los productos
 
@@ -95,12 +99,25 @@ const filtrar = document.querySelector("#rangeFilterPrice");
 const limpiar = document.querySelector("#clearRangeFilter");
 
 filtrar.addEventListener("click", function(){
-  const productosFiltrados = arregloProductos.filter((producto) => (producto.cost >= precioMin.value && producto.cost <= precioMax.value));
-  showData(productosFiltrados);
+  if (precioMax.value > 0 && precioMin.value > 0 ){
+    const productosFiltrados = arregloProductos.filter((producto) => (producto.cost >= precioMin.value && producto.cost <= precioMax.value));
+    showData(productosFiltrados);
+  }
 });
 
 limpiar.addEventListener("click", function(){
   precioMax.value = "";
   precioMin.value = "";
   showData(arregloProductos);
+});
+
+// Agregamos las funciones para la barra de busqueda
+
+const barraBuscar = document.querySelector("#barraBuscar");
+
+// El evento "input" se activa cuando se modifica el valor de la barra de busqueda
+
+barraBuscar.addEventListener("input", function(){
+  const busquedaFiltrada = arregloProductos.filter((producto) => (producto.name.toLowerCase().includes(barraBuscar.value.toLowerCase()) || producto.description.toLowerCase().includes(barraBuscar.value.toLowerCase())));
+  showData(busquedaFiltrada);
 });

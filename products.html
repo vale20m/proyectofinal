@@ -44,6 +44,7 @@
   <main class="pb-5 container">
     <div class="text-center p-4">
       <h1>Productos:</h1>
+      <p class="lead"></p>
     </div>
     <!-- Copiamos la estructura de los botones de busqueda y preferencias de "categories.html" -->
     <div class="row">
@@ -59,8 +60,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6 offset-lg-6 col-md-12 mb-1 container">
+      <div class="col-md-12 mb-1 container"> <!--Clases borradas: col-lg-6 offset-lg-6-->
         <div class="row container p-0 m-0">
+          <div class="col">
+            <input type="search" placeholder="Buscar..." class="float-start" id="barraBuscar">
+          </div>
           <div class="col">
             <p class="font-weight-normal text-end my-2">Precio</p>
           </div>

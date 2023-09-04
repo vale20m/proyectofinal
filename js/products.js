@@ -9,10 +9,20 @@ let DATA_PRODUCTOS = "https://japceibal.github.io/emercado-api/cats_products/" +
 
 const container = document.getElementById("info");
 
+/* Entrega 3: Función para redireccionar al usuario a "product-info.html" una vez
+   seleccione un producto */
+
+function selectProduct(productID){
+  localStorage.setItem("productID", productID);
+  window.location = "product-info.html";
+}
+
 
 /* Establecemos la estructura con la que se van a incluir los productos de la
 API en el documento HTML */
 
+/* Para la entrega 3 agregamos una funcion "onclick" a la tabla que muestra cada producto,
+   que ejecuta la funcion "selectProduct" */
 
 function showData(dataArray) {
   // El for itera sobre los elementos del array
@@ -21,7 +31,7 @@ function showData(dataArray) {
     let imagen = item.image;
     container.innerHTML +=  `
     <h3>${item.name}</h3>
-    <table border="25" class="auto-table list-group">
+    <table border="25" class="auto-table list-group" onclick="selectProduct(${item.id})">
         <tr>
             <td width="40%"><img src="${imagen}" alt="${item.name}" width="100%" class="img-thumbnail"></td> 
             <td width="20%"> <h4>Costo</h4> ${item.currency}  -  ${item.cost}</td>

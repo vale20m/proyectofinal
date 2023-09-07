@@ -17,7 +17,6 @@ function selectProduct(productID){
   window.location = "product-info.html";
 }
 
-
 /* Establecemos la estructura con la que se van a incluir los productos de la
 API en el documento HTML */
 
@@ -45,7 +44,7 @@ function showData(dataArray) {
 let arregloProductos = [];
 
 function guardarProductos(array){
-  for (const producto of array) {
+  for (const producto of array){
     arregloProductos.push(producto);
   }
 }
@@ -75,6 +74,8 @@ async function tomarDatos (url){
 
 tomarDatos(DATA_PRODUCTOS);
 
+let arregloFiltrado = arregloProductos;
+
 // Desarrollamos el código para filtrar los productos
 
 // Botones de orden (ascendente, descendente y por cantidad):
@@ -84,18 +85,18 @@ const botonOrdenAsc = document.querySelector("#sortAsc");
 const botonOrdenVentas = document.querySelector("#sortByRel");
 
 botonOrdenDesc.addEventListener("click", function(){
-  const productosOrdenDesc = arregloProductos.sort((producto1, producto2) => producto2.cost - producto1.cost);
-  showData(productosOrdenDesc);
+  arregloFiltrado = arregloFiltrado.sort((producto1, producto2) => producto2.cost - producto1.cost);
+  showData(arregloFiltrado);
 });
 
 botonOrdenAsc.addEventListener("click", function(){
-  const productosOrdenAsc = arregloProductos.sort((producto1, producto2) => producto1.cost - producto2.cost);
-  showData(productosOrdenAsc);
+  arregloFiltrado = arregloFiltrado.sort((producto1, producto2) => producto1.cost - producto2.cost);
+  showData(arregloFiltrado);
 });
 
 botonOrdenVentas.addEventListener("click", function(){
-  const productosOrdenVentas = arregloProductos.sort((producto1, producto2) => producto2.soldCount - producto1.soldCount);
-  showData(productosOrdenVentas);
+  arregloFiltrado = arregloFiltrado.sort((producto1, producto2) => producto2.soldCount - producto1.soldCount);
+  showData(arregloFiltrado);
 });
 
 // Casillas de cantidad (a elección):
@@ -109,9 +110,9 @@ const filtrar = document.querySelector("#rangeFilterPrice");
 const limpiar = document.querySelector("#clearRangeFilter");
 
 filtrar.addEventListener("click", function(){
-  if (precioMax.value > 0 && precioMin.value > 0 ){
-    const productosFiltrados = arregloProductos.filter((producto) => (producto.cost >= precioMin.value && producto.cost <= precioMax.value));
-    showData(productosFiltrados);
+  if (precioMax.value >= precioMin.value && precioMax.value > 0 && precioMin.value > 0){
+    arregloFiltrado = arregloProductos.filter((producto) => (producto.cost >= precioMin.value && producto.cost <= precioMax.value));
+    showData(arregloFiltrado);
   }
 });
 
@@ -119,6 +120,7 @@ limpiar.addEventListener("click", function(){
   precioMax.value = "";
   precioMin.value = "";
   showData(arregloProductos);
+  arregloFiltrado = arregloProductos;
 });
 
 // Agregamos las funciones para la barra de busqueda

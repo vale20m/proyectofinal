@@ -100,17 +100,17 @@ const botonOrdenAsc = document.querySelector("#sortAsc");
 const botonOrdenVentas = document.querySelector("#sortByRel");
 
 botonOrdenDesc.addEventListener("click", function(){
-  arregloFiltrado = arregloFiltrado.sort((producto1, producto2) => producto2.cost - producto1.cost);
+  arregloFiltrado = arregloProductos.sort((producto1, producto2) => producto2.cost - producto1.cost);
   showData(arregloFiltrado);
 });
 
 botonOrdenAsc.addEventListener("click", function(){
-  arregloFiltrado = arregloFiltrado.sort((producto1, producto2) => producto1.cost - producto2.cost);
+  arregloFiltrado = arregloProductos.sort((producto1, producto2) => producto1.cost - producto2.cost);
   showData(arregloFiltrado);
 });
 
 botonOrdenVentas.addEventListener("click", function(){
-  arregloFiltrado = arregloFiltrado.sort((producto1, producto2) => producto2.soldCount - producto1.soldCount);
+  arregloFiltrado = arregloProductos.sort((producto1, producto2) => producto2.soldCount - producto1.soldCount);
   showData(arregloFiltrado);
 });
 

@@ -43,9 +43,24 @@ function showData(dataArray) {
 
 let arregloProductos = [];
 
+let precioMayor = 0;
+let precioMenor = Infinity;
+
+function cambiarPrecio(producto){
+    if(precioMayor < producto.cost){
+      precioMayor = producto.cost;
+    }
+    if(precioMenor > producto.cost){
+      precioMenor = producto.cost;
+    }
+}
+
 function guardarProductos(array){
   for (const producto of array){
+    cambiarPrecio(producto);
     arregloProductos.push(producto);
+    console.log(precioMayor);
+    console.log(precioMenor);
   }
 }
 
@@ -110,10 +125,16 @@ const filtrar = document.querySelector("#rangeFilterPrice");
 const limpiar = document.querySelector("#clearRangeFilter");
 
 filtrar.addEventListener("click", function(){
-  if (precioMax.value >= precioMin.value && precioMax.value > 0 && precioMin.value > 0){
+  if (precioMin.value <= precioMayor && precioMin.value >= 0 && precioMax.value == ""){
+    arregloFiltrado = arregloProductos.filter((producto) => (producto.cost >= precioMin.value));
+  } else
+  if (precioMax.value >= precioMenor && precioMin.value == ""){
+    arregloFiltrado = arregloProductos.filter((producto) => (producto.cost <= precioMax.value));
+  } else
+  if (precioMax.value >= precioMin.value && precioMax.value >= precioMenor && precioMin.value <= precioMayor && precioMin.value >= 0){
     arregloFiltrado = arregloProductos.filter((producto) => (producto.cost >= precioMin.value && producto.cost <= precioMax.value));
-    showData(arregloFiltrado);
   }
+  showData(arregloFiltrado);
 });
 
 limpiar.addEventListener("click", function(){
@@ -130,6 +151,6 @@ const barraBuscar = document.querySelector("#barraBuscar");
 // El evento "input" se activa cuando se modifica el valor de la barra de busqueda
 
 barraBuscar.addEventListener("input", function(){
-  const busquedaFiltrada = arregloProductos.filter((producto) => (producto.name.toLowerCase().includes(barraBuscar.value.toLowerCase()) || producto.description.toLowerCase().includes(barraBuscar.value.toLowerCase())));
-  showData(busquedaFiltrada);
+  arregloFiltrado = arregloFiltrado.filter((producto) => (producto.name.toLowerCase().includes(barraBuscar.value.toLowerCase()) || producto.description.toLowerCase().includes(barraBuscar.value.toLowerCase())));
+  showData(arregloFiltrado);
 });

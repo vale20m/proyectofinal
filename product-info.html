@@ -44,6 +44,39 @@
     <div class="container" id="infoProduct">
 
     </div>
+
+    <!-- Agregamos la funcionalidad de comentar y ver los comentarios de otros -->
+
+    <div style="width:55%; margin: 0;">
+      <div>
+        <label for="comentarios">Comentarios:</label><br>
+        <ul id="contenedor1"></ul>
+      </div>
+    </div>
+    
+    <div>
+      <label for="comentar">Comentar:</label><br>
+      <label for="opinion">Tu opinión:</label><br>
+      <textarea id="opinion" margin-left: 20px; cols="35" rows="2" required></textarea>
+    </div>
+    <div>
+      <label for="puntuacion">Tu puntuación:</label><br>
+      <select id="puntuacion" required>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+    <div>
+      <div id="estrellas"></div>
+    </div>
+    <br><button type="submit" id="enviar" class="btn btn-primary">Enviar</button>
+    <div id="contenedor1"></div>
+
+    <!-- Finaliza el codigo de los comentarios -->
+
   </main>
   <footer class="text-muted">
     <div class="container">

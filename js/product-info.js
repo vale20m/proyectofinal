@@ -112,12 +112,17 @@ async function ComentariosURL(productID) {
 
           // Agrega el elemento de lista al contenedor en la página
           contenedor1.appendChild(listItem);
+
         });
+
+        // Llama a la función para cargar los comentarios al cargar la página
+        cargarComentariosDesdeLocalStorage();
+
       }
     } else {
       alert("Error al cargar los comentarios."); // Muestra una alerta en caso de error en la solicitud
       const mensajeError = document.createElement("p");
-      
+
     }
   } catch (error) {
     console.error("Error:", error); // Registra un error en la consola y muestra una alerta
@@ -180,7 +185,76 @@ enviarButton.addEventListener("click", function () {
 
   // Limpiar el campo de comentario y puntuación después de agregar el comentario
   commentText.value = "";
+  commentScore.value = 1;
+  
+  // Guardar el comentario en localStorage
+  guardarComentarioEnJSON({
+    usuario: correoUsuario,
+    fecha,
+    puntuacion,
+    texto: comentarioElement.textContent,
+    productID: ProductNum
+  });
 });
+
+// Función para guardar un comentario en formato JSON en localStorage
+function guardarComentarioEnJSON(comentario) {
+  let comentariosJSON = localStorage.getItem("comentarios");
+
+  if (!comentariosJSON) {
+    comentariosJSON = "[]";
+  }
+
+  const comentarios = JSON.parse(comentariosJSON);
+  comentarios.push(comentario);
+
+  localStorage.setItem("comentarios", JSON.stringify(comentarios));
+}
+
+// Función para cargar comentarios desde LocalStorage
+function cargarComentariosDesdeLocalStorage() {
+  const comentariosJSON = localStorage.getItem("comentarios");
+
+  if (comentariosJSON) {
+    const comentarios = JSON.parse(comentariosJSON);
+
+    comentarios.forEach((comentario) => {
+      if (comentario.productID == ProductNum){
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-group-item");
+
+        const estrellasContainer = document.createElement("span");
+
+        for (let i = 1; i <= 5; i++) {
+          const estrella = document.createElement("span");
+          estrella.classList.add("fa", "fa-star");
+          if (i <= comentario.puntuacion) {
+            estrella.classList.add("text-warning");
+          }
+          estrellasContainer.appendChild(estrella);
+        }
+
+        const usuarioElement = document.createElement("span");
+        usuarioElement.classList.add("fw-bold");
+        usuarioElement.textContent = comentario.usuario;
+
+        const fecha = comentario.fecha;
+        const comentarioElement = document.createElement("span");
+        comentarioElement.classList.add("fw-light", "text-break");
+        comentarioElement.textContent = comentario.texto;
+
+        listItem.appendChild(usuarioElement);
+        listItem.innerHTML += ` - ${fecha} - `;
+        listItem.appendChild(estrellasContainer);
+        listItem.appendChild(document.createElement("br"));
+        listItem.appendChild(comentarioElement);
+
+        contenedor1.appendChild(listItem);
+      }
+    });
+  }
+}
+
 
 // Función para obtener la fecha actual en un formato específico
 function obtenerFechaActual() {

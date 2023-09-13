@@ -39,6 +39,53 @@ tomarProductos(CAT_PRODUCTOS);
 
 // CÓDIGO EN RELACIÓN A LOS COMENTARIOS DE LOS PRODUCTOS
 
+// Funcion para establecer el estilo de los comentarios
+
+function setComments(comments){
+  comments.forEach((comentario) => {
+    // Crea elementos HTML para mostrar los comentarios en la página
+    const listItem = document.createElement("li"); // Elemento de lista
+    listItem.classList.add("list-group-item"); // Aplica una clase CSS al elemento
+
+    // Crea elementos para mostrar la puntuación en forma de estrellas
+    const estrellasContainer = document.createElement("span"); // Contenedor de estrellas
+
+    for (let i = 1; i <= 5; i++) {
+      const estrella = document.createElement("span"); // Estrella individual
+      estrella.classList.add("fa", "fa-star"); // Aplica clases CSS para mostrar una estrella
+      if (i <= comentario.puntuacion) {
+        estrella.classList.add("text-warning"); // Si la estrella es parte de la puntuación, se sombrea de amarillo
+      }
+      estrellasContainer.appendChild(estrella); // Agrega la estrella al contenedor
+    }
+
+    // Crea un elemento para mostrar el nombre de usuario en negritas
+    const usuarioElement = document.createElement("span");
+    usuarioElement.classList.add("fw-bold");
+    usuarioElement.textContent = comentario.usuario;
+
+    // Agrega el nombre de usuario, la fecha y las estrellas al elemento de lista
+    const comentarioTexto = ` - ${comentario.fecha} - `;
+    listItem.appendChild(usuarioElement);
+    listItem.innerHTML += comentarioTexto;
+    listItem.appendChild(estrellasContainer);
+    // Agrega un salto de línea después de las estrellas
+    listItem.appendChild(document.createElement("br"));
+
+    // Crea un elemento para mostrar el comentario en estilo gris claro
+    const comentarioElement = document.createElement("span");
+    comentarioElement.classList.add("fw-light");
+    comentarioElement.textContent = comentario.texto;
+
+    // Agrega el contenido del comentario al elemento de lista
+    listItem.appendChild(comentarioElement);
+
+    // Agrega el elemento de lista al contenedor en la página
+    contenedor1.appendChild(listItem);
+
+  });
+}
+
 
 // Obtener elementos del formulario
 const commentText = document.getElementById("opinion"); // Obtiene el elemento con el id "opinion"
@@ -72,6 +119,9 @@ async function ComentariosURL(productID) {
           texto: comentario.description
         }));
 
+        setComments(comentariosConvertidos);
+
+        /*
         comentariosConvertidos.forEach((comentario) => {
           // Crea elementos HTML para mostrar los comentarios en la página
           const listItem = document.createElement("li"); // Elemento de lista
@@ -114,6 +164,7 @@ async function ComentariosURL(productID) {
           contenedor1.appendChild(listItem);
 
         });
+        */
 
         // Llama a la función para cargar los comentarios al cargar la página
         cargarComentariosDesdeLocalStorage();

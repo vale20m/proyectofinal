@@ -75,7 +75,7 @@ async function ComentariosURL(productID) {
         comentariosConvertidos.forEach((comentario) => {
           // Crea elementos HTML para mostrar los comentarios en la página
           const listItem = document.createElement("li"); // Elemento de lista
-          listItem.classList.add("list-group-item", "mx-4"); // Aplica una clase CSS al elemento
+          listItem.classList.add("list-group-item"); // Aplica una clase CSS al elemento
 
           // Crea elementos para mostrar la puntuación en forma de estrellas
           const estrellasContainer = document.createElement("span"); // Contenedor de estrellas
@@ -136,53 +136,48 @@ enviarButton.addEventListener("click", function () {
   // Obtener el valor de la puntuación del comentario
   const puntuacion = parseInt(commentScore.value);
 
-  // Validar que la puntuación esté dentro del rango válido
-  if (puntuacion >= 1 && puntuacion <= 5) {
-    // Crear un nuevo elemento de lista para mostrar el nuevo comentario
-    const listItem = document.createElement("li");
-    listItem.classList.add("list-group-item");
+  // Crear un nuevo elemento de lista para mostrar el nuevo comentario
+  const listItem = document.createElement("li");
+  listItem.classList.add("list-group-item");
 
-    // Crear elementos para mostrar la puntuación en forma de estrellas
-    const estrellasContainer = document.createElement("span");
+  // Crear elementos para mostrar la puntuación en forma de estrellas
+  const estrellasContainer = document.createElement("span");
 
-    for (let i = 1; i <= 5; i++) {
-      const estrella = document.createElement("span");
-      estrella.classList.add("fa", "fa-star");
-      if (i <= puntuacion) {
-        estrella.classList.add("text-warning"); // Estrella sombreada de amarillo si es parte de la puntuación
-      }
-      estrellasContainer.appendChild(estrella);
+  for (let i = 1; i <= 5; i++) {
+    const estrella = document.createElement("span");
+    estrella.classList.add("fa", "fa-star");
+    if (i <= puntuacion) {
+      estrella.classList.add("text-warning"); // Estrella sombreada de amarillo si es parte de la puntuación
     }
-
-    // Crear un elemento para mostrar el nombre de usuario en negritas (correo del usuario)
-    const usuarioElement = document.createElement("span");
-    usuarioElement.classList.add("fw-bold");
-    usuarioElement.textContent = correoUsuario;
-
-    // Agregar el correo del usuario, la fecha y las estrellas al elemento de lista
-    const comentario = ` - ${fecha} - `;
-    listItem.appendChild(usuarioElement);
-    listItem.innerHTML += comentario;
-    listItem.appendChild(estrellasContainer);
-    // Agregar un salto de línea después de las estrellas
-    listItem.appendChild(document.createElement("br"));
-
-    // Crear un elemento para mostrar el texto del comentario en gris claro
-    const comentarioElement = document.createElement("span");
-    comentarioElement.classList.add("fw-light");
-    comentarioElement.textContent = commentText.value;
-
-    // Agregar el contenido del comentario al elemento de lista
-    listItem.appendChild(comentarioElement);
-
-    // Agregar el elemento de lista al contenedor en la página
-    contenedor1.appendChild(listItem);
-
-    // Limpiar el campo de comentario y puntuación después de agregar el comentario
-    commentText.value = "";
-  } else {
-    alert("La puntuación debe estar entre 1 y 5."); // Muestra una alerta si la puntuación está fuera del rango válido
+    estrellasContainer.appendChild(estrella);
   }
+
+  // Crear un elemento para mostrar el nombre de usuario en negritas (correo del usuario)
+  const usuarioElement = document.createElement("span");
+  usuarioElement.classList.add("fw-bold");
+  usuarioElement.textContent = correoUsuario;
+
+  // Agregar el correo del usuario, la fecha y las estrellas al elemento de lista
+  const comentario = ` - ${fecha} - `;
+  listItem.appendChild(usuarioElement);
+  listItem.innerHTML += comentario;
+  listItem.appendChild(estrellasContainer);
+  // Agregar un salto de línea después de las estrellas
+  listItem.appendChild(document.createElement("br"));
+
+  // Crear un elemento para mostrar el texto del comentario en gris claro
+  const comentarioElement = document.createElement("span");
+  comentarioElement.classList.add("fw-light", "text-break");
+  comentarioElement.textContent = commentText.value;
+
+  // Agregar el contenido del comentario al elemento de lista
+  listItem.appendChild(comentarioElement);
+
+  // Agregar el elemento de lista al contenedor en la página
+  contenedor1.appendChild(listItem);
+
+  // Limpiar el campo de comentario y puntuación después de agregar el comentario
+  commentText.value = "";
 });
 
 // Función para obtener la fecha actual en un formato específico

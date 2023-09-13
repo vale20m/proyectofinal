@@ -151,6 +151,6 @@ const barraBuscar = document.querySelector("#barraBuscar");
 // El evento "input" se activa cuando se modifica el valor de la barra de busqueda
 
 barraBuscar.addEventListener("input", function(){
-  arregloFiltrado = arregloFiltrado.filter((producto) => (producto.name.toLowerCase().includes(barraBuscar.value.toLowerCase()) || producto.description.toLowerCase().includes(barraBuscar.value.toLowerCase())));
-  showData(arregloFiltrado);
+  const arregloBusqueda = arregloFiltrado.filter((producto) => (producto.name.toLowerCase().includes(barraBuscar.value.toLowerCase()) || producto.description.toLowerCase().includes(barraBuscar.value.toLowerCase())));
+  showData(arregloBusqueda);
 });

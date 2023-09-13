@@ -116,6 +116,8 @@ async function ComentariosURL(productID) {
       }
     } else {
       alert("Error al cargar los comentarios."); // Muestra una alerta en caso de error en la solicitud
+      const mensajeError = document.createElement("p");
+      
     }
   } catch (error) {
     console.error("Error:", error); // Registra un error en la consola y muestra una alerta

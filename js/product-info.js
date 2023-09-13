@@ -75,7 +75,7 @@ async function ComentariosURL(productID) {
         comentariosConvertidos.forEach((comentario) => {
           // Crea elementos HTML para mostrar los comentarios en la página
           const listItem = document.createElement("li"); // Elemento de lista
-          listItem.classList.add("list-group-item"); // Aplica una clase CSS al elemento
+          listItem.classList.add("list-group-item", "mx-4"); // Aplica una clase CSS al elemento
 
           // Crea elementos para mostrar la puntuación en forma de estrellas
           const estrellasContainer = document.createElement("span"); // Contenedor de estrellas
@@ -91,7 +91,7 @@ async function ComentariosURL(productID) {
 
           // Crea un elemento para mostrar el nombre de usuario en negritas
           const usuarioElement = document.createElement("span");
-          usuarioElement.classList.add("usuario");
+          usuarioElement.classList.add("fw-bold");
           usuarioElement.textContent = comentario.usuario;
 
           // Agrega el nombre de usuario, la fecha y las estrellas al elemento de lista
@@ -104,7 +104,7 @@ async function ComentariosURL(productID) {
 
           // Crea un elemento para mostrar el comentario en estilo gris claro
           const comentarioElement = document.createElement("span");
-          comentarioElement.classList.add("comentario");
+          comentarioElement.classList.add("fw-light");
           comentarioElement.textContent = comentario.texto;
 
           // Agrega el contenido del comentario al elemento de lista
@@ -156,7 +156,7 @@ enviarButton.addEventListener("click", function () {
 
     // Crear un elemento para mostrar el nombre de usuario en negritas (correo del usuario)
     const usuarioElement = document.createElement("span");
-    usuarioElement.classList.add("usuario");
+    usuarioElement.classList.add("fw-bold");
     usuarioElement.textContent = correoUsuario;
 
     // Agregar el correo del usuario, la fecha y las estrellas al elemento de lista
@@ -169,7 +169,7 @@ enviarButton.addEventListener("click", function () {
 
     // Crear un elemento para mostrar el texto del comentario en gris claro
     const comentarioElement = document.createElement("span");
-    comentarioElement.classList.add("comentario");
+    comentarioElement.classList.add("fw-light");
     comentarioElement.textContent = commentText.value;
 
     // Agregar el contenido del comentario al elemento de lista

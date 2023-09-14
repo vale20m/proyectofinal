@@ -59,8 +59,6 @@ function guardarProductos(array){
   for (const producto of array){
     cambiarPrecio(producto);
     arregloProductos.push(producto);
-    console.log(precioMayor);
-    console.log(precioMenor);
   }
 }
 

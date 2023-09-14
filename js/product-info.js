@@ -133,28 +133,23 @@ async function ComentariosURL(productID) {
   try {
     const response = await fetch(comentariosURL); // Realiza una solicitud de red para obtener los comentarios
 
-    if (response.ok) {
-      const comentarios = await response.json(); // Convierte la respuesta en un objeto JSON
+    const comentarios = await response.json(); // Convierte la respuesta en un objeto JSON
 
-      if (comentarios && comentarios.length > 0) {
-        // Convierte los comentarios en un formato deseado
-        const comentariosConvertidos = comentarios.map(comentario => ({
-          usuario: comentario.user,
-          fecha: comentario.dateTime,
-          puntuacion: comentario.score,
-          texto: comentario.description
-        }));
+    if (comentarios && comentarios.length > 0) {
+      // Convierte los comentarios en un formato deseado
+      const comentariosConvertidos = comentarios.map(comentario => ({
+        usuario: comentario.user,
+        fecha: comentario.dateTime,
+        puntuacion: comentario.score,
+        texto: comentario.description
+      }));
 
-        comentariosConvertidos.forEach((comentario) => {
-          setComments(comentario, true);
-        });
-
-      }
-    } else {
-      alert("Error al cargar los comentarios."); // Muestra una alerta en caso de error en la solicitud
-      const mensajeError = document.createElement("p");
+      comentariosConvertidos.forEach((comentario) => {
+        setComments(comentario, true);
+      });
 
     }
+
   } catch (error) {
     console.error("Error:", error); // Registra un error en la consola y muestra una alerta
     alert("Error al cargar los comentarios.");

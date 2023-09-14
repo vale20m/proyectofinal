@@ -41,6 +41,7 @@ tomarProductos(CAT_PRODUCTOS);
 
 // Funcion para establecer el estilo de los comentarios
 
+
 function setComments(comentario, bool){
     if (bool){
       // Crea elementos HTML para mostrar los comentarios en la página
@@ -86,6 +87,7 @@ function setComments(comentario, bool){
 }
 
 
+
 // Obtener elementos del formulario
 const commentText = document.getElementById("opinion"); // Obtiene el elemento con el id "opinion"
 const commentScore = document.getElementById("puntuacion"); // Obtiene el elemento con el id "puntuacion"
@@ -97,6 +99,9 @@ const correoUsuario = localStorage.getItem("email"); // Obtiene el valor del cor
 
 // Obtener el ID del producto de localStorage (si existe)
 const productID = localStorage.getItem("productID"); // Obtiene el valor del ID del producto desde el almacenamiento local
+
+
+
 
 // Función para cargar comentarios desde una URL asociada al ID del producto
 async function ComentariosURL(productID) {
@@ -137,6 +142,7 @@ async function ComentariosURL(productID) {
 }
 // Llama a la función para cargar los comentarios desde la URL al cargar la página
 ComentariosURL(productID);
+
 
 
 
@@ -202,8 +208,12 @@ enviarButton.addEventListener("click", function () {
     texto: comentarioElement.textContent,
     productID: ProductNum
   });
-  
+
 });
+
+
+
+
 
 // Función para guardar un comentario en formato JSON en localStorage
 function guardarComentarioEnJSON(comentario) {
@@ -219,6 +229,9 @@ function guardarComentarioEnJSON(comentario) {
   localStorage.setItem("comentarios", JSON.stringify(comentarios));
 }
 
+
+
+
 // Función para cargar comentarios desde LocalStorage
 function cargarComentariosDesdeLocalStorage() {
   const comentariosJSON = localStorage.getItem("comentarios");
@@ -232,6 +245,8 @@ function cargarComentariosDesdeLocalStorage() {
 
   }
 }
+
+
 
 
 // Función para obtener la fecha actual en un formato específico

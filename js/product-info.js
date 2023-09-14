@@ -54,6 +54,34 @@ const correoUsuario = localStorage.getItem("email"); // Obtiene el valor del cor
 const productID = localStorage.getItem("productID"); // Obtiene el valor del ID del producto desde el almacenamiento local
 
 
+// Funcion para crear las estrellas
+
+function mostrarEstrellas(puntuacion) {
+  // Crea un contenedor para las estrellas
+  const estrellasContainer = document.createElement("span");
+
+  // Recorre las estrellas
+  for (let i = 1; i <= 5; i++) {
+    // Crea una estrella individual
+    const estrella = document.createElement("span");
+
+    // Aplica clases CSS para mostrar una estrella
+    estrella.classList.add("fa", "fa-star");
+
+    // Agrega la clase CSS "text-warning" si la estrella es parte de la puntuación
+    if (i <= puntuacion) {
+      estrella.classList.add("text-warning");
+    }
+
+    // Agrega la estrella al contenedor
+    estrellasContainer.appendChild(estrella);
+  }
+
+  // Devuelve el contenedor de estrellas
+  return estrellasContainer;
+}
+
+
 
 // Funcion para establecer el estilo de los comentarios
 
@@ -66,16 +94,7 @@ function setComments(comentario, bool){
     listItem.classList.add("list-group-item"); // Aplica una clase CSS al elemento
 
     // Crea elementos para mostrar la puntuación en forma de estrellas
-    const estrellasContainer = document.createElement("span"); // Contenedor de estrellas
-
-    for (let i = 1; i <= 5; i++) {
-      const estrella = document.createElement("span"); // Estrella individual
-      estrella.classList.add("fa", "fa-star"); // Aplica clases CSS para mostrar una estrella
-      if (i <= comentario.puntuacion) {
-        estrella.classList.add("text-warning"); // Si la estrella es parte de la puntuación, se sombrea de amarillo
-      }
-      estrellasContainer.appendChild(estrella); // Agrega la estrella al contenedor
-    }
+    const estrellasContainer = mostrarEstrellas(comentario.puntuacion);// Contenedor de estrellas
 
     // Crea un elemento para mostrar el nombre de usuario en negritas
     const usuarioElement = document.createElement("span");
@@ -164,16 +183,7 @@ enviarButton.addEventListener("click", function () {
   listItem.classList.add("list-group-item");
 
   // Crear elementos para mostrar la puntuación en forma de estrellas
-  const estrellasContainer = document.createElement("span");
-
-  for (let i = 1; i <= 5; i++) {
-    const estrella = document.createElement("span");
-    estrella.classList.add("fa", "fa-star");
-    if (i <= puntuacion) {
-      estrella.classList.add("text-warning"); // Estrella sombreada de amarillo si es parte de la puntuación
-    }
-    estrellasContainer.appendChild(estrella);
-  }
+  const estrellasContainer = mostrarEstrellas(puntuacion);
 
   // Crear un elemento para mostrar el nombre de usuario en negritas (correo del usuario)
   const usuarioElement = document.createElement("span");

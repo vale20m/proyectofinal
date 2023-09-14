@@ -41,49 +41,48 @@ tomarProductos(CAT_PRODUCTOS);
 
 // Funcion para establecer el estilo de los comentarios
 
-function setComments(comments){
-  comments.forEach((comentario) => {
-    // Crea elementos HTML para mostrar los comentarios en la página
-    const listItem = document.createElement("li"); // Elemento de lista
-    listItem.classList.add("list-group-item"); // Aplica una clase CSS al elemento
+function setComments(comentario, bool){
+    if (bool){
+      // Crea elementos HTML para mostrar los comentarios en la página
+      const listItem = document.createElement("li"); // Elemento de lista
+      listItem.classList.add("list-group-item"); // Aplica una clase CSS al elemento
 
-    // Crea elementos para mostrar la puntuación en forma de estrellas
-    const estrellasContainer = document.createElement("span"); // Contenedor de estrellas
+      // Crea elementos para mostrar la puntuación en forma de estrellas
+      const estrellasContainer = document.createElement("span"); // Contenedor de estrellas
 
-    for (let i = 1; i <= 5; i++) {
-      const estrella = document.createElement("span"); // Estrella individual
-      estrella.classList.add("fa", "fa-star"); // Aplica clases CSS para mostrar una estrella
-      if (i <= comentario.puntuacion) {
-        estrella.classList.add("text-warning"); // Si la estrella es parte de la puntuación, se sombrea de amarillo
+      for (let i = 1; i <= 5; i++) {
+        const estrella = document.createElement("span"); // Estrella individual
+        estrella.classList.add("fa", "fa-star"); // Aplica clases CSS para mostrar una estrella
+        if (i <= comentario.puntuacion) {
+          estrella.classList.add("text-warning"); // Si la estrella es parte de la puntuación, se sombrea de amarillo
+        }
+        estrellasContainer.appendChild(estrella); // Agrega la estrella al contenedor
       }
-      estrellasContainer.appendChild(estrella); // Agrega la estrella al contenedor
+
+      // Crea un elemento para mostrar el nombre de usuario en negritas
+      const usuarioElement = document.createElement("span");
+      usuarioElement.classList.add("fw-bold");
+      usuarioElement.textContent = comentario.usuario;
+
+      // Agrega el nombre de usuario, la fecha y las estrellas al elemento de lista
+      const comentarioTexto = ` - ${comentario.fecha} - `;
+      listItem.appendChild(usuarioElement);
+      listItem.innerHTML += comentarioTexto;
+      listItem.appendChild(estrellasContainer);
+      // Agrega un salto de línea después de las estrellas
+      listItem.appendChild(document.createElement("br"));
+
+      // Crea un elemento para mostrar el comentario en estilo gris claro
+      const comentarioElement = document.createElement("span");
+      comentarioElement.classList.add("fw-light");
+      comentarioElement.textContent = comentario.texto;
+
+      // Agrega el contenido del comentario al elemento de lista
+      listItem.appendChild(comentarioElement);
+
+      // Agrega el elemento de lista al contenedor en la página
+      contenedor1.appendChild(listItem);
     }
-
-    // Crea un elemento para mostrar el nombre de usuario en negritas
-    const usuarioElement = document.createElement("span");
-    usuarioElement.classList.add("fw-bold");
-    usuarioElement.textContent = comentario.usuario;
-
-    // Agrega el nombre de usuario, la fecha y las estrellas al elemento de lista
-    const comentarioTexto = ` - ${comentario.fecha} - `;
-    listItem.appendChild(usuarioElement);
-    listItem.innerHTML += comentarioTexto;
-    listItem.appendChild(estrellasContainer);
-    // Agrega un salto de línea después de las estrellas
-    listItem.appendChild(document.createElement("br"));
-
-    // Crea un elemento para mostrar el comentario en estilo gris claro
-    const comentarioElement = document.createElement("span");
-    comentarioElement.classList.add("fw-light");
-    comentarioElement.textContent = comentario.texto;
-
-    // Agrega el contenido del comentario al elemento de lista
-    listItem.appendChild(comentarioElement);
-
-    // Agrega el elemento de lista al contenedor en la página
-    contenedor1.appendChild(listItem);
-
-  });
 }
 
 
@@ -119,55 +118,9 @@ async function ComentariosURL(productID) {
           texto: comentario.description
         }));
 
-        setComments(comentariosConvertidos);
-
-        /*
         comentariosConvertidos.forEach((comentario) => {
-          // Crea elementos HTML para mostrar los comentarios en la página
-          const listItem = document.createElement("li"); // Elemento de lista
-          listItem.classList.add("list-group-item"); // Aplica una clase CSS al elemento
-
-          // Crea elementos para mostrar la puntuación en forma de estrellas
-          const estrellasContainer = document.createElement("span"); // Contenedor de estrellas
-
-          for (let i = 1; i <= 5; i++) {
-            const estrella = document.createElement("span"); // Estrella individual
-            estrella.classList.add("fa", "fa-star"); // Aplica clases CSS para mostrar una estrella
-            if (i <= comentario.puntuacion) {
-              estrella.classList.add("text-warning"); // Si la estrella es parte de la puntuación, se sombrea de amarillo
-            }
-            estrellasContainer.appendChild(estrella); // Agrega la estrella al contenedor
-          }
-
-          // Crea un elemento para mostrar el nombre de usuario en negritas
-          const usuarioElement = document.createElement("span");
-          usuarioElement.classList.add("fw-bold");
-          usuarioElement.textContent = comentario.usuario;
-
-          // Agrega el nombre de usuario, la fecha y las estrellas al elemento de lista
-          const comentarioTexto = ` - ${comentario.fecha} - `;
-          listItem.appendChild(usuarioElement);
-          listItem.innerHTML += comentarioTexto;
-          listItem.appendChild(estrellasContainer);
-          // Agrega un salto de línea después de las estrellas
-          listItem.appendChild(document.createElement("br"));
-
-          // Crea un elemento para mostrar el comentario en estilo gris claro
-          const comentarioElement = document.createElement("span");
-          comentarioElement.classList.add("fw-light");
-          comentarioElement.textContent = comentario.texto;
-
-          // Agrega el contenido del comentario al elemento de lista
-          listItem.appendChild(comentarioElement);
-
-          // Agrega el elemento de lista al contenedor en la página
-          contenedor1.appendChild(listItem);
-
+          setComments(comentario, true);
         });
-        */
-
-        // Llama a la función para cargar los comentarios al cargar la página
-        cargarComentariosDesdeLocalStorage();
 
       }
     } else {
@@ -179,15 +132,18 @@ async function ComentariosURL(productID) {
     console.error("Error:", error); // Registra un error en la consola y muestra una alerta
     alert("Error al cargar los comentarios.");
   }
+  // Llama a la función para cargar los comentarios al cargar la página
+  cargarComentariosDesdeLocalStorage();
 }
 // Llama a la función para cargar los comentarios desde la URL al cargar la página
 ComentariosURL(productID);
 
 
 
-
 // Agregar evento click al botón "Agregar"
+
 enviarButton.addEventListener("click", function () {
+  
   // Obtener la fecha y hora actual en un formato específico
   const fecha = obtenerFechaActual();
 
@@ -246,6 +202,7 @@ enviarButton.addEventListener("click", function () {
     texto: comentarioElement.textContent,
     productID: ProductNum
   });
+  
 });
 
 // Función para guardar un comentario en formato JSON en localStorage
@@ -270,39 +227,9 @@ function cargarComentariosDesdeLocalStorage() {
     const comentarios = JSON.parse(comentariosJSON);
 
     comentarios.forEach((comentario) => {
-      if (comentario.productID == ProductNum){
-        const listItem = document.createElement("li");
-        listItem.classList.add("list-group-item");
-
-        const estrellasContainer = document.createElement("span");
-
-        for (let i = 1; i <= 5; i++) {
-          const estrella = document.createElement("span");
-          estrella.classList.add("fa", "fa-star");
-          if (i <= comentario.puntuacion) {
-            estrella.classList.add("text-warning");
-          }
-          estrellasContainer.appendChild(estrella);
-        }
-
-        const usuarioElement = document.createElement("span");
-        usuarioElement.classList.add("fw-bold");
-        usuarioElement.textContent = comentario.usuario;
-
-        const fecha = comentario.fecha;
-        const comentarioElement = document.createElement("span");
-        comentarioElement.classList.add("fw-light", "text-break");
-        comentarioElement.textContent = comentario.texto;
-
-        listItem.appendChild(usuarioElement);
-        listItem.innerHTML += ` - ${fecha} - `;
-        listItem.appendChild(estrellasContainer);
-        listItem.appendChild(document.createElement("br"));
-        listItem.appendChild(comentarioElement);
-
-        contenedor1.appendChild(listItem);
-      }
+      setComments(comentario, comentario.productID == ProductNum);
     });
+
   }
 }
 

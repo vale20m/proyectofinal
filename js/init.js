@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
       localStorage.setItem("screenMode", "dark");
       document.body.classList.add("bg-dark", "text-white");
-      switchMode.innerHTML = "Modo claro";
+      switchMode.innerHTML = "Modo día";
       for (const item of whiteItems) {
         item.classList.add("text-dark");
       }
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
       localStorage.setItem("screenMode", "light");
       document.body.classList.remove("bg-dark", "text-white");
-      switchMode.innerHTML = "Modo oscuro";
+      switchMode.innerHTML = "Modo noche";
       for (const item of whiteItems) {
         item.classList.remove("text-dark");
       }

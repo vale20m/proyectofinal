@@ -84,33 +84,51 @@ document.addEventListener("DOMContentLoaded", function(){
   const whiteItems1 = document.getElementsByClassName("shadow");
   const whiteItems2 = document.getElementsByClassName("card");
 
+  function changeBackground(){
+
+    if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
+    
+      document.body.classList.remove("bg-dark", "text-white");
+      switchMode.innerHTML = "Modo noche";
+  
+      for (const item of whiteItems1) {
+        item.classList.remove("text-dark");
+      }
+      for (const item of whiteItems2) {
+        item.classList.remove("text-dark");
+      }
+  
+    } else {
+
+      document.body.classList.add("bg-dark", "text-white");
+      switchMode.innerHTML = "Modo día";
+
+      for (const item of whiteItems1) {
+        item.classList.add("text-dark");
+      }
+      for (const item of whiteItems2) {
+        item.classList.add("text-dark");
+      }
+  
+    }
+
+  }
+
+  changeBackground();
+
   switchMode.addEventListener("click", function(){
     
     if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
 
       localStorage.setItem("screenMode", "dark");
-      document.body.classList.add("bg-dark", "text-white");
-      switchMode.innerHTML = "Modo día";
-      for (const item of whiteItems1) {
-        item.classList.add("text-dark");
-      }
-      for (const item of whiteItems2) {
-        item.classList.add("text-dark");
-      }
 
     } else {
 
       localStorage.setItem("screenMode", "light");
-      document.body.classList.remove("bg-dark", "text-white");
-      switchMode.innerHTML = "Modo noche";
-      for (const item of whiteItems1) {
-        item.classList.remove("text-dark");
-      }
-      for (const item of whiteItems2) {
-        item.classList.add("text-dark");
-      }
 
     }
+
+    changeBackground();
 
   });
 

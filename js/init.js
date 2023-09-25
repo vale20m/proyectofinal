@@ -46,24 +46,30 @@ document.addEventListener("DOMContentLoaded", function(){
     
   const botonLogin = document.querySelector("#boton-login");
   const perfil = document.querySelector("#perfil");
+  const options = document.querySelector("#profile-options");
+  const userDropdown = document.querySelector("#userDropdown");
+
 
   if(localStorage.getItem("email") == undefined){
 
-      perfil.removeAttribute("href");
       perfil.innerHTML = "Redireccionando en 3...";
       for (let a = 2; a >= 1; a--){
           setTimeout( () => perfil.innerHTML = "Redireccionando en " + a + "...", 2000/a);
       }
       setTimeout( () => window.location.replace('login.html'), 3000);
 
+      options.style.display = "none";
+      userDropdown.classList.remove("dropdown-toggle");
+
   } else {
 
       perfil.innerHTML = localStorage.getItem("email");
-      botonLogin.innerHTML = "Cerrar sesión";
       botonLogin.addEventListener("click", function(){
           localStorage.removeItem("email");
           botonLogin.href = "index.html";
       });
+
+      userDropdown.classList.add("dropdown-toggle");
 
   }
 

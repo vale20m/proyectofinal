@@ -45,10 +45,18 @@
             <a class="nav-link" href="sell.html">Vender</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="login.html" id="boton-login">Login</a> <!-- Agregamos dirección a login -->
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="my-profile.html" id="perfil"></a> <!-- Agregamos dirección al perfil del usuario -->
+            <div class="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span id="perfil"></span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="cart.html">Mi carrito</a>
+                <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="login.html" id="boton-login">Cerrar sesión</a>
+              </div>
+            </div>
           </li>
         </ul>
       </div>

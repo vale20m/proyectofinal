@@ -81,7 +81,8 @@ document.addEventListener("DOMContentLoaded", function(){
   // CAMBIAR ENTRE MODO CLARO Y MODO OSCURO
 
   const switchMode = document.querySelector("#switchMode");
-  const whiteItems = document.getElementsByClassName("shadow");
+  const whiteItems1 = document.getElementsByClassName("shadow");
+  const whiteItems2 = document.getElementsByClassName("card");
 
   switchMode.addEventListener("click", function(){
     
@@ -90,7 +91,10 @@ document.addEventListener("DOMContentLoaded", function(){
       localStorage.setItem("screenMode", "dark");
       document.body.classList.add("bg-dark", "text-white");
       switchMode.innerHTML = "Modo día";
-      for (const item of whiteItems) {
+      for (const item of whiteItems1) {
+        item.classList.add("text-dark");
+      }
+      for (const item of whiteItems2) {
         item.classList.add("text-dark");
       }
 
@@ -99,8 +103,11 @@ document.addEventListener("DOMContentLoaded", function(){
       localStorage.setItem("screenMode", "light");
       document.body.classList.remove("bg-dark", "text-white");
       switchMode.innerHTML = "Modo noche";
-      for (const item of whiteItems) {
+      for (const item of whiteItems1) {
         item.classList.remove("text-dark");
+      }
+      for (const item of whiteItems2) {
+        item.classList.add("text-dark");
       }
 
     }

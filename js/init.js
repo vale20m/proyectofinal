@@ -44,11 +44,12 @@ let getJSONData = function(url){
 
 document.addEventListener("DOMContentLoaded", function(){
     
+  // CONSTANTES PARA ENTREGA 4 FUNCIONALIDAD 2 (MENU DESPLEGABLE)
+
   const botonLogin = document.querySelector("#boton-login");
   const perfil = document.querySelector("#perfil");
   const options = document.querySelector("#profile-options");
   const userDropdown = document.querySelector("#userDropdown");
-
 
   if(localStorage.getItem("email") == undefined){
 
@@ -57,6 +58,8 @@ document.addEventListener("DOMContentLoaded", function(){
           setTimeout( () => perfil.innerHTML = "Redireccionando en " + a + "...", 2000/a);
       }
       setTimeout( () => window.location.replace('login.html'), 3000);
+
+      // OCULTAMOS LOS ELEMENTOS DEL MENU DESPLEGABLE Y LE QUITAMOS LA CLASE (PARA RETIRAR LA FLECHA)
 
       options.style.display = "none";
       userDropdown.classList.remove("dropdown-toggle");
@@ -69,8 +72,39 @@ document.addEventListener("DOMContentLoaded", function(){
           botonLogin.href = "index.html";
       });
 
+      // LE AGREGAMOS LA CLASE AL MENU DESPLEGABLE
+
       userDropdown.classList.add("dropdown-toggle");
 
   }
+
+  // CAMBIAR ENTRE MODO CLARO Y MODO OSCURO
+
+  const switchMode = document.querySelector("#switchMode");
+  const whiteItems = document.getElementsByClassName("shadow");
+
+  switchMode.addEventListener("click", function(){
+    
+    if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
+
+      localStorage.setItem("screenMode", "dark");
+      document.body.classList.add("bg-dark", "text-white");
+      switchMode.innerHTML = "Modo claro";
+      for (const item of whiteItems) {
+        item.classList.add("text-dark");
+      }
+
+    } else {
+
+      localStorage.setItem("screenMode", "light");
+      document.body.classList.remove("bg-dark", "text-white");
+      switchMode.innerHTML = "Modo oscuro";
+      for (const item of whiteItems) {
+        item.classList.remove("text-dark");
+      }
+
+    }
+
+  });
 
 });

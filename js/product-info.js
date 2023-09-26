@@ -56,11 +56,51 @@ function getRelatedProduct(productID){
   window.location = "product-info.html";
 }
 
+// FUNCION PARA CAMBIAR EL COLOR DE FONDO
+
+function changeBackground(){
+
+  const whiteItems1 = document.getElementsByClassName("shadow");
+  const whiteItems2 = document.getElementsByClassName("card");
+
+  console.log(whiteItems1.length + "  -  " + whiteItems2.length);
+
+  if (localStorage.getItem("screenMode") == "light"){
+  
+    document.body.classList.remove("bg-dark", "text-white");
+    switchMode.innerHTML = "Modo noche";
+
+    for (const item of whiteItems1) {
+      item.classList.remove("text-dark");
+    }
+    for (const item of whiteItems2) {
+      item.classList.remove("text-dark");
+    }
+
+  }
+  
+  if (localStorage.getItem("screenMode") == "dark"){
+
+    document.body.classList.add("bg-dark", "text-white");
+    switchMode.innerHTML = "Modo día";
+
+    for (const item of whiteItems1) {
+      item.classList.add("text-dark");
+    }
+    for (const item of whiteItems2) {
+      item.classList.add("text-dark");
+    }
+
+  }
+}
+
+
 async function tomarProductos (url){
   let response = await fetch(url);
   if (response.ok){
     let responseContents = await response.json();
     showData(responseContents);
+    changeBackground();
   } else {
     alert("HTTP ERROR: " + response.status);
   }

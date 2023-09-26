@@ -40,16 +40,76 @@ let getJSONData = function(url){
     });
 }
 
-// Función para mostrar el nombre del usuario, el cierre de sesion y el redireccionar al login (si no ha iniciado sesión)
+
+// CONSTANTES PARA ENTREGA 4 FUNCIONALIDAD 2 (MENU DESPLEGABLE)
+
+const botonLogin = document.querySelector("#boton-login");
+const perfil = document.querySelector("#perfil");
+const options = document.querySelector("#profile-options");
+const userDropdown = document.querySelector("#userDropdown");
+
+// CAMBIAR ENTRE MODO CLARO Y MODO OSCURO
+
+const switchMode = document.querySelector("#switchMode");
+const whiteItems1 = document.getElementsByClassName("shadow");
+const whiteItems2 = document.getElementsByClassName("card");
+
+// CAMBIA EL COLOR DEL FONDO DE LA PAGINA ACTUAL
+
+function changeBackground(){
+
+  console.log(whiteItems1.length + "  -  " + whiteItems2.length);
+
+  if (localStorage.getItem("screenMode") == "light"){
+  
+    document.body.classList.remove("bg-dark", "text-white");
+    switchMode.innerHTML = "Modo noche";
+
+    for (const item of whiteItems1) {
+      item.classList.remove("text-dark");
+    }
+    for (const item of whiteItems2) {
+      item.classList.remove("text-dark");
+    }
+
+  }
+  
+  if (localStorage.getItem("screenMode") == "dark"){
+
+    document.body.classList.add("bg-dark", "text-white");
+    switchMode.innerHTML = "Modo día";
+
+    for (const item of whiteItems1) {
+      item.classList.add("text-dark");
+    }
+    for (const item of whiteItems2) {
+      item.classList.add("text-dark");
+    }
+
+  }
+}
+
+changeBackground();
+
+switchMode.addEventListener("click", function(){
+    
+  if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
+
+    localStorage.setItem("screenMode", "dark");
+
+  } else {
+
+    localStorage.setItem("screenMode", "light");
+
+  }
+
+  changeBackground();
+
+});
 
 document.addEventListener("DOMContentLoaded", function(){
-    
-  // CONSTANTES PARA ENTREGA 4 FUNCIONALIDAD 2 (MENU DESPLEGABLE)
 
-  const botonLogin = document.querySelector("#boton-login");
-  const perfil = document.querySelector("#perfil");
-  const options = document.querySelector("#profile-options");
-  const userDropdown = document.querySelector("#userDropdown");
+  // Función para mostrar el nombre del usuario, el cierre de sesion y el redireccionar al login (si no ha iniciado sesión)
 
   if(localStorage.getItem("email") == undefined){
 
@@ -69,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function(){
       perfil.innerHTML = localStorage.getItem("email");
       botonLogin.addEventListener("click", function(){
           localStorage.removeItem("email");
+          localStorage.removeItem("screenMode");
           botonLogin.href = "index.html";
       });
 
@@ -77,59 +138,5 @@ document.addEventListener("DOMContentLoaded", function(){
       userDropdown.classList.add("dropdown-toggle");
 
   }
-
-  // CAMBIAR ENTRE MODO CLARO Y MODO OSCURO
-
-  const switchMode = document.querySelector("#switchMode");
-  const whiteItems1 = document.getElementsByClassName("shadow");
-  const whiteItems2 = document.getElementsByClassName("card");
-
-  function changeBackground(){
-
-    if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
-    
-      document.body.classList.remove("bg-dark", "text-white");
-      switchMode.innerHTML = "Modo noche";
-  
-      for (const item of whiteItems1) {
-        item.classList.remove("text-dark");
-      }
-      for (const item of whiteItems2) {
-        item.classList.remove("text-dark");
-      }
-  
-    } else {
-
-      document.body.classList.add("bg-dark", "text-white");
-      switchMode.innerHTML = "Modo día";
-
-      for (const item of whiteItems1) {
-        item.classList.add("text-dark");
-      }
-      for (const item of whiteItems2) {
-        item.classList.add("text-dark");
-      }
-  
-    }
-
-  }
-
-  changeBackground();
-
-  switchMode.addEventListener("click", function(){
-    
-    if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
-
-      localStorage.setItem("screenMode", "dark");
-
-    } else {
-
-      localStorage.setItem("screenMode", "light");
-
-    }
-
-    changeBackground();
-
-  });
 
 });

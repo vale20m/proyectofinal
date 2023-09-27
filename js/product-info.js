@@ -17,11 +17,23 @@ function showData(product) {
   <h2 class="shadow p-3 my-3 bg-body rounded">Precio: ${product.currency} ${product.cost}</h2>
   <h2 class="shadow p-3 mb-5 bg-body rounded">Ventas: ${product.soldCount} </h2>
   <p class="fs-4">Imágenes meramente ilustrativas: </p> <br>`;
-  // El for itera sobre las imágenes del producto
-  for (let i = 0; i < product.images.length; i++){
-    container.innerHTML += `<img class="w-50 border border-5 border-white shadow-sm p-3 mb-1 bg-body rounded" src="${product.images[i]}">`;
+
+
+
+  // Carrusel de imágenes
+  const carouselInner = document.querySelector("#productImageCarousel .carousel-inner");
+
+  for (let i = 0; i < product.images.length; i++) {
+    const isActive = i === 0 ? 'active' : '';
+    carouselInner.innerHTML += `
+      <div class="carousel-item ${isActive}">
+        <img class="d-block w-100" src="${product.images[i]}" alt="Imagen ${i + 1}">
+      </div>`;
   }
-  container.innerHTML += `</div>`
+
+  container.innerHTML += `</div>`;
+
+  
 
   // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS PRODUCTOS RELACIONADOS
 

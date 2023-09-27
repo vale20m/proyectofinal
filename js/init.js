@@ -58,9 +58,7 @@ const whiteItems2 = document.getElementsByClassName("card");
 
 function changeBackground(){
 
-  console.log(whiteItems1.length + "  -  " + whiteItems2.length);
-
-  if (localStorage.getItem("screenMode") == "light"){
+  if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
   
     document.body.classList.remove("bg-dark", "text-white");
     switchMode.innerHTML = "Modo noche";
@@ -89,8 +87,6 @@ function changeBackground(){
   }
 }
 
-changeBackground();
-
 switchMode.addEventListener("click", function(){
     
   if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
@@ -108,6 +104,8 @@ switchMode.addEventListener("click", function(){
 });
 
 document.addEventListener("DOMContentLoaded", function(){
+
+  changeBackground();
 
   // Función para mostrar el nombre del usuario, el cierre de sesion y el redireccionar al login (si no ha iniciado sesión)
 

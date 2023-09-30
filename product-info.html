@@ -86,25 +86,21 @@
     </div>
     
     <div class="container mx-2 my-2">
-    <div>
       <label for="comentar" class="bold fs-1 my-3">Comentar:</label><br>
       <label for="opinion" class="fst-italic fs-4 my-1">Tu opinión:</label><br>
-      <textarea id="opinion" margin-left: 20px; cols="35" rows="2" maxlength="75" required></textarea>
-    </div>
-    <div>
+      <textarea id="opinion" class="form-control mb-3 mt-1" cols="35" rows="2" maxlength="75" required></textarea>
       <label for="puntuacion" class="fst-italic fs-4 my-1">Tu puntuación:</label>
-      <select id="puntuacion" required>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
+      <select id="puntuacion" class="form-select w-25" required>
+        <option value="1">⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
       </select>
-    </div>
     <div>
       <div id="estrellas"></div>
     </div>
-    <button type="submit" id="enviar" class="btn btn-primary mb-5">Enviar</button>
+    <button type="submit" id="enviar" class="btn btn-primary mb-5 mt-3">Enviar</button>
     <div id="contenedor1"></div>
     </div>
 

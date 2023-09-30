@@ -45,8 +45,6 @@ function showData(product) {
 
 function showRelatedProducts(product){
   
-  relatedProducts.innerHTML += `<h1>Productos relacionados: </h1>`;
-  
   // MOSTRAMOS LOS PRODUCTOS RELACIONADOS CON EL PRODUCTO ACTUAL
   
   for (const related of product.relatedProducts) {
@@ -54,7 +52,7 @@ function showRelatedProducts(product){
     relatedProducts.innerHTML += `<div class="col-sm-6 mt-3"><div class="card" onclick="getRelatedProduct(${related.id})">
     <img src="${related.image}" class="card-img-top">
     <div class="card-body">
-    <h2 class="card-title px-3 fst-italic">${related.name}</h2>
+    <h2 class="card-title mx-3 fst-italic">${related.name}</h2>
     </div></div></div>`;
 
   }
@@ -174,7 +172,7 @@ function mostrarEstrellas(puntuacion) {
 function setComments(comentario, bool){
   if (bool){
     // Crea elementos HTML para mostrar los comentarios en la página
-    const listItem = document.createElement("li"); // Elemento de lista
+    const listItem = document.createElement("div"); // Elemento de lista
     listItem.classList.add("list-group-item"); // Aplica una clase CSS al elemento
 
     // Crea elementos para mostrar la puntuación en forma de estrellas

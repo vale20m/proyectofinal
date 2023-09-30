@@ -1,7 +1,7 @@
 /* Agregados para la estética del menú login */
 
 img.login {
-    width: 50px;
+    width: 60px;
 }
   
 h1#inicio-sesion{
@@ -11,17 +11,11 @@ h1#inicio-sesion{
   
 div.container div.login{
     background-color: rgb(208, 235, 255);
-    width: 600px;
-    height: 430px;
+    width: 70%;
     border-radius: 30px;
     border-style:groove;
 }
 
-#enviar{
-    font-size: 150%;
-}
-
 #login-img{
-    width: 650px;
     border-style: outset;
 }

@@ -68,27 +68,23 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12 mb-1 container"> <!--Clases borradas: col-lg-6 offset-lg-6-->
-        <div class="row container">
-          <div class="col my-1">
-            <input type="search" placeholder="Buscar..." class="w-auto form-control float-start" id="barraBuscar">
-          </div>
-          <div class="col my-1 text-center">
-            <p class="font-weight-normal my-2">Precio:</p>
-          </div>
-          <div class="col my-1 text-center">
-            <input class="form-control" type="number" placeholder="min." id="rangeFilterPriceMin" min="0">
-          </div>
-          <div class="col my-1 text-center">
-            <input class="form-control" type="number" placeholder="máx." id="rangeFilterPriceMax" min="0">
-          </div>
-          <div class="col my-1 text-center">
-            <div class="btn-group" role="group">
-              <button class="btn btn-light btn-block" id="rangeFilterPrice">Filtrar</button>
-              <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
-            </div>
-          </div>
+    <div class="row mx-auto mb-1">
+      <div class="col-lg-4 col-md-4 order-1 col-7 my-1">
+        <input type="search" placeholder="Buscar..." class="form-control" id="barraBuscar">
+      </div>
+      <div class="col-lg-1 col-md-1 order-md-2 order-3 offset-md-0 offset-2 col-2 my-1">
+        <p class="font-weight-normal my-2">Precio:</p>
+      </div>
+      <div class="col-lg-2 col-md-2 order-md-3 order-4 col-3 my-1">
+        <input class="form-control" type="number" placeholder="min." id="rangeFilterPriceMin" min="0">
+      </div>
+      <div class="col-lg-2 col-md-2 order-md-4 order-5 col-3 my-1">
+        <input class="form-control" type="number" placeholder="máx." id="rangeFilterPriceMax" min="0">
+      </div>
+      <div class="col-lg-3 col-md-3 order-md-5 order-2 col-5 my-1 text-end">
+        <div class="btn-group" role="group">
+          <button class="btn btn-light btn-block" id="rangeFilterPrice">Filtrar</button>
+          <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
         </div>
       </div>
     </div>

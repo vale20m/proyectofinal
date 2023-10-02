@@ -2,8 +2,7 @@
 
 img.login {
     width: 15%;
-    min-width: 50px;
-    max-width: 75px;
+    width: 75px;
 }
   
 h1#inicio-sesion{
@@ -14,6 +13,7 @@ h1#inicio-sesion{
 div.container div.login{
     background-color: rgb(208, 235, 255);
     max-width: 600px;
+    min-width:max-content;
 }
 
 #login-img{

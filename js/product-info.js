@@ -27,7 +27,7 @@ function showData(product) {
     const isActive = i === 0 ? 'active' : '';
     carouselInner.innerHTML += `
       <div class="carousel-item ${isActive}">
-        <img class="d-block w-100" src="${product.images[i]}" alt="Imagen ${i + 1}">
+        <img class="d-block w-100 mx-auto" id="productPictures" src="${product.images[i]}" alt="Imagen ${i + 1}">
       </div>`;
   }
 

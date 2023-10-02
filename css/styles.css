@@ -198,3 +198,19 @@ a.custom-card:hover {
 .cambio1 {
   text-align: center;
 }
+
+@media (max-width: 575px) {
+  .cambio1{
+    display: none;
+  }
+}
+
+@media (min-width: 576px) {
+  #catData{
+    display:flex!important;
+  }
+
+  #productPictures{
+    max-width: 75%;
+  }
+}

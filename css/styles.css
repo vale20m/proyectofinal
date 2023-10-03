@@ -195,9 +195,6 @@ a.custom-card:hover {
   background-color: #dbdbdbdc; /* Cambia el color de fondo al pasar el mouse */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-.cambio1 {
-  text-align: center;
-}
 
 @media (max-width: 575px) {
   .cambio1{
@@ -213,4 +210,9 @@ a.custom-card:hover {
   #productPictures{
     max-width: 75%;
   }
+}
+
+#cartItemImage{
+  width: 150px;
+  min-width:75px;
 }

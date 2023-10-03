@@ -12,13 +12,13 @@ const container = document.getElementById("infoProduct");
 const relatedProducts = document.getElementById("relatedProducts");
 
 function showData(product) {
-  container.innerHTML += `<div class="container"><h1 class="px-5 my-4 text-uppercase">${product.name}</h1> <hr>
+  container.innerHTML += `<div class="container">
+  <div class="row col-11 mx-auto"><h1 class=" my-3 text-uppercase col-9">${product.name}</h1>
+  <button id="buyProduct" type="button" class="btn btn-primary fs-3 col-3 my-auto">Comprar</button></div> <hr>
   <p class="fs-3 shadow p-3 mb-3 mt-4 bg-body rounded fst-italic">${product.description}<p>
   <h2 class="shadow p-3 my-3 bg-body rounded">Precio: ${product.currency} ${product.cost}</h2>
   <h2 class="shadow p-3 mb-5 bg-body rounded">Ventas: ${product.soldCount} </h2>
   <p class="fs-4">Imágenes meramente ilustrativas: </p> <br>`;
-
-
 
   // Carrusel de imágenes
   const carouselInner = document.querySelector("#productImageCarousel .carousel-inner");
@@ -33,13 +33,14 @@ function showData(product) {
 
   container.innerHTML += `</div>`;
 
-  
-
   // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS PRODUCTOS RELACIONADOS
 
   showRelatedProducts(product);
 
 }
+
+
+
 
 // FUNCION PARA MOSTRAR LOS PRODUCTOS RELACIONADOS
 
@@ -72,8 +73,6 @@ function changeBackground(){
 
   const whiteItems1 = document.getElementsByClassName("shadow");
   const whiteItems2 = document.getElementsByClassName("card");
-
-  console.log(whiteItems1.length + "  -  " + whiteItems2.length);
 
   if (localStorage.getItem("screenMode") == "light"){
   
@@ -111,6 +110,26 @@ async function tomarProductos (url){
     let responseContents = await response.json();
     showData(responseContents);
     changeBackground();
+
+    console.log(responseContents);
+
+    // GUARDAMOS EL BOTON DE COMPRAR EN UNA VARIABLE
+
+    const buyProduct = document.querySelector("#buyProduct");
+
+    // ANIDAMOS UN ADD EVENT LISTENER AL MISMO QUE SE ACTIVA CUANDO RECIBE UN CLICK
+
+    buyProduct.addEventListener("click", function(){
+      saveProductProperties({
+        name: responseContents.name,
+        unitCost: responseContents.cost,
+        currency: responseContents.currency,
+        image: responseContents.images[0],
+        count: 1,
+        id: responseContents.id
+      })
+    });
+
   } else {
     alert("HTTP ERROR: " + response.status);
   }
@@ -350,4 +369,25 @@ function obtenerFechaActual() {
   const segundos = fecha.getSeconds().toString().padStart(2, "0");
 
   return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+}
+
+// ENTREGA 5: FUNCIONALIDAD PARA GUARDAR PROPIEDADES DEL PRODUCTO SELECCIONADO EN EL LOCAL STORAGE
+
+function saveProductProperties(product) {
+  let productsJSON = localStorage.getItem("cartItems");
+
+  if (!productsJSON) {
+    productsJSON = "[]";
+  }
+  const products = JSON.parse(productsJSON);
+
+  for (i = 0; i < products.length; i++){
+    if (products[i].id == product.id){
+      return;
+    }
+  }
+
+  products.push(product);
+
+  localStorage.setItem("cartItems", JSON.stringify(products));
 }

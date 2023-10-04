@@ -196,11 +196,15 @@ a.custom-card:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+/* ESTILOS QUE SE APLICAN SI EL ANCHO DE LA PANTALLA ES MENOR O IGUAL A 575px */
+
 @media (max-width: 575px) {
   .cambio1{
     display: none;
   }
 }
+
+/* ESTILOS QUE SE APLICAN SI EL ANCHO DE LA PANTALLA ES MAYOR O IGUAL A 576px */
 
 @media (min-width: 576px) {
   #catData{
@@ -215,4 +219,13 @@ a.custom-card:hover {
 #cartItemImage{
   width: 150px;
   min-width:75px;
+}
+
+#wishlist{
+  width: 50px;
+  height: 45px;
+}
+
+#wishlist:hover{
+  transform:scale(1.1);
 }

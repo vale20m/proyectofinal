@@ -12,9 +12,10 @@ const container = document.getElementById("infoProduct");
 const relatedProducts = document.getElementById("relatedProducts");
 
 function showData(product) {
-  container.innerHTML += `<div class="container">
-  <div class="row col-11 mx-auto"><h1 class=" my-3 text-uppercase col-9">${product.name}</h1>
-  <button id="buyProduct" type="button" class="btn btn-primary fs-3 col-3 my-auto">Comprar</button></div> <hr>
+  container.innerHTML += `
+  <div class="row col-lg-11 col-12 mx-auto"><h1 class=" my-3 text-uppercase col-lg-7">${product.name}</h1>
+  <div class="col-lg-1 my-auto"><img src="../img/heart.PNG" id="wishlist"></div>
+  <button id="buyProduct" type="button" class="btn btn-primary fs-3 col-lg-4 my-auto">Comprar</button></div> <hr>
   <p class="fs-3 shadow p-3 mb-3 mt-4 bg-body rounded fst-italic">${product.description}<p>
   <h2 class="shadow p-3 my-3 bg-body rounded">Precio: ${product.currency} ${product.cost}</h2>
   <h2 class="shadow p-3 mb-5 bg-body rounded">Ventas: ${product.soldCount} </h2>
@@ -31,15 +32,11 @@ function showData(product) {
       </div>`;
   }
 
-  container.innerHTML += `</div>`;
-
   // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS PRODUCTOS RELACIONADOS
 
   showRelatedProducts(product);
 
 }
-
-
 
 
 // FUNCION PARA MOSTRAR LOS PRODUCTOS RELACIONADOS
@@ -111,8 +108,6 @@ async function tomarProductos (url){
     showData(responseContents);
     changeBackground();
 
-    console.log(responseContents);
-
     // GUARDAMOS EL BOTON DE COMPRAR EN UNA VARIABLE
 
     const buyProduct = document.querySelector("#buyProduct");
@@ -127,7 +122,27 @@ async function tomarProductos (url){
         image: responseContents.images[0],
         count: 1,
         id: responseContents.id
-      })
+      });
+    });
+
+    const wishlistButton = document.querySelector("#wishlist");
+
+    loadHeartButton(wishlistButton, responseContents.id);
+
+    wishlistButton.addEventListener("click", function(){
+      if (wishlistButton.src == "http://127.0.0.1:5500/img/heart.PNG"){
+        wishlistButton.src = "../img/colored-heart.PNG";
+        saveWishlistProducts({
+          name: responseContents.name,
+          cost: responseContents.cost,
+          currency: responseContents.currency,
+          image: responseContents.images[0],
+          id: responseContents.id
+        });
+      } else {
+        wishlistButton.src = "../img/heart.PNG";
+        deleteWishlistProduct(responseContents.id);
+      }
     });
 
   } else {
@@ -390,4 +405,69 @@ function saveProductProperties(product) {
   products.push(product);
 
   localStorage.setItem("cartItems", JSON.stringify(products));
+}
+
+// FUNCION QUE CARGA EL BOTON DE CORAZON CORRECTO
+
+function loadHeartButton(button, id){
+  let productsJSON = localStorage.getItem("wishlistItems");
+
+  if (!productsJSON){
+    button.src = "../img/heart.PNG";
+    return;
+  }
+
+  const products = JSON.parse(productsJSON);
+
+  for (i = 0; i < products.length; i++){
+    if (products[i].id == id){
+      button.src = "../img/colored-heart.PNG";
+      return;
+    }
+  }
+
+  button.src = "../img/heart.PNG";
+
+}
+
+// FUNCION QUE GUARDA UN ELEMENTO EN LA WISHLIST CUANDO SE PRESIONA EL CORAZON (SI NO ESTA AGREGADO)
+
+function saveWishlistProducts(product) {
+  let productsJSON = localStorage.getItem("wishlistItems");
+
+  if (!productsJSON) {
+    productsJSON = "[]";
+  }
+  const products = JSON.parse(productsJSON);
+
+  for (i = 0; i < products.length; i++){
+    if (products[i].id == product.id){
+      return;
+    }
+  }
+
+  products.push(product);
+
+  localStorage.setItem("wishlistItems", JSON.stringify(products));
+}
+
+// FUNCION QUE ELIMINA UN ELEMENTO DEL LOCAL STORAGE CUANDO PRESIONA EL CORAZON (SI ESTABA EN LA WISHLIST)
+
+function deleteWishlistProduct(id){
+  let productsJSON = localStorage.getItem("wishlistItems");
+
+  if (!productsJSON){
+    return;
+  }
+
+  const products = JSON.parse(productsJSON);
+
+  for (i = 0; i < products.length; i++){
+    if (products[i].id == id){
+      products.splice(i, 1);
+      localStorage.setItem("wishlistItems", JSON.stringify(products));
+      return;
+    }
+  }
+
 }

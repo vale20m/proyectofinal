@@ -123,6 +123,8 @@ async function tomarProductos (url){
         count: 1,
         id: responseContents.id
       });
+      // Agregar una alerta después de agregar el producto al carrito
+  alert("El producto se ha agregado al carrito.");
     });
 
     const wishlistButton = document.querySelector("#wishlist");
@@ -259,6 +261,9 @@ async function ComentariosURL(productID) {
         puntuacion: comentario.score,
         texto: comentario.description
       }));
+
+      // Ordena los comentarios de más viejos a más nuevos por fecha
+      comentariosConvertidos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
       comentariosConvertidos.forEach((comentario) => {
         setComments(comentario, true);

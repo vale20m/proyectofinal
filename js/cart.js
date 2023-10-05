@@ -57,36 +57,30 @@ function showCart(array){
 }
 
 // ARREGLO QUE CONTENDRÁ TODOS LOS ELEMENTOS DEL CARRITO
-
 let cartArray = [];
 
 // CREAMOS UN ARRAY QUE CARGA LOS ELEMENTOS DEL LOCAL STORAGE
-
 let localCartItems = loadCartItems();
 
-async function getCart(url){
-    try {
-        let response = await fetch(url);
-        let responseContents = await response.json();
+async function getCart(url) {
+  try {
+    let response = await fetch(url);
+    let responseContents = await response.json();
 
-        // AGREGAMOS LOS ELEMENTOS (TANTO DEL JSON COMO DEL LOCAL STORAGE) AL ARREGLO "CARTARRAY" LUEGO DE QUE SE COMPLETA LA SOLICITUD FETCH
+    // Reemplazamos los elementos en el arreglo cartArray con los nuevos elementos del servidor
+    cartArray = responseContents.articles;
 
-        for (const item of responseContents.articles) {
-            cartArray.push(item);
-        }
-        if (localCartItems){
-            for (const item of localCartItems) {
-                cartArray.push(item);
-            }
-        }
-
-        // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS ELEMENTOS DEL CARRITO
-
-        showCart(cartArray);
-
-    } catch (error) {
-        console.log("HTTP ERROR: " + error.message);
+    if (localCartItems) {
+      // Agregamos los elementos del almacenamiento local al arreglo cartArray
+      cartArray = cartArray.concat(localCartItems);
     }
+
+    // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS ELEMENTOS DEL CARRITO
+    showCart(cartArray);
+
+  } catch (error) {
+    console.log("HTTP ERROR: " + error.message);
+  }
 }
 
 // FUNCION QUE TOMA LOS ELEMENTOS DEL LOCAL STORAGE

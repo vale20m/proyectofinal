@@ -53,6 +53,9 @@ const userDropdown = document.querySelector("#userDropdown");
 const switchMode = document.querySelector("#switchMode");
 const whiteItems1 = document.getElementsByClassName("shadow");
 const whiteItems2 = document.getElementsByClassName("card");
+const cartItemsText = document.querySelectorAll("#cartItems");
+const cartTitleText = document.querySelectorAll("#cartTitle");
+
 
 // CAMBIA EL COLOR DEL FONDO DE LA PAGINA ACTUAL
 
@@ -69,7 +72,12 @@ function changeBackground(){
     for (const item of whiteItems2) {
       item.classList.remove("text-dark");
     }
-
+    for (const item of cartItemsText) {
+      item.style.color = "";
+    }
+    for (const item of cartTitleText) {
+      item.style.color = ""; 
+    }
   }
   
   if (localStorage.getItem("screenMode") == "dark"){
@@ -83,7 +91,12 @@ function changeBackground(){
     for (const item of whiteItems2) {
       item.classList.add("text-dark");
     }
-
+    for (const item of cartItemsText) {
+      item.style.color = "white";
+    }
+    for (const item of cartTitleText) {
+      item.style.color = "white";
+    }
   }
 }
 

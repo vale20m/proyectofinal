@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function(){
       perfil.innerHTML = localStorage.getItem("email");
       botonLogin.addEventListener("click", function(){
           localStorage.removeItem("email");
-          localStorage.removeItem("screenMode");
+          //localStorage.removeItem("screenMode");
           botonLogin.href = "index.html";
       });
 

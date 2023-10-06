@@ -55,6 +55,7 @@ const whiteItems1 = document.getElementsByClassName("shadow");
 const whiteItems2 = document.getElementsByClassName("card");
 const cartItemsText = document.querySelectorAll("#cartItems");
 const cartTitleText = document.querySelectorAll("#cartTitle");
+const blackContainer = document.getElementById("black1");
 
 
 // CAMBIA EL COLOR DEL FONDO DE LA PAGINA ACTUAL
@@ -78,6 +79,10 @@ function changeBackground(){
     for (const item of cartTitleText) {
       item.style.color = ""; 
     }
+    if (blackContainer) {
+      blackContainer.classList.remove("bg-dark");
+    }
+    
   }
   
   if (localStorage.getItem("screenMode") == "dark"){
@@ -97,6 +102,11 @@ function changeBackground(){
     for (const item of cartTitleText) {
       item.style.color = "white";
     }
+
+    if (blackContainer) {
+      blackContainer.classList.add("bg-dark");
+    }
+    
   }
 }
 

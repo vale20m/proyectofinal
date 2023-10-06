@@ -46,6 +46,13 @@ body.bg-dark .jumbotron {
   color: white;
 }
 
+.list-group-item {
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+
+
 @media (min-width: 768px) {
   .jumbotron {
     padding-top: 6rem;
@@ -212,6 +219,10 @@ a.custom-card:hover {
 /* ESTILOS QUE SE APLICAN SI EL ANCHO DE LA PANTALLA ES MAYOR O IGUAL A 576px */
 
 @media (min-width: 576px) {
+  #catData{
+    display:flex!important;
+  }
+
   #productPictures{
     max-width: 75%;
   }

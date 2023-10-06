@@ -13,9 +13,9 @@ const relatedProducts = document.getElementById("relatedProducts");
 
 function showData(product) {
   container.innerHTML += `
-  <div class="row col-lg-11 col-12 mx-auto"><h1 class=" my-3 text-uppercase col-lg-7">${product.name}</h1>
-  <div class="col-lg-1 my-auto"><img src="../img/heart.PNG" id="wishlist"></div>
-  <button id="buyProduct" type="button" class="btn btn-primary fs-3 col-lg-4 my-auto">Comprar</button></div> <hr>
+  <div class="row col-11 mx-auto"><h1 class=" my-3 text-uppercase col-lg-7 col-md-6 col-12">${product.name}</h1>
+  <div class="col-md-1 col-3 my-auto"><img src="../img/heart.PNG" id="wishlist"></div>
+  <button id="buyProduct" type="button" class="btn btn-primary fs-3 offset-lg-0 col-md-4 offset-md-1 col-9 my-auto">Comprar</button></div> <hr>
   <p class="fs-3 shadow p-3 mb-3 mt-4 bg-body rounded fst-italic">${product.description}<p>
   <h2 class="shadow p-3 my-3 bg-body rounded">Precio: ${product.currency} ${product.cost}</h2>
   <h2 class="shadow p-3 mb-5 bg-body rounded">Ventas: ${product.soldCount} </h2>

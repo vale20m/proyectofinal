@@ -24,8 +24,9 @@ function showWishlistedItems(array){
 }
 
 function setItems(array){
-    if (!array){
-        wishlistItems.innerHTML = `<h1>Actualmente no hay productos en la lista de deseados</h1>`;
+    console.log(array);
+    if (!array || array.length == 0){
+        wishlistItems.innerHTML = `<h1 class="mt-5">Actualmente no hay productos en la lista de deseados</h1>`;
     } else {
         showWishlistedItems(array);
     }

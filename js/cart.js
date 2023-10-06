@@ -6,6 +6,8 @@ const cartTitle = document.querySelector("#cartTitle");
 
 const cartItems = document.querySelector("#cartItems");
 
+const cartControls = document.querySelector("#cartControls");
+
 // FUNCION QUE CALCULA EL SUBTOTAL DEL PRODUCTO EN EL CARRITO, MULTIPLICANDO SU
 // PRECIO POR LACANTIDAD, Y AGREGANDO LA MONEDA AL COMIENZO (DEVOLVIENDO UN SITRING)
 
@@ -54,6 +56,36 @@ function showCart(array){
 
         cartItems.appendChild(row);
     }
+
+    cartControls.innerHTML =
+    `<div class="col-lg-6 col-md-8 col-10 mx-5">
+    <h2>Tipo de envío</h2>
+    <form id="checkoutForm">
+      <div class="mb-3">
+        <label for="tipoEnvio" class="form-label">Tipo de Envío:</label>
+        <select id="tipoEnvio" class="form-select">
+          <option value="envioRapido">Premium 2 a 5 dias (15%)</option>
+          <option value="envioEstandar">Express 5 a 8 dias (7%)</option>
+          <option value="envioExpress">Standard 12 a 15 dias (5%)</option>
+        </select>
+      </div>
+      <h2>Dirección de envío</h2>
+      <div class="mb-3">
+        <label for="calle" class="form-label">Calle:</label>
+        <input type="text" class="form-control" id="calle" name="calle">
+      </div>
+      <div class="mb-3">
+        <label for="numero" class="form-label">Número:</label>
+        <input type="text" class="form-control" id="numero" name="numero">
+      </div>
+      <div class="mb-3">
+        <label for="esquina" class="form-label">Esquina:</label>
+        <input type="text" class="form-control" id="esquina" name="esquina">
+      </div>
+      <button type="submit" class="btn btn-primary">Realizar Compra</button>
+    </form>
+  </div>`
+
 }
 
 // ARREGLO QUE CONTENDRÁ TODOS LOS ELEMENTOS DEL CARRITO
@@ -76,7 +108,11 @@ async function getCart(url) {
     }
 
     // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS ELEMENTOS DEL CARRITO
-    showCart(cartArray);
+    if (cartArray && cartArray != []){
+      showCart(cartArray);
+    } else {
+      cartItems.innerHTML = `<h1 class="mt-5">Actualmente no hay productos en el carrito</h1>`
+    }
 
   } catch (error) {
     console.log("HTTP ERROR: " + error.message);

@@ -57,7 +57,6 @@ const cartItemsText = document.querySelectorAll("#cartItems");
 const cartTitleText = document.querySelectorAll("#cartTitle");
 const blackContainer = document.getElementById("black1");
 
-
 // CAMBIA EL COLOR DEL FONDO DE LA PAGINA ACTUAL
 
 function changeBackground(){

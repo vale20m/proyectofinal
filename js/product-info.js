@@ -13,9 +13,9 @@ const relatedProducts = document.getElementById("relatedProducts");
 
 function showData(product) {
   container.innerHTML += `
-  <div class="row col-11 mx-auto"><h1 class=" my-3 text-uppercase col-lg-7 col-md-6 col-12">${product.name}</h1>
-  <div class="col-md-1 col-3 my-auto"><img src="../img/heart.PNG" id="wishlist"></div>
-  <button id="buyProduct" type="button" class="btn btn-primary fs-3 offset-lg-0 col-md-4 offset-md-1 col-9 my-auto">Comprar</button></div> <hr>
+  <div class="row col-11 mx-auto"><h1 class="my-3 text-uppercase col-lg-8 col-md-7 col-12">${product.name}</h1>
+  <div class="col-lg-1 col-md-2 col-3"><button id="wishlist" class="btn btn-lg fa fa-heart my-auto fs-1" aria-hidden="true"></button></div>
+  <button id="buyProduct" type="button" class="btn btn-primary fs-3 col-md-3 col-9 my-auto">Comprar</button></div> <hr>
   <p class="fs-3 shadow p-3 mb-3 mt-4 bg-body rounded fst-italic">${product.description}<p>
   <h2 class="shadow p-3 my-3 bg-body rounded">Precio: ${product.currency} ${product.cost}</h2>
   <h2 class="shadow p-3 mb-5 bg-body rounded">Ventas: ${product.soldCount} </h2>
@@ -66,12 +66,12 @@ function getRelatedProduct(productID){
 
 // FUNCION PARA CAMBIAR EL COLOR DE FONDO
 
-function changeBackground(){
+function changeBackground(button){
 
   const whiteItems1 = document.getElementsByClassName("shadow");
   const whiteItems2 = document.getElementsByClassName("card");
 
-  if (localStorage.getItem("screenMode") == "light"){
+  if (localStorage.getItem("screenMode") == "light" || localStorage.getItem("screenMode") == undefined){
   
     document.body.classList.remove("bg-dark", "text-white");
     switchMode.innerHTML = "Modo noche";
@@ -100,14 +100,15 @@ function changeBackground(){
   }
 }
 
-
 async function tomarProductos (url){
   let response = await fetch(url);
   if (response.ok){
     let responseContents = await response.json();
+    
     showData(responseContents);
-    changeBackground();
 
+    changeBackground();
+    
     // GUARDAMOS EL BOTON DE COMPRAR EN UNA VARIABLE
 
     const buyProduct = document.querySelector("#buyProduct");
@@ -124,16 +125,16 @@ async function tomarProductos (url){
         id: responseContents.id
       });
       // Agregar una alerta después de agregar el producto al carrito
-  alert("El producto se ha agregado al carrito.");
+      alert("El producto se ha agregado al carrito.");
     });
 
     const wishlistButton = document.querySelector("#wishlist");
 
-    loadHeartButton(wishlistButton, responseContents.id);
+    checkActive(wishlistButton, responseContents.id);
 
     wishlistButton.addEventListener("click", function(){
-      if (wishlistButton.src == "http://127.0.0.1:5500/img/heart.PNG"){
-        wishlistButton.src = "../img/colored-heart.PNG";
+      if (!wishlistButton.classList.contains("activeHeart")){
+        wishlistButton.classList.add("activeHeart");
         saveWishlistProducts({
           name: responseContents.name,
           cost: responseContents.cost,
@@ -142,7 +143,7 @@ async function tomarProductos (url){
           id: responseContents.id
         });
       } else {
-        wishlistButton.src = "../img/heart.PNG";
+        wishlistButton.classList.remove("activeHeart");
         deleteWishlistProduct(responseContents.id);
       }
     });
@@ -414,27 +415,6 @@ function saveProductProperties(product) {
 
 // FUNCION QUE CARGA EL BOTON DE CORAZON CORRECTO
 
-function loadHeartButton(button, id){
-  let productsJSON = localStorage.getItem("wishlistItems");
-
-  if (!productsJSON){
-    button.src = "../img/heart.PNG";
-    return;
-  }
-
-  const products = JSON.parse(productsJSON);
-
-  for (i = 0; i < products.length; i++){
-    if (products[i].id == id){
-      button.src = "../img/colored-heart.PNG";
-      return;
-    }
-  }
-
-  button.src = "../img/heart.PNG";
-
-}
-
 // FUNCION QUE GUARDA UN ELEMENTO EN LA WISHLIST CUANDO SE PRESIONA EL CORAZON (SI NO ESTA AGREGADO)
 
 function saveWishlistProducts(product) {
@@ -474,5 +454,25 @@ function deleteWishlistProduct(id){
       return;
     }
   }
+
+}
+
+function checkActive (button, id){
+  let productsJSON = localStorage.getItem("wishlistItems");
+
+  if (!productsJSON){
+    return;
+  }
+
+  const products = JSON.parse(productsJSON);
+
+  for (i = 0; i < products.length; i++){
+    if (products[i].id == id){
+      button.classList.add("activeHeart");
+      return;
+    }
+  }
+  
+  button.classList.remove("activeHeart");
 
 }

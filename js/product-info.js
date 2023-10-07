@@ -14,7 +14,7 @@ const relatedProducts = document.getElementById("relatedProducts");
 function showData(product) {
   container.innerHTML += `
   <div class="row col-11 mx-auto"><h1 class="my-3 text-uppercase col-lg-8 col-md-7 col-12">${product.name}</h1>
-  <div class="col-lg-1 col-md-2 col-3"><button id="wishlist" class="btn btn-lg fa fa-heart my-auto fs-1" aria-hidden="true"></button></div>
+  <div class="col-lg-1 col-md-2 col-3"><a role="button" id="wishlist" class="fs-1 btn mt-lg-0 mt-md-4">❤</a></div>
   <button id="buyProduct" type="button" class="btn btn-primary fs-3 col-md-3 col-9 my-auto">Comprar</button></div> <hr>
   <p class="fs-3 shadow p-3 mb-3 mt-4 bg-body rounded fst-italic">${product.description}<p>
   <h2 class="shadow p-3 my-3 bg-body rounded">Precio: ${product.currency} ${product.cost}</h2>
@@ -66,7 +66,7 @@ function getRelatedProduct(productID){
 
 // FUNCION PARA CAMBIAR EL COLOR DE FONDO
 
-function changeBackground(button){
+function changeBackground(){
 
   const whiteItems1 = document.getElementsByClassName("shadow");
   const whiteItems2 = document.getElementsByClassName("card");
@@ -128,13 +128,28 @@ async function tomarProductos (url){
       alert("El producto se ha agregado al carrito.");
     });
 
+    const switchMode = document.querySelector("#switchMode");
+
     const wishlistButton = document.querySelector("#wishlist");
+
+    switchMode.addEventListener("click", function(){
+      if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
+
+        wishlistButton.classList.remove("darkModeHeart");
+
+      } else {
+        if (!wishlistButton.classList.contains("activeHeart")){
+          wishlistButton.classList.add("darkModeHeart");
+        }
+      }
+    });
 
     checkActive(wishlistButton, responseContents.id);
 
     wishlistButton.addEventListener("click", function(){
       if (!wishlistButton.classList.contains("activeHeart")){
         wishlistButton.classList.add("activeHeart");
+        wishlistButton.classList.remove("darkModeHeart");
         saveWishlistProducts({
           name: responseContents.name,
           cost: responseContents.cost,
@@ -143,6 +158,7 @@ async function tomarProductos (url){
           id: responseContents.id
         });
       } else {
+        checkLocalStorage(wishlistButton);
         wishlistButton.classList.remove("activeHeart");
         deleteWishlistProduct(responseContents.id);
       }
@@ -458,6 +474,7 @@ function deleteWishlistProduct(id){
 }
 
 function checkActive (button, id){
+
   let productsJSON = localStorage.getItem("wishlistItems");
 
   if (!productsJSON){
@@ -474,5 +491,17 @@ function checkActive (button, id){
   }
   
   button.classList.remove("activeHeart");
+
+  checkLocalStorage(button);
+
+}
+
+function checkLocalStorage(button){
+
+  if (localStorage.getItem("screenMode") == "dark"){
+    button.classList.add("darkModeHeart");
+  } else {
+    button.classList.remove("darkModeHeart");
+  }
 
 }

@@ -61,8 +61,9 @@ const blackContainer = document.getElementById("black1");
 
 function changeBackground(){
 
+
   if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
-  
+
     document.body.classList.remove("bg-dark", "text-white");
     switchMode.innerHTML = "Modo noche";
 
@@ -81,6 +82,8 @@ function changeBackground(){
     if (blackContainer) {
       blackContainer.classList.remove("bg-dark");
     }
+
+    return;
     
   }
   

@@ -30,34 +30,50 @@ function showCart(array){
     </div>`
     for (const item of array) {
 
-        // CREAMOS UNA SECCION DE LA TABLA DONDE AGREGAREMOS LOS ELEMENTOS EXTRAIDOS DEL JSON Y DEL LOCAL STORAGE
+      // CREAMOS UNA SECCION DE LA TABLA DONDE AGREGAREMOS LOS ELEMENTOS EXTRAIDOS DEL JSON Y DEL LOCAL STORAGE
 
-        const row = document.createElement("div");
-        row.innerHTML =
-        `<div class="list-group-item border rounded">
-          <div class="row mx-auto">
-            <div class="col-md-2 col-sm-4 offset-sm-0 col-5 offset-1 my-auto"><img id="cartItemImage" class="img-thumbnail my-auto" src="${item.image}"></div>
-            <h4 class="col-lg-2 col-md-3 col-sm-4 col-6 my-auto mx-auto">${item.name}</h4>
-            <h4 class="col-md-2 col-sm-4 d-sm-block d-none my-auto">${item.currency} ${item.unitCost}</h4>
-            <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-3">Cantidad: </h4><div class="col-md-2 col-sm-3 col-6 my-md-auto mt-3 mt-2"><input type="number" class="form-control w-75" value="${item.count}" min="1"></div>
-            <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-2">Subtotal: </h4><h4 id="subtotal" class="col-md-2 col-sm-3 col-6 my-md-auto mt-2">${calculateSubtotal(item.currency, item.unitCost, item.count)}</h4>
-          </div>
-        </div>`;
-        // ANIDAMOS UN ADD EVENT LISTENER AL ELEMENTO "INPUT", EL CUAL EJECUTA UNA FUNCION
-        // QUE MODIFICA EL SUBTOTAL DEL PRODUCTO CADA VEZ QUE SE MODIFICA EL VALOR DE DICHO INPUT.
+      const div = document.createElement("div");
+      div.innerHTML =
+      `<div class="list-group-item border rounded">
+        <div class="row mx-auto">
+          <div class="col-md-2 col-sm-4 offset-sm-0 col-5 offset-1 my-auto"><img id="cartItemImage" class="img-thumbnail my-auto" src="${item.image}"></div>
+          <h4 class="col-lg-2 col-md-3 col-sm-4 col-6 my-auto mx-auto">${item.name}</h4>
+          <h4 class="col-md-2 col-sm-4 d-sm-block d-none my-auto">${item.currency} ${item.unitCost}</h4>
+          <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-3">Cantidad: </h4><div class="col-md-2 col-sm-3 col-6 my-md-auto mt-3 mt-2"><input type="number" class="form-control w-75" value="${item.count}" min="1"></div>
+          <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-2">Subtotal: </h4><h4 id="subtotal" class="col-md-2 col-sm-3 col-6 my-md-auto mt-2">${calculateSubtotal(item.currency, item.unitCost, item.count)}</h4>
+        </div>
+        <button type="button" id="closeButton" class="close btn position-absolute top-0 end-0" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>`;
 
-        const inputCount = row.querySelector("input");
-        inputCount.addEventListener("input", function(){
+      // AGREGAMOS UN ADD EVENT LISTENER QUE SE ACTIVA CUANTO SE HACE CLICK EN EL BOTON "CERRAR"
+      // DE UN ITEM DEL CARRITO, ELIMINANDOLO DEL LOCAL STORAGE
 
-          const newCount = inputCount.value;
-          const subtotalContainer = row.querySelector("#subtotal");
-          subtotalContainer.textContent = calculateSubtotal(item.currency, item.unitCost, newCount);
-        
-        });
+      const closeButton = div.querySelector("#closeButton");
 
-        // AGREGAMOS EL ELEMENTO A HTML
+      closeButton.addEventListener("click", function(){
+          div.innerHTML = "";
+          let updatedProducts = [];
+          deleteCartProducts(updatedProducts, item.id);
+      });
 
-        cartItems.appendChild(row);
+      // ANIDAMOS UN ADD EVENT LISTENER AL ELEMENTO "INPUT", EL CUAL EJECUTA UNA FUNCION
+      // QUE MODIFICA EL SUBTOTAL DEL PRODUCTO CADA VEZ QUE SE MODIFICA EL VALOR DE DICHO INPUT.
+
+      const inputCount = div.querySelector("input");
+      inputCount.addEventListener("input", function(){
+
+        const newCount = inputCount.value;
+        if (newCount < 0){
+          inputCount.value = 0;
+          return;
+        }
+        const subtotalContainer = div.querySelector("#subtotal");
+        subtotalContainer.textContent = calculateSubtotal(item.currency, item.unitCost, newCount);
+      
+      });
+
+      // AGREGAMOS EL ELEMENTO A HTML
+      cartItems.appendChild(div);
     }
 
     cartControls.innerHTML =
@@ -133,4 +149,15 @@ function loadCartItems() {
         const products = JSON.parse(productsJSON);
         return products;
     }
+}
+
+function deleteCartProducts(array, id){
+  array = JSON.parse(localStorage.getItem("cartItems"));
+  for (let i = 0; i < array.length; i++){
+      if (array[i].id == id){
+        array.splice(i, 1);
+        localStorage.setItem("cartItems", JSON.stringify(array));
+        return;
+      }
+  }
 }

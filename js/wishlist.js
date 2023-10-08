@@ -1,5 +1,3 @@
-
-
 const wishlistItems = document.querySelector("#wishlistItems");
 
 const localItems = JSON.parse(localStorage.getItem("wishlistItems")); 
@@ -7,7 +5,7 @@ const localItems = JSON.parse(localStorage.getItem("wishlistItems"));
 function showWishlistedItems(array){
 
     wishlistItems.innerHTML = 
-    `<h2 class="mb-5 mx-auto">Actualmente, tienes los siguientes productos en tu lista de deseados:</h2>`
+    `<h1 class="mt-3 mb-5 mx-auto">Actualmente, tienes los siguientes productos en tu lista de deseados:</h1>`
 
     for (const product of array) {
         
@@ -20,8 +18,8 @@ function showWishlistedItems(array){
                 <div class="col-md-4 offset-md-0 col-11 offset-1 my-auto py-1 fs-4">${product.name}</div>
                 <div class="col-md-3 offset-md-0 col-11 offset-1 my-auto py-1 fs-4">Precio: ${product.currency} ${product.cost}</div>
             </div>
-            <button type="button" id="closeButton" class="close btn col-1 position-absolute top-0 end-0" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>`
+            <button type="button" id="closeButton" class="close btn position-absolute top-0 end-0" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>`;
 
         const closeButton = div.querySelector("#closeButton");
 
@@ -37,12 +35,11 @@ function showWishlistedItems(array){
 }
 
 function showProduct(productID){
-    localStorage.setItem("productID", productID)
+    localStorage.setItem("productID", productID);
     window.location = "product-info.html";
 }
 
 function setItems(array){
-    console.log(array);
     if (!array || array.length == 0){
         wishlistItems.innerHTML = `<h1 class="mt-3 mx-auto">Actualmente no hay productos en la lista de deseados</h1>`;
     } else {
@@ -58,7 +55,9 @@ function deleteItems(array, id){
         if (array[i].id == id){
             array.splice(i, 1);
             localStorage.setItem("wishlistItems", JSON.stringify(array));
-            return;
+            if (array.length == 0){
+                wishlistItems.innerHTML = `<h1 class="mt-3 mx-auto">Actualmente no hay productos en la lista de deseados</h1>`
+            }
         }
     }
 }

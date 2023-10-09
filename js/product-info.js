@@ -132,6 +132,8 @@ async function tomarProductos (url){
 
     const wishlistButton = document.querySelector("#wishlist");
 
+    // ADD EVENT LISTENER QUE ACTUALIZA EL BOTON DE CORAZON AL CAMBIAR EL MODO DE PANTALLA
+
     switchMode.addEventListener("click", function(){
       if (localStorage.getItem("screenMode") == undefined || localStorage.getItem("screenMode") == "light"){
 
@@ -146,10 +148,15 @@ async function tomarProductos (url){
 
     checkActive(wishlistButton, responseContents.id);
 
+    // ADD EVENT LISTENER QUE AGREGA UN PRODUCTO A LA WISHLIST AL CLIQUEAR EL CORAZON (O LO QUITA SI YA ESTABA AGREGADO)
+
     wishlistButton.addEventListener("click", function(){
+      
       if (!wishlistButton.classList.contains("activeHeart")){
+        
         wishlistButton.classList.add("activeHeart");
         wishlistButton.classList.remove("darkModeHeart");
+        
         saveWishlistProducts({
           name: responseContents.name,
           cost: responseContents.cost,
@@ -157,10 +164,13 @@ async function tomarProductos (url){
           image: responseContents.images[0],
           id: responseContents.id
         });
+      
       } else {
+        
         checkLocalStorage(wishlistButton);
         wishlistButton.classList.remove("activeHeart");
         deleteWishlistProduct(responseContents.id);
+      
       }
     });
 
@@ -219,7 +229,6 @@ function mostrarEstrellas(puntuacion) {
 
 
 // Funcion para establecer el estilo de los comentarios
-
 
 
 function setComments(comentario, bool){
@@ -300,7 +309,6 @@ ComentariosURL(productID);
 
 
 
-
 // Agregar evento click al botón "Agregar"
 
 enviarButton.addEventListener("click", function () {
@@ -359,9 +367,8 @@ enviarButton.addEventListener("click", function () {
 
 
 
-
-
 // Función para guardar un comentario en formato JSON en localStorage
+
 function guardarComentarioEnJSON(comentario) {
   let comentariosJSON = localStorage.getItem("comentarios");
 
@@ -377,8 +384,8 @@ function guardarComentarioEnJSON(comentario) {
 
 
 
-
 // Función para cargar comentarios desde LocalStorage
+
 function cargarComentariosDesdeLocalStorage() {
   const comentariosJSON = localStorage.getItem("comentarios");
 
@@ -394,8 +401,8 @@ function cargarComentariosDesdeLocalStorage() {
 
 
 
-
 // Función para obtener la fecha actual en un formato específico
+
 function obtenerFechaActual() {
   const fecha = new Date();
   const año = fecha.getFullYear();
@@ -428,8 +435,6 @@ function saveProductProperties(product) {
 
   localStorage.setItem("cartItems", JSON.stringify(products));
 }
-
-// FUNCION QUE CARGA EL BOTON DE CORAZON CORRECTO
 
 // FUNCION QUE GUARDA UN ELEMENTO EN LA WISHLIST CUANDO SE PRESIONA EL CORAZON (SI NO ESTA AGREGADO)
 
@@ -473,6 +478,8 @@ function deleteWishlistProduct(id){
 
 }
 
+// FUNCION QUE ANALIZA SI EL PRODUCTO ACTUAL ESTA EN EL LOCAL STORAGE Y, EN CASO DE ESTAR, COLOREA EL CORAZON DE ROJO
+
 function checkActive (button, id){
 
   let productsJSON = localStorage.getItem("wishlistItems");
@@ -495,6 +502,8 @@ function checkActive (button, id){
   checkLocalStorage(button);
 
 }
+
+// FUNCION QUE ANALIZA EL MODO DE PANTALLA ACTUAL, Y EN BASE A ESO CAMBIA EL COLOR DEL BOTON (SIN COLOREAR DE ROJO)
 
 function checkLocalStorage(button){
 

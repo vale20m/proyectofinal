@@ -1,7 +1,5 @@
 const wishlistItems = document.querySelector("#wishlistItems");
 
-const localItems = JSON.parse(localStorage.getItem("wishlistItems")); 
-
 // FUNCION QUE DETERMINA COMO SE MUESTRAN LOS PRODUCTOS EN LA WISHLIST
 
 function showWishlistedItems(array){
@@ -40,6 +38,10 @@ function showWishlistedItems(array){
 
 }
 
+const localItems = JSON.parse(localStorage.getItem("wishlistItems")); 
+
+let userItems = [];
+
 // FUNCION QUE LLEVA A LA PAGINA "PRODUCT-INFO.HTML" AL CLIQUEAR UN PRODUCTO
 
 function showProduct(productID){
@@ -50,6 +52,13 @@ function showProduct(productID){
 // FUNCION PRINCIPAL QUE MUESTRA LOS ITEMS DE LA WISHLIST (EN CASO DE QUE HAYAN) O UN MENSAJE
 
 function setItems(array){
+    if (localItems){
+        for (let i = 0; i < localItems.length; i++){
+            if (localItems[i].username == localStorage.getItem("email")){
+                array.push(localItems[i]);
+            }
+        }
+    }
     if (!array || array.length == 0){
         wishlistItems.innerHTML = `<h1 class="mt-3 mx-auto">Actualmente no hay productos en la lista de deseados</h1>`;
     } else {
@@ -57,14 +66,14 @@ function setItems(array){
     }
 }
 
-setItems(localItems);
+setItems(userItems);
 
 // FUNCION QUE ELIMINA UN PRODUCTO DEL LOCAL STORAGE DE LA WISHLIST (BUSCANDOLO POR SU ID)
 
 function deleteItems(array, id){
     array = JSON.parse(localStorage.getItem("wishlistItems"));
     for (let i = 0; i < array.length; i++){
-        if (array[i].id == id){
+        if (array[i].id == id && array[i].username == localStorage.getItem("email")){
             array.splice(i, 1);
             localStorage.setItem("wishlistItems", JSON.stringify(array));
             if (array.length == 0){

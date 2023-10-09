@@ -113,7 +113,7 @@ async function tomarProductos (url){
 
     const buyProduct = document.querySelector("#buyProduct");
 
-    // ANIDAMOS UN ADD EVENT LISTENER AL MISMO QUE SE ACTIVA CUANDO RECIBE UN CLICK
+    // ANIDAMOS UN ADD EVENT LISTENER AL MISMO QUE SE ACTIVA CUANDO RECIBE UN CLICK Y GUARDA EL PRODUCTO EN EL LOCAL STORAGE
 
     buyProduct.addEventListener("click", function(){
       saveProductProperties({
@@ -122,7 +122,8 @@ async function tomarProductos (url){
         currency: responseContents.currency,
         image: responseContents.images[0],
         count: 1,
-        id: responseContents.id
+        id: responseContents.id,
+        username: localStorage.getItem("email")
       });
       // Agregar una alerta después de agregar el producto al carrito
       alert("El producto se ha agregado al carrito.");
@@ -162,7 +163,8 @@ async function tomarProductos (url){
           cost: responseContents.cost,
           currency: responseContents.currency,
           image: responseContents.images[0],
-          id: responseContents.id
+          id: responseContents.id,
+          username: localStorage.getItem("email")
         });
       
       } else {
@@ -416,6 +418,7 @@ function obtenerFechaActual() {
 }
 
 // ENTREGA 5: FUNCIONALIDAD PARA GUARDAR PROPIEDADES DEL PRODUCTO SELECCIONADO EN EL LOCAL STORAGE
+// NO LO GUARDA SI EL MISMO USUARIO INTENA GUARDAR EL MISMO ITEM
 
 function saveProductProperties(product) {
   let productsJSON = localStorage.getItem("cartItems");
@@ -426,7 +429,7 @@ function saveProductProperties(product) {
   const products = JSON.parse(productsJSON);
 
   for (i = 0; i < products.length; i++){
-    if (products[i].id == product.id){
+    if (products[i].id == product.id && products[i].username == product.username){
       return;
     }
   }
@@ -447,7 +450,7 @@ function saveWishlistProducts(product) {
   const products = JSON.parse(productsJSON);
 
   for (i = 0; i < products.length; i++){
-    if (products[i].id == product.id){
+    if (products[i].id == product.id && products[i].username == product.username){
       return;
     }
   }
@@ -469,7 +472,7 @@ function deleteWishlistProduct(id){
   const products = JSON.parse(productsJSON);
 
   for (i = 0; i < products.length; i++){
-    if (products[i].id == id){
+    if (products[i].id == id && products[i].username == localStorage.getItem("email")){
       products.splice(i, 1);
       localStorage.setItem("wishlistItems", JSON.stringify(products));
       return;
@@ -491,7 +494,7 @@ function checkActive (button, id){
   const products = JSON.parse(productsJSON);
 
   for (i = 0; i < products.length; i++){
-    if (products[i].id == id){
+    if (products[i].id == id && products[i].username == localStorage.getItem("email")){
       button.classList.add("activeHeart");
       return;
     }

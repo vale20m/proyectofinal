@@ -2,8 +2,6 @@
 
 const URL_USER = "https://japceibal.github.io/emercado-api/user_cart/25801.json"
 
-const cartTitle = document.querySelector("#cartTitle");
-
 const cartItems = document.querySelector("#cartItems");
 
 const cartControls = document.querySelector("#cartControls");
@@ -52,8 +50,7 @@ function showCart(array){
 
       closeButton.addEventListener("click", function(){
           div.innerHTML = "";
-          let updatedProducts = [];
-          deleteCartProducts(updatedProducts, item.id);
+          deleteCartProducts(item.id);
       });
 
       // ANIDAMOS UN ADD EVENT LISTENER AL ELEMENTO "INPUT", EL CUAL EJECUTA UNA FUNCION
@@ -69,7 +66,15 @@ function showCart(array){
         }
         const subtotalContainer = div.querySelector("#subtotal");
         subtotalContainer.textContent = calculateSubtotal(item.currency, item.unitCost, newCount);
-      
+        
+        // TAMBIEN MODIFICAMOS LA CANTIDAD DEL ARTICULO Y LO ACTUALIZAMOS EN EL LOCAL STORAGE
+
+        for (let i = 0; i < localItems.length; i++){
+          if (localItems[i].id == item.id && localItems[i].username == localStorage.getItem("email")){
+            localItems[i].count = newCount;
+          }
+        }
+        localStorage.setItem("cartItems", JSON.stringify(localItems));
       });
 
       // AGREGAMOS EL ELEMENTO A HTML
@@ -111,7 +116,7 @@ function showCart(array){
 let cartArray = [];
 
 // CREAMOS UN ARRAY QUE CARGA LOS ELEMENTOS DEL LOCAL STORAGE
-let localCartItems = loadCartItems();
+let localItems = loadCartItems();
 
 async function getCart(url) {
   try {
@@ -121,9 +126,13 @@ async function getCart(url) {
     // Reemplazamos los elementos en el arreglo cartArray con los nuevos elementos del servidor
     cartArray = responseContents.articles;
 
-    if (localCartItems) {
+    if (localItems){
       // Agregamos los elementos del almacenamiento local al arreglo cartArray
-      cartArray = cartArray.concat(localCartItems);
+      for (let i = 0; i < localItems.length; i++){
+        if (localStorage.getItem("email") == localItems[i].username){
+          cartArray.push(localItems[i]);
+        }
+      }
     }
 
     // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS ELEMENTOS DEL CARRITO
@@ -151,10 +160,12 @@ function loadCartItems() {
     }
 }
 
-function deleteCartProducts(array, id){
-  array = JSON.parse(localStorage.getItem("cartItems"));
+// FUNCION QUE ELIMINA UN ITEM DEL LOCAL STORAGE
+
+function deleteCartProducts(id){
+  let array = JSON.parse(localStorage.getItem("cartItems"));
   for (let i = 0; i < array.length; i++){
-      if (array[i].id == id){
+      if (array[i].id == id && array[i].username == localStorage.getItem("email")){
         array.splice(i, 1);
         localStorage.setItem("cartItems", JSON.stringify(array));
         return;

@@ -35,7 +35,7 @@ function showData(dataArray) {
             <td class="col-md-5 col-12 my-auto"><img src="${imagen}" alt="${item.name}" class="img-thumbnail"></td> 
             <td class="col-md-2 col-sm-3 offset-sm-0 col-10 offset-1 my-auto"><h4>Costo</h4> ${item.currency}  -  ${item.cost}</td>
             <td class="col-md-3 col-sm-6 offset-sm-0 col-10 offset-1 my-auto"><h4>Info: </h4>${item.description}</td>
-            <td class = "col-md-2 col-sm-3 my-auto text-center cambio1"><small class= "text-muted" >Vendidos: ${item.soldCount}</small></td>
+            <td class="col-md-2 col-sm-3 my-auto text-center d-sm-block d-none"><small>Vendidos: ${item.soldCount}</small></td>
         </tr>
     </table>`;
   }

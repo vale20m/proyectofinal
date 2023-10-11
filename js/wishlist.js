@@ -38,7 +38,7 @@ function showWishlistedItems(array){
 
 }
 
-const localItems = JSON.parse(localStorage.getItem("wishlistItems")); 
+const localItems = JSON.parse(localStorage.getItem("wishlistItems"));
 
 let userItems = [];
 

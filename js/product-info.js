@@ -428,6 +428,8 @@ function saveProductProperties(product) {
 
   for (i = 0; i < products.length; i++){
     if (products[i].id == product.id && products[i].username == product.username){
+      // Agregar una alerta si el producto ya está en el carrito.
+      alert("El producto ya se encuentra en el carrito.");
       return;
     }
   }
@@ -435,11 +437,16 @@ function saveProductProperties(product) {
   products.push(product);
 
   localStorage.setItem("cartItems", JSON.stringify(products));
+
+  // Agregar una alerta después de agregar el producto al carrito.
+  alert("El producto se ha agregado al carrito.");
+
 }
 
 // FUNCION QUE GUARDA UN ELEMENTO EN LA WISHLIST CUANDO SE PRESIONA EL CORAZON (SI NO ESTA AGREGADO)
 
 function saveWishlistProducts(product) {
+  
   let productsJSON = localStorage.getItem("wishlistItems");
 
   if (!productsJSON) {
@@ -449,8 +456,6 @@ function saveWishlistProducts(product) {
 
   for (i = 0; i < products.length; i++){
     if (products[i].id == product.id && products[i].username == product.username){
-      // Agregar una alerta si el producto ya está en el carrito
-      alert("El producto ya se encuentra en el carrito.");
       return;
     }
   }
@@ -459,8 +464,6 @@ function saveWishlistProducts(product) {
 
   localStorage.setItem("wishlistItems", JSON.stringify(products));
 
-  // Agregar una alerta después de agregar el producto al carrito
-  alert("El producto se ha agregado al carrito.");
 }
 
 // FUNCION QUE ELIMINA UN ELEMENTO DEL LOCAL STORAGE CUANDO PRESIONA EL CORAZON (SI ESTABA EN LA WISHLIST)

@@ -125,8 +125,6 @@ async function tomarProductos (url){
         id: responseContents.id,
         username: localStorage.getItem("email")
       });
-      // Agregar una alerta después de agregar el producto al carrito
-      alert("El producto se ha agregado al carrito.");
     });
 
     const switchMode = document.querySelector("#switchMode");
@@ -451,6 +449,8 @@ function saveWishlistProducts(product) {
 
   for (i = 0; i < products.length; i++){
     if (products[i].id == product.id && products[i].username == product.username){
+      // Agregar una alerta si el producto ya está en el carrito
+      alert("El producto ya se encuentra en el carrito.");
       return;
     }
   }
@@ -458,6 +458,9 @@ function saveWishlistProducts(product) {
   products.push(product);
 
   localStorage.setItem("wishlistItems", JSON.stringify(products));
+
+  // Agregar una alerta después de agregar el producto al carrito
+  alert("El producto se ha agregado al carrito.");
 }
 
 // FUNCION QUE ELIMINA UN ELEMENTO DEL LOCAL STORAGE CUANDO PRESIONA EL CORAZON (SI ESTABA EN LA WISHLIST)

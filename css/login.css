@@ -18,6 +18,11 @@ div.container div.login{
 
 #login-img{
     max-width: 750px;
-    
     border-style: outset;
+}
+
+@media (max-width: 359px){
+    #login-img{
+        display: none;
+    }
 }

@@ -234,3 +234,7 @@ a.custom-card:hover {
 .darkModeHeart, #wishlist.darkModeHeart:hover{
   color:white;
 }
+
+.modal-content  {
+  color: black;
+}

@@ -304,6 +304,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function validateNumberInput(field) {
     field.addEventListener('input', function () {
       let value = this.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+      const input = expirationDateField.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+      
       if (this.id === 'creditCardNumber') {
         // Limitar el campo a 16 dígitos
         if (value.length > 16) {
@@ -319,39 +321,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         this.value = value;
       }
-    });
-  }
 
-  function validateExpirationDate() {
-    const currentDate = new Date();
-    const input = expirationDateField.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
-    if (input.length === 4) {
-      const month = parseInt(input.substr(0, 2));
-      const year = parseInt('20' + input.substr(2, 2));
-      if (!isNaN(month) && !isNaN(year) && month >= 1 && month <= 12 && year > currentDate.getFullYear()) {
-        const formattedMonth = ('0' + month).slice(-2);
-        expirationDateField.value = `${formattedMonth}/${year.toString().slice(-2)}`;
-        return true;
+      if (this.id === 'expirationDate') {
+        // Limitar el campo a 4 dígitos
+        if (value.length > 4) {
+          value = value.slice(0, 3);
+        }
+        this.value = value;
       }
-    }
-    return false;
+    });
   }
 
   creditCardFields.forEach(validateNumberInput);
   bankTransferFields.forEach(validateNumberInput);
-
-  expirationDateField.addEventListener('input', function () {
-    if (validateExpirationDate()) {
-      const input = expirationDateField.value.split('/');
-      const year = parseInt('20' + input[1]);
-      const month = parseInt(input[0]);
-      if (year === currentDate.getFullYear() && month > currentDate.getMonth() + 1) {
-        // La fecha no puede ser mayor que 12 meses a partir de la fecha actual
-        expirationDateField.value = '';
-        alert('La fecha de vencimiento no puede ser mayor de 12 meses a partir de la fecha actual.');
-      }
-    }
-  });
+  expirationDateField.forEach(validateNumberInput)
 
   creditCard.addEventListener('change', function () {
     if (creditCard.checked) {

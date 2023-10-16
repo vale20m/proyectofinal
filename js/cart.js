@@ -381,7 +381,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         setTimeout(function () {
           successBanner.style.display = 'none';
-          location.reload(); // Recarga la página
+          const checkoutForm = document.getElementById('checkoutForm');
+        checkoutForm.reset();
+        location.reload();
+        
         }, 4000);
       }
     }

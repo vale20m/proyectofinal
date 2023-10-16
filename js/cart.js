@@ -366,11 +366,4 @@ document.addEventListener('DOMContentLoaded', function () {
       disableFields(creditCardFields);
     }
   });
-
-  document.querySelector('form').addEventListener('submit', function (event) {
-    if (creditCard.checked && !validateExpirationDate()) {
-      event.preventDefault();
-      alert('La fecha de vencimiento no es válida.');
-    }
-  });
 });

@@ -58,6 +58,59 @@
     </div>
     <div class="row mx-auto" id="cartControls">
       <!-- CONTROLES DE TIPO DE ENVÍO Y DIRECCIÓN -->
+      <div class="col-lg-6 col-md-8 col-10 mx-sm-5 mx-4">
+        <h2>Tipo de envío</h2>
+        <form id="checkoutForm">
+          <div class="mb-3">
+            <label for="shipType" class="form-label">Tipo de Envío:</label>
+            <select id="shipType" class="form-select">
+              <option value="premium">Premium 2 a 5 dias (15%)</option>
+              <option value="express">Express 5 a 8 dias (7%)</option>
+              <option value="standard">Standard 12 a 15 dias (5%)</option>
+            </select>
+          </div>
+          <h2>Dirección de envío</h2>
+          <div class="mb-3">
+            <label for="calle" class="form-label">Calle:</label>
+            <input type="text" class="form-control" id="calle" name="calle">
+          </div>
+          <div class="mb-3">
+            <label for="numero" class="form-label">Número:</label>
+            <input type="text" class="form-control" id="numero" name="numero">
+          </div>
+          <div class="mb-5">
+            <label for="esquina" class="form-label">Esquina:</label>
+            <input type="text" class="form-control" id="esquina" name="esquina">
+          </div>
+          <hr>
+          <h2 class="mt-4">Costos</h2>
+          <div class="list-group mx-auto row mt-4">
+            <div class="border rounded mb-0 col-12 py-2 mx-auto row">
+              <div class="col-6">Subtotal</div>
+              <div class="col-6 text-end" id="cartSubtotal">USD 0</div>
+              <div class="col-12 text-muted">Costo unitario del producto por cantidad</div>
+            </div>
+            <div class="border rounded mb-0 col-12 py-2 mx-auto row">
+              <div class="col-6">Costo de envío</div>
+              <div class="col-6 text-end" id="shipCost">USD 0</div>
+              <div class="col-12 text-muted">Según el tipo de envío</div>
+            </div>
+            <div class="border rounded mb-5 col-12 py-2 mx-auto row">
+              <div class="col-6">Total ($)</div>
+              <div class="col-6 text-end fw-bold" id="cartTotal">USD 0</div>
+            </div>
+          </div>
+          <hr>
+          <h2 class="mt-4">Forma de pago</h2>
+
+
+          <a href="#" class="btn-link" data-bs-toggle="modal" data-bs-target="#paymentModal">Selecciona</a>
+
+
+
+          <button type="submit" class="fs-5 btn btn-primary w-100">Finalizar compra</button>
+        </form>
+      </div>
     </div>
   </main>
   <footer class="text-muted">
@@ -76,6 +129,9 @@
       <div></div>
     </div>
   </div>
+
+  
+ 
 
 
   <span id="selectionText">No ha seleccionado</span>
@@ -123,9 +179,31 @@
 
 
 
+
+
+
+
+
+
+
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/init.js"></script>
   <script src="js/cart.js"></script>
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
 </body>
 
 </html>

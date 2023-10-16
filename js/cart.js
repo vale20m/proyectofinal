@@ -356,23 +356,52 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-  // Agrega un evento al botón de confirmación de compra
+  /// Agrega un evento al botón de confirmación de compra
   const confirmPurchaseButton = document.getElementById('confirmPurchase');
   confirmPurchaseButton.addEventListener('click', function () {
-    // Simula una compra exitosa
-    const compraExitosa = true; // Cambia esto según tu lógica
+    // Realiza las validaciones antes de confirmar la compra
+    if (validatePurchase()) {
+      // Simula una compra exitosa
+      const compraExitosa = true; // Cambia esto según tu lógica
 
-    if (compraExitosa) {
-      // Muestra el mensaje de éxito en el banner verde
-      const successBanner = document.getElementById('successBanner');
-      successBanner.style.display = 'block';
+      if (compraExitosa) {
+        // Muestra el mensaje de éxito en el banner verde
+        const successBanner = document.getElementById('successBanner');
+        successBanner.style.display = 'block';
 
-      // Desaparece el banner automáticamente después de 5 segundos
-      setTimeout(function () {
-        successBanner.style.display = 'none';
-      }, 5000); // 4000 milisegundos (4 segundos)
+        // Desaparece el banner automáticamente después de 5 segundos
+        setTimeout(function () {
+          successBanner.style.display = 'none';
+          // Borra los campos del formulario y recarga la página
+          const checkoutForm = document.getElementById('checkoutForm');
+          checkoutForm.reset(); // Borra los campos del formulario
+          location.reload(); // Recarga la página
+        }, 4000); // 4000 milisegundos (4 segundos)
+      }
     }
   });
+
+  // Función para validar la compra
+  function validatePurchase() {
+    const shipType = document.getElementById('shipType').value;
+    const calle = document.getElementById('calle').value;
+    const numero = document.getElementById('numero').value;
+    const esquina = document.getElementById('esquina').value;
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+    // Verifica todas las validaciones aquí
+    if (calle.trim() === '' || numero.trim() === '' || esquina.trim() === '') {
+      alert('Los campos calle, número y esquina no pueden estar vacíos.');
+      return false;
+    }
+    if (shipType === '0') {
+      alert('Debes seleccionar un tipo de envío.');
+      return false;
+    }
+    // Agrega más validaciones según tus necesidades
+
+    return true; // Si todas las validaciones pasan, retorna verdadero
+  }
 
 
 

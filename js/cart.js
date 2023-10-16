@@ -2,6 +2,10 @@
 
 const URL_USER = "https://japceibal.github.io/emercado-api/user_cart/25801.json"
 
+// API que tiene el valor de las divisas actualizado
+
+const URL_CURRENCIES = "https://cotizaciones-brou-v2-e449.fly.dev/currency/latest";
+
 const cartItems = document.querySelector("#cartItems");
 
 const cartControls = document.querySelector("#cartControls");
@@ -15,125 +19,204 @@ function calculateSubtotal(string, num1, num2){
     return subtotal;
 }
 
-function showCart(array){
+// Constantes para que el costo de la compra se actualice
 
-    // SECCIÓN QUE FUNCIONA COMO "TÍTULO" DE LA TABLA DEL CARRITO
-    cartItems.innerHTML += 
-    `<div class="row">
-        <div class="col-md-3 d-md-block d-none"></div>
-        <div class="col-md-3 d-md-block d-none">Nombre</div>
-        <div class="col-md-2 d-md-block d-none">Costo</div>
-        <div class="col-md-2 d-md-block d-none">Cantidad</div>
-        <div class="col-md-2 d-md-block d-none">Subtotal</div>
-    </div>`
-    for (const item of array) {
+const cartSubtotal = document.querySelector("#cartSubtotal");
 
-      // CREAMOS UNA SECCION DE LA TABLA DONDE AGREGAREMOS LOS ELEMENTOS EXTRAIDOS DEL JSON Y DEL LOCAL STORAGE
+const cartTotal = document.querySelector("#cartTotal");
 
-      const div = document.createElement("div");
-      div.innerHTML =
-      `<div class="list-group-item border rounded">
-        <div class="row mx-auto">
-          <div class="col-md-2 col-sm-4 offset-sm-0 col-5 offset-1 my-auto"><img id="cartItemImage" class="img-thumbnail my-auto" src="${item.image}"></div>
-          <h4 class="col-lg-2 col-md-3 col-sm-4 col-6 my-auto mx-auto">${item.name}</h4>
-          <h4 class="col-md-2 col-sm-4 d-sm-block d-none my-auto">${item.currency} ${item.unitCost}</h4>
-          <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-3">Cantidad: </h4><div class="col-md-2 col-sm-3 col-6 my-md-auto mt-3 mt-2"><input type="number" class="form-control w-75" value="${item.count}" min="1"></div>
-          <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-2">Subtotal: </h4><h4 id="subtotal" class="col-md-2 col-sm-3 col-6 my-md-auto mt-2">${calculateSubtotal(item.currency, item.unitCost, item.count)}</h4>
-        </div>
-        <button type="button" id="closeButton" class="close btn position-absolute top-0 end-0" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>`;
+const shipCost = document.querySelector("#shipCost");
 
-      // AGREGAMOS UN ADD EVENT LISTENER QUE SE ACTIVA CUANTO SE HACE CLICK EN EL BOTON "CERRAR"
-      // DE UN ITEM DEL CARRITO, ELIMINANDOLO DEL LOCAL STORAGE
+// Función que calcula el subtotal de la compra
 
-      const closeButton = div.querySelector("#closeButton");
+function calculateCartSubtotal(array){
 
-      closeButton.addEventListener("click", function(){
-          div.innerHTML = "";
-          deleteCartProducts(item.id);
-      });
+  let cartSubtotal = 0;
 
-      // ANIDAMOS UN ADD EVENT LISTENER AL ELEMENTO "INPUT", EL CUAL EJECUTA UNA FUNCION
-      // QUE MODIFICA EL SUBTOTAL DEL PRODUCTO CADA VEZ QUE SE MODIFICA EL VALOR DE DICHO INPUT.
+  for (const product of array) {
 
-      const inputCount = div.querySelector("input");
-      inputCount.addEventListener("input", function(){
+    if (product.currency == "UYU"){
 
-        const newCount = inputCount.value;
-        if (newCount < 0){
-          inputCount.value = 0;
-          return;
-        }
-        const subtotalContainer = div.querySelector("#subtotal");
-        subtotalContainer.textContent = calculateSubtotal(item.currency, item.unitCost, newCount);
-        
-        // TAMBIEN MODIFICAMOS LA CANTIDAD DEL ARTICULO Y LO ACTUALIZAMOS EN EL LOCAL STORAGE
+      cartSubtotal += Math.round((product.unitCost * product.count) / currencyValues.USD.sell);
 
-        for (let i = 0; i < localItems.length; i++){
-          if (localItems[i].id == item.id && localItems[i].username == localStorage.getItem("email")){
-            localItems[i].count = newCount;
-          }
-        }
-        localStorage.setItem("cartItems", JSON.stringify(localItems));
-      });
+    } else {
 
-      // AGREGAMOS EL ELEMENTO A HTML
-      cartItems.appendChild(div);
+      cartSubtotal += product.unitCost * product.count;
+
     }
 
-    cartControls.innerHTML =
-    `<div class="col-lg-6 col-md-8 col-10 mx-sm-5 mx-4">
-    <h2>Tipo de envío</h2>
-    <form id="checkoutForm">
-      <div class="mb-3">
-        <label for="tipoEnvio" class="form-label">Tipo de Envío:</label>
-        <select id="tipoEnvio" class="form-select">
-          <option value="envioRapido">Premium 2 a 5 dias (15%)</option>
-          <option value="envioEstandar">Express 5 a 8 dias (7%)</option>
-          <option value="envioExpress">Standard 12 a 15 dias (5%)</option>
-        </select>
-      </div>
-      <h2>Dirección de envío</h2>
-      <div class="mb-3">
-        <label for="calle" class="form-label">Calle:</label>
-        <input type="text" class="form-control" id="calle" name="calle">
-      </div>
-      <div class="mb-3">
-        <label for="numero" class="form-label">Número:</label>
-        <input type="text" class="form-control" id="numero" name="numero">
-      </div>
-      <div class="mb-3">
-        <label for="esquina" class="form-label">Esquina:</label>
-        <input type="text" class="form-control" id="esquina" name="esquina">
-      </div>
-      <button type="submit" class="btn btn-primary">Realizar Compra</button>
-    </form>
-  </div>`
+  }
+
+  return cartSubtotal;
 
 }
 
-// ARREGLO QUE CONTENDRÁ TODOS LOS ELEMENTOS DEL CARRITO
+// Función que calcula el costo de envío de la compra
+
+const shipType = document.querySelector("#shipType");
+
+function calculateShipCost(num){
+
+  if (shipType.value == "premium"){
+
+    return Math.round(num * 0.15);
+
+  } else if (shipType.value == "express"){
+
+    return Math.round(num * 0.07);
+
+  } else {
+
+    return Math.round(num * 0.05);
+
+  }
+
+}
+
+function updateQuantities(array){
+
+  cartSubtotal.innerHTML = "USD " + calculateCartSubtotal(array);
+  
+  shipCost.innerHTML = "USD " + calculateShipCost(calculateCartSubtotal(array));
+
+  cartTotal.innerHTML = "USD " + (calculateCartSubtotal(array) + calculateShipCost(calculateCartSubtotal(array)));
+  
+}
+
+
+function showCart(array){
+
+  // Agregamos un if para que las opciones de compra no se muestren si no hay items en el carrito
+  if (array.length < 1){
+    cartControls.classList.add("d-none");
+  }
+
+  // SECCIÓN QUE FUNCIONA COMO "TÍTULO" DE LA TABLA DEL CARRITO
+  cartItems.innerHTML += 
+  `<div class="row">
+      <div class="col-md-3 d-md-block d-none"></div>
+      <div class="col-md-3 d-md-block d-none">Nombre</div>
+      <div class="col-md-2 d-md-block d-none">Costo</div>
+      <div class="col-md-2 d-md-block d-none">Cantidad</div>
+      <div class="col-md-2 d-md-block d-none">Subtotal</div>
+  </div>`
+  for (const item of array) {
+
+    // CREAMOS UNA SECCION DE LA TABLA DONDE AGREGAREMOS LOS ELEMENTOS EXTRAIDOS DEL JSON Y DEL LOCAL STORAGE
+
+    const div = document.createElement("div");
+    div.innerHTML =
+    `<div class="list-group-item border rounded">
+      <div class="row mx-auto">
+        <div class="col-md-2 col-sm-4 offset-sm-0 col-5 offset-1 my-auto"><img id="cartItemImage" class="img-thumbnail my-auto" src="${item.image}"></div>
+        <h4 class="col-lg-2 col-md-3 col-sm-4 col-6 my-auto mx-auto">${item.name}</h4>
+        <h4 class="col-md-2 col-sm-4 d-sm-block d-none my-auto">${item.currency} ${item.unitCost}</h4>
+        <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-3">Cantidad: </h4><div class="col-md-2 col-sm-3 col-6 my-md-auto mt-3 mt-2"><input type="number" class="form-control w-75" value="${item.count}" min="1"></div>
+        <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-2">Subtotal: </h4><h4 id="subtotal" class="col-md-2 col-sm-3 col-6 my-md-auto mt-2">${calculateSubtotal(item.currency, item.unitCost, item.count)}</h4>
+      </div>
+      <button type="button" id="closeButton" class="close btn position-absolute top-0 end-0" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>`;
+
+
+    // AGREGAMOS UN ADD EVENT LISTENER QUE SE ACTIVA CUANTO SE HACE CLICK EN EL BOTON "CERRAR"
+    // DE UN ITEM DEL CARRITO, ELIMINANDOLO DEL LOCAL STORAGE
+
+    const closeButton = div.querySelector("#closeButton");
+
+    closeButton.addEventListener("click", function(){
+      
+      div.innerHTML = "";
+
+      deleteCartProducts(item.id);
+        
+    });
+
+    // ANIDAMOS UN ADD EVENT LISTENER AL ELEMENTO "INPUT", EL CUAL EJECUTA UNA FUNCION
+    // QUE MODIFICA EL SUBTOTAL DEL PRODUCTO CADA VEZ QUE SE MODIFICA EL VALOR DE DICHO INPUT.
+
+    const inputCount = div.querySelector("input");
+
+    inputCount.addEventListener("input", function(){
+
+      let change = false;
+
+      const newCount = inputCount.value;
+      if (newCount < 0){
+        inputCount.value = 0;
+        return;
+      }
+
+      const subtotalContainer = div.querySelector("#subtotal");
+      subtotalContainer.textContent = calculateSubtotal(item.currency, item.unitCost, newCount);
+      
+      // TAMBIEN MODIFICAMOS LA CANTIDAD DEL ARTICULO Y LO ACTUALIZAMOS EN EL LOCAL STORAGE
+      
+      for (let i = 0; i < array.length-1; i++){
+        if (array[i+1].id == item.id && array[i+1].username == localStorage.getItem("email")){
+            array[i+1].count = newCount;
+            change = true;
+          }
+      }
+
+      if (!change){
+        array[0].count = newCount;
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(array));
+
+      // Modificamos el valor del subtotal, el costo de envío y el total del carrito
+    
+      updateQuantities(array);
+
+    });
+
+    // AGREGAMOS EL ELEMENTO A HTML
+    cartItems.appendChild(div);
+  }
+
+  updateQuantities(array);
+
+}
+
+// Arreglo que contendrá todos los elementos del carrito
+
 let cartArray = [];
 
 // CREAMOS UN ARRAY QUE CARGA LOS ELEMENTOS DEL LOCAL STORAGE
+
 let localItems = loadCartItems();
 
-async function getCart(url) {
+// Variable que contendra los distintos cambios de varias monedas a peso uruguayo
+
+let currencyValues;
+
+async function getCart(url1, url2) {
   try {
-    let response = await fetch(url);
-    let responseContents = await response.json();
+    let responseItems = await fetch(url1);
+    let responseContentsItems = await responseItems.json();
 
     // Reemplazamos los elementos en el arreglo cartArray con los nuevos elementos del servidor
-    cartArray = responseContents.articles;
+    cartArray = responseContentsItems.articles;
+
+    cartArray[0].username = localStorage.getItem("email");
 
     if (localItems){
       // Agregamos los elementos del almacenamiento local al arreglo cartArray
       for (let i = 0; i < localItems.length; i++){
-        if (localStorage.getItem("email") == localItems[i].username){
+        if (localStorage.getItem("email") == localItems[i].username && localItems[i].id != cartArray[0].id){
           cartArray.push(localItems[i]);
         }
       }
     }
+
+    localStorage.setItem("cartItems", JSON.stringify(cartArray));
+
+    // Realizamos un segundo fetch para traer los cambios de otras monedas a peso uruguayo
+
+    let responseCurrencies = await fetch(url2);
+    let responseContentsCurrencies = await responseCurrencies.json();
+
+    currencyValues = responseContentsCurrencies.rates;
 
     // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS ELEMENTOS DEL CARRITO
     if (cartArray && cartArray != []){
@@ -149,7 +232,7 @@ async function getCart(url) {
 
 // FUNCION QUE TOMA LOS ELEMENTOS DEL LOCAL STORAGE
 
-getCart(URL_USER);
+getCart(URL_USER, URL_CURRENCIES);
 
 function loadCartItems() {
     const productsJSON = localStorage.getItem("cartItems");
@@ -165,13 +248,17 @@ function loadCartItems() {
 function deleteCartProducts(id){
   let array = JSON.parse(localStorage.getItem("cartItems"));
   for (let i = 0; i < array.length; i++){
-      if (array[i].id == id && array[i].username == localStorage.getItem("email")){
-        array.splice(i, 1);
-        localStorage.setItem("cartItems", JSON.stringify(array));
-        return;
-      }
+    if (array[i].id == id && array[i].username == localStorage.getItem("email")){
+      array.splice(i, 1);
+      updateQuantities(array);
+      localStorage.setItem("cartItems", JSON.stringify(array));
+      return;
+    }
   }
 }
+
+
+
 
 
 

@@ -274,7 +274,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const bankTransferFields = [document.getElementById('accountNumber')];
 
 
-  
   function updateSelectionText() {
     if (creditCard.checked) {
       selectionText.textContent = 'Tarjeta de crédito';
@@ -348,4 +347,33 @@ document.addEventListener('DOMContentLoaded', function () {
       disableFields(creditCardFields);
     }
   });
+
+
+
+
+  
+
+
+
+
+  // Agrega un evento al botón de confirmación de compra
+  const confirmPurchaseButton = document.getElementById('confirmPurchase');
+  confirmPurchaseButton.addEventListener('click', function () {
+    // Simula una compra exitosa
+    const compraExitosa = true; // Cambia esto según tu lógica
+
+    if (compraExitosa) {
+      // Muestra el mensaje de éxito en el banner verde
+      const successBanner = document.getElementById('successBanner');
+      successBanner.style.display = 'block';
+
+      // Desaparece el banner automáticamente después de 5 segundos
+      setTimeout(function () {
+        successBanner.style.display = 'none';
+      }, 5000); // 4000 milisegundos (4 segundos)
+    }
+  });
+
+
+
 });

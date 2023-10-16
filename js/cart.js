@@ -413,3 +413,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 });
+
+shipType.addEventListener("change", () => updateQuantities(cartArray));

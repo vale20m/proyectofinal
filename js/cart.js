@@ -390,27 +390,51 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Función para validar la compra
   function validatePurchase() {
     const shipType = document.getElementById('shipType').value;
     const calle = document.getElementById('calle').value;
     const numero = document.getElementById('numero').value;
     const esquina = document.getElementById('esquina').value;
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    const selectionText = document.getElementById('selectionText');
+
+    // Limpia mensajes de error y estilos anteriores
+    document.querySelectorAll('.error-message').forEach(function (el) {
+      el.textContent = '';
+    });
+    document.querySelectorAll('.form-control').forEach(function (el) {
+      el.style.backgroundColor = 'white';
+    });
 
     // Verifica todas las validaciones aquí
-    if (calle.trim() === '' || numero.trim() === '' || esquina.trim() === '') {
-      alert('Los campos calle, número y esquina no pueden estar vacíos.');
-      return false;
+    let isValid = true;
+    if (calle.trim() === '') {
+      document.getElementById('calle-error').textContent = 'Campo requerido';
+      document.getElementById('calle').style.backgroundColor = 'red';
+      isValid = false;
+    }
+    if (numero.trim() === '') {
+      document.getElementById('numero-error').textContent = 'Campo requerido';
+      document.getElementById('numero').style.backgroundColor = 'red';
+      isValid = false;
+    }
+    if (esquina.trim() === '') {
+      document.getElementById('esquina-error').textContent = 'Campo requerido';
+      document.getElementById('esquina').style.backgroundColor = 'red';
+      isValid = false;
     }
     if (shipType === '0') {
       alert('Debes seleccionar un tipo de envío.');
-      return false;
+      isValid = false;
     }
+    if (selectionText.textContent === 'No ha seleccionado') {
+        document.getElementById('selectionText-error').textContent = 'Campo obligatorio';
+        isValid = false;
+      }
+      // Agrega más validaciones según tus necesidades
   
-
-    return true; 
-  }
+      return isValid; // Si todas las validaciones pasan, retorna verdadero
+    }
 
 
 

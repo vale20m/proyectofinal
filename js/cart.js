@@ -409,15 +409,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // Verifica todas las validaciones aquí
     let isValid = true;
     if (calle.trim() === '') {
-      document.getElementById('calle-error').textContent = 'Campo requerido';
+      document.getElementById('calle-error').textContent = 'Ingresa una calle';
       isValid = false;
     }
     if (numero.trim() === '') {
-      document.getElementById('numero-error').textContent = 'Campo requerido';
+      document.getElementById('numero-error').textContent = 'Ingresa un numero';
       isValid = false;
     }
     if (esquina.trim() === '') {
-      document.getElementById('esquina-error').textContent = 'Campo requerido';
+      document.getElementById('esquina-error').textContent = 'Ingresa una esquina';
       isValid = false;
     }
     if (shipType === '0') {

@@ -382,9 +382,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Desaparece el banner automáticamente después de 5 segundos
         setTimeout(function () {
           successBanner.style.display = 'none';
-          // Borra los campos del formulario y recarga la página
-          const checkoutForm = document.getElementById('checkoutForm');
-          checkoutForm.reset(); // Borra los campos del formulario
           location.reload(); // Recarga la página
         }, 4000); // 4000 milisegundos (4 segundos)
       }

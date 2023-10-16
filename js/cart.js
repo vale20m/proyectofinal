@@ -410,17 +410,14 @@ document.addEventListener('DOMContentLoaded', function () {
     let isValid = true;
     if (calle.trim() === '') {
       document.getElementById('calle-error').textContent = 'Campo requerido';
-      document.getElementById('calle').style.backgroundColor = 'red';
       isValid = false;
     }
     if (numero.trim() === '') {
       document.getElementById('numero-error').textContent = 'Campo requerido';
-      document.getElementById('numero').style.backgroundColor = 'red';
       isValid = false;
     }
     if (esquina.trim() === '') {
       document.getElementById('esquina-error').textContent = 'Campo requerido';
-      document.getElementById('esquina').style.backgroundColor = 'red';
       isValid = false;
     }
     if (shipType === '0') {

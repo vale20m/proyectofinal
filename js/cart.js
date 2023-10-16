@@ -276,7 +276,6 @@ function deleteCartProducts(id){
 
 
 
-
 document.addEventListener('DOMContentLoaded', function () {
   const creditCard = document.getElementById('creditCard');
   const bankTransfer = document.getElementById('bankTransfer');
@@ -358,6 +357,13 @@ document.addEventListener('DOMContentLoaded', function () {
       disableFields(creditCardFields);
     }
   });
+
+
+
+
+  
+
+
 
 
   /// Agrega un evento al botón de confirmación de compra

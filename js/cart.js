@@ -273,6 +273,20 @@ document.addEventListener('DOMContentLoaded', function () {
   const creditCardFields = [document.getElementById('creditCardNumber'), document.getElementById('cvv'), expirationDateField];
   const bankTransferFields = [document.getElementById('accountNumber')];
 
+
+  
+  function updateSelectionText() {
+    if (creditCard.checked) {
+      selectionText.textContent = 'Tarjeta de crédito';
+    } else if (bankTransfer.checked) {
+      selectionText.textContent = 'Transferencia bancaria';
+    } else {
+      selectionText.textContent = 'No ha seleccionado';
+    }
+  }
+  creditCard.addEventListener('change', updateSelectionText);
+  bankTransfer.addEventListener('change', updateSelectionText);
+
   function enableFields(fields) {
     fields.forEach(function (field) {
       field.removeAttribute('disabled');

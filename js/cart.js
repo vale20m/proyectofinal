@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (this.id === 'expirationDate') {
         // Limitar el campo a 4 dígitos
         if (value.length > 4) {
-          value = value.slice(0, 3);
+          value = value.slice(0, 4);
         }
         this.value = value;
       }

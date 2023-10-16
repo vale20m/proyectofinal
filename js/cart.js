@@ -334,7 +334,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   creditCardFields.forEach(validateNumberInput);
   bankTransferFields.forEach(validateNumberInput);
-  expirationDateField.forEach(validateNumberInput)
 
   creditCard.addEventListener('change', function () {
     if (creditCard.checked) {

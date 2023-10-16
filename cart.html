@@ -103,8 +103,58 @@
           <hr>
           <h2 class="mt-4">Forma de pago</h2>
 
+
+
+
+
+
+
           <span id="selectionText">No ha seleccionado</span>
           <a href="#" class="btn-link" data-bs-toggle="modal" data-bs-target="#paymentModal">Selecciona</a>
+          <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="paymentModalLabel">Seleccionar forma de pago</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="mb-3">
+                      <input type="radio" id="creditCard" name="paymentMethod" value="credit_card">
+                      <label for="creditCard">Tarjeta de crédito</label>
+                      <div class="mb-3">
+                        <input type="text" class="form-control" id="creditCardNumber" placeholder="Número de tarjeta">
+                      </div>
+                      <div class="mb-3">
+                        <input type="text" class="form-control" id="cvv" placeholder="Código de seguridad">
+                      </div>
+                      <div class="mb-3">
+                        <input type="text" class="form-control" id="expirationDate" placeholder="Fecha de vencimiento">
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="mb-3">
+                      <input type="radio" id="bankTransfer" name="paymentMethod" value="bank_transfer">
+                      <label for="bankTransfer">Transferencia bancaria</label>
+                      <div class="mb-3">
+                        <input type="text" class="form-control" id="accountNumber" placeholder="Número de cuenta">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
 
 
 
@@ -130,79 +180,10 @@
     </div>
   </div>
 
-  
- 
-
-
-  
-  <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="paymentModalLabel">Seleccionar forma de pago</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <input type="radio" id="creditCard" name="paymentMethod" value="credit_card">
-              <label for="creditCard">Tarjeta de crédito</label>
-              <div class="mb-3">
-                <input type="text" class="form-control" id="creditCardNumber" placeholder="Número de tarjeta">
-              </div>
-              <div class="mb-3">
-                <input type="text" class="form-control" id="cvv" placeholder="Código de seguridad">
-              </div>
-              <div class="mb-3">
-                <input type="text" class="form-control" id="expirationDate" placeholder="Fecha de vencimiento">
-              </div>
-            </div>
-            <hr>
-            <div class="mb-3">
-              <input type="radio" id="bankTransfer" name="paymentMethod" value="bank_transfer">
-              <label for="bankTransfer">Transferencia bancaria</label>
-              <div class="mb-3">
-                <input type="text" class="form-control" id="accountNumber" placeholder="Número de cuenta">
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/init.js"></script>
   <script src="js/cart.js"></script>
-
-
-
-
-
   
-  
-  
-  
-  
-
-
-
-
-
 </body>
 
 </html>

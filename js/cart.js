@@ -344,4 +344,4 @@ document.addEventListener('DOMContentLoaded', function () {
       alert('La fecha de vencimiento no es válida.');
     }
   });
-})
+});

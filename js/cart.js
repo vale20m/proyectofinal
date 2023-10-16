@@ -172,3 +172,89 @@ function deleteCartProducts(id){
       }
   }
 }
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const creditCard = document.getElementById('creditCard');
+  const bankTransfer = document.getElementById('bankTransfer');
+  const expirationDateField = document.getElementById('expirationDate');
+  const creditCardFields = [document.getElementById('creditCardNumber'), document.getElementById('cvv'), expirationDateField];
+  const bankTransferFields = [document.getElementById('accountNumber')];
+
+  function enableFields(fields) {
+    fields.forEach(function (field) {
+      field.removeAttribute('disabled');
+      field.style.backgroundColor = 'white';
+    });
+  }
+
+  function disableFields(fields) {
+    fields.forEach(function (field) {
+      field.setAttribute('disabled', true);
+      field.style.backgroundColor = '#e0e0e0';
+    });
+  }
+
+  function validateNumberInput(field) {
+    field.addEventListener('input', function () {
+      this.value = this.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+    });
+  }
+
+  function validateExpirationDate() {
+    const currentDate = new Date();
+    const input = expirationDateField.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+    if (input.length === 4) {
+      const month = parseInt(input.substr(0, 2));
+      const year = parseInt('20' + input.substr(2, 2));
+      if (!isNaN(month) && !isNaN(year) && month >= 1 && month <= 12 && year > currentDate.getFullYear()) {
+        const formattedMonth = ('0' + month).slice(-2);
+        expirationDateField.value = `${formattedMonth}/${year.toString().slice(-2)}`;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  creditCardFields.forEach(validateNumberInput);
+  bankTransferFields.forEach(validateNumberInput);
+
+  expirationDateField.addEventListener('input', function () {
+    if (validateExpirationDate()) {
+      const input = expirationDateField.value.split('/');
+      const year = parseInt('20' + input[1]);
+      const month = parseInt(input[0]);
+      if (year === currentDate.getFullYear() && month > currentDate.getMonth() + 1) {
+        // La fecha no puede ser mayor que 12 meses a partir de la fecha actual
+        expirationDateField.value = '';
+        alert('La fecha de vencimiento no puede ser mayor de 12 meses a partir de la fecha actual.');
+      }
+    }
+  });
+
+  creditCard.addEventListener('change', function () {
+    if (creditCard.checked) {
+      enableFields(creditCardFields);
+      disableFields(bankTransferFields);
+    }
+  });
+
+  bankTransfer.addEventListener('change', function () {
+    if (bankTransfer.checked) {
+      enableFields(bankTransferFields);
+      disableFields(creditCardFields);
+    }
+  });
+
+  document.querySelector('form').addEventListener('submit', function (event) {
+    if (creditCard.checked && !validateExpirationDate()) {
+      event.preventDefault();
+      alert('La fecha de vencimiento no es válida.');
+    }
+  });
+});

@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function () {
       isValid = false;
     }
     if (selectionText.textContent === 'No ha seleccionado') {
-        document.getElementById('selectionText-error').textContent = 'Campo obligatorio';
+        document.getElementById('selectionText-error').textContent = 'Debe seleccionar una forma de pago';
         isValid = false;
       }
       // Agrega más validaciones según tus necesidades

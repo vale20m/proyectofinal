@@ -303,7 +303,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function validateNumberInput(field) {
     field.addEventListener('input', function () {
-      this.value = this.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+      let value = this.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+      if (this.id === 'creditCardNumber') {
+        // Limitar el campo a 16 dígitos
+        if (value.length > 16) {
+          value = value.slice(0, 16);
+        }
+        this.value = value;
+      }
+
+      if (this.id === 'cvv') {
+        // Limitar el campo a 3 dígitos
+        if (value.length > 3) {
+          value = value.slice(0, 3);
+        }
+        this.value = value;
+      }
     });
   }
 

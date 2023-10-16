@@ -238,3 +238,8 @@ a.custom-card:hover {
 .modal-content  {
   color: black;
 }
+
+.red-text {
+  color: red;
+  border: 0.5px solid red;
+}

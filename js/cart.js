@@ -373,18 +373,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // Realiza las validaciones antes de confirmar la compra
     if (validatePurchase()) {
       // Simula una compra exitosa
-      const compraExitosa = true; // Cambia esto según tu lógica
+      const compraExitosa = true;
 
       if (compraExitosa) {
-        // Muestra el mensaje de éxito en el banner verde
         const successBanner = document.getElementById('successBanner');
         successBanner.style.display = 'block';
 
-        // Desaparece el banner automáticamente después de 5 segundos
         setTimeout(function () {
           successBanner.style.display = 'none';
           location.reload(); // Recarga la página
-        }, 4000); // 4000 milisegundos (4 segundos)
+        }, 4000);
       }
     }
   });
@@ -406,9 +404,9 @@ document.addEventListener('DOMContentLoaded', function () {
       alert('Debes seleccionar un tipo de envío.');
       return false;
     }
-    // Agrega más validaciones según tus necesidades
+  
 
-    return true; // Si todas las validaciones pasan, retorna verdadero
+    return true; 
   }
 
 

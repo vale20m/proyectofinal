@@ -127,7 +127,7 @@ function showCart(array){
       
       div.innerHTML = "";
 
-      deleteCartProducts(item.id);
+      deleteCartProducts(item.id, cartArray);
         
     });
 
@@ -245,8 +245,7 @@ function loadCartItems() {
 
 // FUNCION QUE ELIMINA UN ITEM DEL LOCAL STORAGE
 
-function deleteCartProducts(id){
-  let array = JSON.parse(localStorage.getItem("cartItems"));
+function deleteCartProducts(id, array){
   for (let i = 0; i < array.length; i++){
     if (array[i].id == id && array[i].username == localStorage.getItem("email")){
       array.splice(i, 1);
@@ -256,6 +255,7 @@ function deleteCartProducts(id){
     }
   }
 }
+
 shipType.addEventListener("change", () => updateQuantities(cartArray));
 
 

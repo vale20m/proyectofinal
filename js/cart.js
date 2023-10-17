@@ -259,31 +259,19 @@ function deleteCartProducts(id){
 shipType.addEventListener("change", () => updateQuantities(cartArray));
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Entrega 6 - Funcionamiento del form
 
 document.addEventListener('DOMContentLoaded', function () {
+
+  // Guardamos en constantes los elementos de HTML que necesitamos para el funcionamiento del form
+
   const creditCard = document.getElementById('creditCard');
   const bankTransfer = document.getElementById('bankTransfer');
-  const expirationDateField = document.getElementById('expirationDate');
-  const creditCardFields = [document.getElementById('creditCardNumber'), document.getElementById('cvv'), expirationDateField];
-  const bankTransferFields = [document.getElementById('accountNumber')];
 
+  const creditCardFields = document.getElementById("creditCardFields").getElementsByTagName('input');
+  const bankTransferFields = document.getElementById('bankTransferFields').getElementsByTagName('input');
+
+  // Función que actualiza el texto segun la forma de pago elegida
 
   function updateSelectionText() {
     if (creditCard.checked) {
@@ -297,53 +285,57 @@ document.addEventListener('DOMContentLoaded', function () {
   creditCard.addEventListener('change', updateSelectionText);
   bankTransfer.addEventListener('change', updateSelectionText);
 
-  function enableFields(fields) {
-    fields.forEach(function (field) {
-      field.removeAttribute('disabled');
-      field.style.backgroundColor = 'white';
-    });
+  function enableFields(fields){
+    for (const field of fields){
+      field.disabled = false;
+      field.required = true;
+    }
   }
 
-  function disableFields(fields) {
-    fields.forEach(function (field) {
-      field.setAttribute('disabled', true);
-      field.style.backgroundColor = '#e0e0e0';
-    });
+  function disableFields(fields){
+    for (const field of fields){
+      field.disabled = true;
+      field.required = false;
+    }
   }
 
   function validateNumberInput(field) {
     field.addEventListener('input', function () {
-      let value = this.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
-      const input = expirationDateField.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+      let value = field.value;
       
-      if (this.id === 'creditCardNumber') {
+      if (field.id == 'creditCardNumber') {
         // Limitar el campo a 16 dígitos
         if (value.length > 16) {
           value = value.slice(0, 16);
         }
-        this.value = value;
+        field.value = value;
       }
 
-      if (this.id === 'cvv') {
+      if (field.id == 'cvv') {
         // Limitar el campo a 3 dígitos
         if (value.length > 3) {
           value = value.slice(0, 3);
         }
-        this.value = value;
+        field.value = value;
       }
 
-      if (this.id === 'expirationDate') {
+      if (field.id == 'expirationDate') {
         // Limitar el campo a 4 dígitos
         if (value.length > 4) {
           value = value.slice(0, 4);
         }
-        this.value = value;
+        field.value = value;
       }
     });
   }
 
-  creditCardFields.forEach(validateNumberInput);
-  bankTransferFields.forEach(validateNumberInput);
+  for (const element of creditCardFields) {
+    validateNumberInput(element);
+  }
+
+  for (const element of bankTransferFields) {
+    validateNumberInput(element);
+  }
 
   creditCard.addEventListener('change', function () {
     if (creditCard.checked) {
@@ -361,74 +353,105 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+  // Agrega un evento al botón de confirmación de compra
 
-  
-
-
-
-
-  /// Agrega un evento al botón de confirmación de compra
   const confirmPurchaseButton = document.getElementById('confirmPurchase');
   confirmPurchaseButton.addEventListener('click', function () {
+
     // Realiza las validaciones antes de confirmar la compra
     if (validatePurchase()) {
       // Simula una compra exitosa
-      const compraExitosa = true;
 
-      if (compraExitosa) {
-        const successBanner = document.getElementById('successBanner');
-        successBanner.style.display = 'block';
+      const successBanner = document.getElementById('successBanner');
+      successBanner.style.display = 'block';
 
-        setTimeout(function () {
-          successBanner.style.display = 'none';
-          const checkoutForm = document.getElementById('checkoutForm');
-        checkoutForm.reset();
-        location.reload();
-        
-        }, 4000);
-      }
+      setTimeout(function () {
+        successBanner.style.display = 'none';
+        const checkoutForm = document.getElementById('checkoutForm');
+        checkoutForm.submit();
+      
+      }, 4000);
     }
   });
 
   function validatePurchase() {
-    const shipType = document.getElementById('shipType').value;
-    const calle = document.getElementById('calle').value;
-    const numero = document.getElementById('numero').value;
-    const esquina = document.getElementById('esquina').value;
+    const shipType = document.getElementById('shipType');
+    const calle = document.getElementById('calle');
+    const numero = document.getElementById('numero');
+    const esquina = document.getElementById('esquina');
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
     const selectionText = document.getElementById('selectionText');
 
-    // Limpia mensajes de error y estilos anteriores
-    document.querySelectorAll('.error-message').forEach(function (el) {
-      el.textContent = '';
-    });
-    document.querySelectorAll('.form-control').forEach(function (el) {
-      el.style.backgroundColor = 'white';
-    });
+    // Limpia mensajes de error
+    // for (const element of document.querySelectorAll('.error-message')) {
+    //   element.innerHTML = "";
+    // }
 
     // Verifica todas las validaciones aquí
     let isValid = true;
-    if (calle.trim() === '') {
+
+    // Observamos el contenido de cada uno de los inputs de calle, numero, esquina, tipo de envio, junto con forma de pago para asegurarnos de que ninguno este vacío
+
+    if (calle.value == '') {
       document.getElementById('calle-error').textContent = 'Ingresa una calle';
       isValid = false;
+    } else {
+      document.getElementById('calle-error').textContent = "";
     }
-    if (numero.trim() === '') {
+
+    if (numero.value == '') {
       document.getElementById('numero-error').textContent = 'Ingresa un numero';
       isValid = false;
+    } else {
+      document.getElementById('numero-error').textContent = "";
     }
-    if (esquina.trim() === '') {
+
+    if (esquina.value == '') {
       document.getElementById('esquina-error').textContent = 'Ingresa una esquina';
       isValid = false;
+    } else {
+      document.getElementById('esquina-error').textContent = "";
     }
-    if (shipType === '0') {
+
+    if (shipType.value == '0') {
       alert('Debes seleccionar un tipo de envío.');
       isValid = false;
     }
-    if (selectionText.textContent === 'No ha seleccionado') {
-        document.getElementById('selectionText-error').textContent = 'Debe seleccionar una forma de pago';
-        isValid = false;
+
+    if (selectionText.textContent == 'No ha seleccionado') {
+      document.getElementById('selectionText-error').textContent = 'Debe seleccionar una forma de pago';
+      isValid = false;
+    } else {
+
+      // También observamos cada uno de los inputs de la forma de pago en caso de que se haya seleccionado alguna.
+
+      document.getElementById('selectionText-error').textContent = '';
+      if (selectionText.textContent == 'Tarjeta de crédito') {
+        for (const element of creditCardFields) {
+          if (element.id == "creditCardNumber" && element.value.length < 16){
+            document.getElementById('selectionText-error').innerHTML += 'El número de tarjeta está incompleto<br>';
+            isValid = false;
+          } else if (element.id == "cvv" && element.value.length < 3){
+            document.getElementById('selectionText-error').innerHTML += 'El código de seguridad está incompleto<br>';
+            isValid = false;
+          } else if (element.id == "expirationDate" && element.value.length < 4){
+            document.getElementById('selectionText-error').innerHTML += 'La fecha de vencimiento está incompleta';
+            isValid = false;
+          }
+        }
       }
-  
+
+      else {
+        console.log(bankTransferFields);
+        for (const element of bankTransferFields){
+          if (element.id == "accountNumber" && element.value == ""){
+            document.getElementById('selectionText-error').innerHTML += 'Ingrese un número de cuenta válido';
+            isValid = false;
+          }
+        }
+      }
+
+    }
       return isValid; 
     }
 

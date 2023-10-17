@@ -305,7 +305,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function validateNumberInput(field) {
     field.addEventListener('input', function () {
-      let value = field.value;
+
+      // Primero, eliminamos los caracteres no numéricos de los campos
+
+      let value = this.value.replace(/\D/g, '');
+      const input = expirationDateField.value.replace(/\D/g, ''); 
       
       if (field.id == 'creditCardNumber') {
         // Limitar el campo a 16 dígitos
@@ -333,6 +337,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // LLamamos a la función anterior con cada campo del form
+
   for (const element of creditCardFields) {
     validateNumberInput(element);
   }
@@ -340,6 +346,8 @@ document.addEventListener('DOMContentLoaded', function () {
   for (const element of bankTransferFields) {
     validateNumberInput(element);
   }
+
+  // Agregamos un addEventListener a cada radio button, ejecutandose cuando es seleccionado, y haciendo que sus campos se habiliten (y deshabilitando los del otro radio button)
 
   creditCard.addEventListener('change', function () {
     if (creditCard.checked) {
@@ -378,6 +386,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Función que realiza las validaciones del método de pago, devolviendo true en caso de que no haya errores
+
   function validatePurchase() {
     const shipType = document.getElementById('shipType');
     const calle = document.getElementById('calle');
@@ -395,6 +405,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let isValid = true;
 
     // Observamos el contenido de cada uno de los inputs de calle, numero, esquina, tipo de envio, junto con forma de pago para asegurarnos de que ninguno este vacío
+    // En caso de que alguno este vacío, mostramos un mensaje de error, y lo borramos en caso de que no lo este.
+
 
     if (calle.value == '') {
       document.getElementById('calle-error').textContent = 'Ingresa una calle';
@@ -427,7 +439,9 @@ document.addEventListener('DOMContentLoaded', function () {
       isValid = false;
     } else {
 
-      // También observamos cada uno de los inputs de la forma de pago en caso de que se haya seleccionado alguna.
+      // También observamos cada uno de los campos de la forma de pago en caso de que se haya seleccionado alguna.
+
+      // Observamos los campos del radio button "tarjeta de crédito"
 
       document.getElementById('selectionText-error').textContent = '';
       if (selectionText.textContent == 'Tarjeta de crédito') {
@@ -445,6 +459,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
 
+      // Observamos los campos del radio button "transferencia bancaria"
+
       else {
         console.log(bankTransferFields);
         for (const element of bankTransferFields){
@@ -458,8 +474,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
       return isValid; 
     }
-
-
 
 });
 

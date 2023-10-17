@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const creditCardFields = document.getElementById("creditCardFields").getElementsByTagName('input');
   const bankTransferFields = document.getElementById('bankTransferFields').getElementsByTagName('input');
 
-  // Función que actualiza el texto segun la forma de pago elegida
+  // Función que actualiza el texto según la forma de pago elegida
 
   function updateSelectionText() {
     if (creditCard.checked) {
@@ -284,6 +284,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   creditCard.addEventListener('change', updateSelectionText);
   bankTransfer.addEventListener('change', updateSelectionText);
+
+  // Funciones que activa los campos de una opcion y desactiva los de la otra, según cual este seleccionada.
 
   function enableFields(fields){
     for (const field of fields){
@@ -298,6 +300,8 @@ document.addEventListener('DOMContentLoaded', function () {
       field.required = false;
     }
   }
+
+  // Función que verifica el contenido de los campos de la opción "tarjeta de crédito"
 
   function validateNumberInput(field) {
     field.addEventListener('input', function () {

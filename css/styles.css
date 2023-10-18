@@ -235,6 +235,10 @@ a.custom-card:hover {
   color:white;
 }
 
+.modal-content  {
+  color: black;
+}
+
 .red-text {
   color: rgb(211, 65, 65);
 }

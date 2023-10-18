@@ -406,9 +406,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Observamos el contenido de cada uno de los inputs de calle, numero, esquina, tipo de envio, junto con forma de pago para asegurarnos de que ninguno este vacío
     // En caso de que alguno este vacío, mostramos un mensaje de error, y lo borramos en caso de que no lo este.
-
-
-    if (calle.value == '') {
+   
+   if (calle.value == '') {
       document.getElementById('calle-error').textContent = 'Ingresa una calle';
       isValid = false;
     } else {
@@ -474,6 +473,4 @@ document.addEventListener('DOMContentLoaded', function () {
     }
       return isValid; 
     }
-
 });
-

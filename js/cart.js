@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const esquina = document.getElementById('esquina');
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
     const selectionText = document.getElementById('selectionText');
-
+   
     // Limpia mensajes de error
     // for (const element of document.querySelectorAll('.error-message')) {
     //   element.innerHTML = "";
@@ -457,6 +457,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         }
       }
+      
 
       // Observamos los campos del radio button "transferencia bancaria"
 

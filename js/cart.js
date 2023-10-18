@@ -267,9 +267,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const creditCard = document.getElementById('creditCard');
   const bankTransfer = document.getElementById('bankTransfer');
-
-  const creditCardFields = document.getElementById("creditCardFields").getElementsByTagName('input');
-  const bankTransferFields = document.getElementById('bankTransferFields').getElementsByTagName('input');
+  const expirationDateField = document.getElementById('expirationDate');
+  const creditCardFields = [document.getElementById('creditCardNumber'), document.getElementById('cvv'), expirationDateField];
+  const bankTransferFields = [document.getElementById('accountNumber')];
 
   // Función que actualiza el texto según la forma de pago elegida
 

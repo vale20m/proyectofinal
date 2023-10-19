@@ -342,6 +342,45 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+//Validamos la fecha
+
+function isValidDate(input) {
+  const dateValue = input.value;
+
+  
+  if (!/^\d{2}\/\d{2}$/.test(dateValue)) {
+    return false;
+  }
+  
+  const [month, year] = dateValue.split('/');
+
+  const monthNumber = parseInt(month, 10);
+  const yearNumber = parseInt(year, 10);
+
+  if (monthNumber < 1 || monthNumber > 12) {
+    return false;
+  }
+
+  const currentYear = new Date().getFullYear() % 100; 
+  const currentMonth = new Date().getMonth() + 1; 
+
+  // Valida el año (debe ser mayor o igual al año y mes actual)
+  if (yearNumber < currentYear || monthNumber < currentMonth) {
+    return false;
+  }
+
+  return true;
+}
+
+const expirationDateInput = document.getElementById('expirationDate');
+
+ expirationDateInput.addEventListener('blur', function() {
+if (!isValidDate(this)) {
+  alert('Fecha de vencimiento no válida. Por favor ingrese una fecha válida.');
+  this.value = '';
+}
+});
+
   // LLamamos a la función anterior con cada campo del form
 
   for (const element of creditCardFields) {

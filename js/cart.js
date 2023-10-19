@@ -521,6 +521,7 @@ if (!isValidDate(this)) {
     const esquina = document.getElementById('esquina');
     // const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
     const selectionText = document.getElementById('selectionText');
+    const cartItems = document.querySelectorAll('.list-group-item');
    
     // Limpia mensajes de error
     // for (const element of document.querySelectorAll('.error-message')) {
@@ -600,8 +601,26 @@ if (!isValidDate(this)) {
           }
         }
       }
+    }
+      // Validar las cantidades de productos en el carrito
+  for (const cartItem of cartItems) {
+    const quantityInput = cartItem.querySelector('input');
+    const quantity = parseInt(quantityInput.value);
 
+    if (quantity <= 0) {
+      // Si la cantidad es menor o igual a cero, muestra un mensaje de error
+      const errorDiv = cartItem.querySelector('.invalid-feedback');
+      errorDiv.textContent = 'La cantidad debe ser mayor que 0';
+      quantityInput.classList.add('is-invalid');
+      isValid = false;
+    } else {
+      // Si la cantidad es válida, limpia el mensaje de error
+      const errorDiv = cartItem.querySelector('.invalid-feedback');
+      errorDiv.textContent = '';
+      quantityInput.classList.remove('is-invalid');
     }
-      return isValid; 
-    }
+  }
+
+  return isValid;
+}
 });

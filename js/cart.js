@@ -349,15 +349,18 @@ function isValidDate(input) {
     return false;
   }
 
-  const currentYear = new Date().getFullYear() % 100; 
+  const currentYear = new Date().getFullYear() % 100;
+  console.log (currentYear);
+  
   const currentMonth = new Date().getMonth() + 1; 
+  console.log (currentMonth);
 
   // Valida el año (debe ser mayor o igual al año y mes actual)
-  if (yearNumber < currentYear || monthNumber < currentMonth) {
-    return false;
+  if (yearNumber > currentYear || (yearNumber == currentYear && monthNumber > currentMonth)) {
+    return true;
   }
 
-  return true;
+  return false;
 }
 
 const expirationDateInput = document.getElementById('expirationDate');
@@ -403,23 +406,65 @@ if (!isValidDate(this)) {
   const form = document.querySelector("#form");
 
   purchaseButton.addEventListener("click", event => {
+
+    // Si no se cumple que un elemento del form no es valido, finaliza la propagación del código y no ejecuta la caso por defecto
     
     if (!form.checkValidity()){
       event.preventDefault();
       event.stopPropagation();
     }
 
+    // Agregamos una clase al form que permite ver que campos son correctos y cuales no
+
     form.classList.add("was-validated");
 
     creditCard.addEventListener('change', function () {
+
       if (creditCard.checked) {
+
         document.getElementById('selectionText-error').hidden = true;
+
+        document.getElementById('accountNumber-error').hidden = true;
+
+        for (const element of creditCardFields) {
+
+          if (!element.checkValidity()){
+
+            if (element.id == "creditCardNumber"){
+              document.getElementById('cardNumber-error').hidden = false;
+            } else if (element.id == "cvv"){
+              document.getElementById('cvv-error').hidden = false;
+            } else {
+              document.getElementById('expirationDate-error').hidden = false;
+            }
+
+          }
+
+        }
+
       }
+
     });
 
     bankTransfer.addEventListener('change', function () {
       if (bankTransfer.checked) {
+
         document.getElementById('selectionText-error').hidden = true;
+
+        document.getElementById('cardNumber-error').hidden = true;
+        document.getElementById('cvv-error').hidden = true;
+        document.getElementById('expirationDate-error').hidden = true;
+
+        for (const element of bankTransferFields) {
+
+          if (!element.checkValidity()){
+
+            document.getElementById('accountNumber-error').hidden = false;
+
+          }
+
+        }
+
       }
     });
 
@@ -483,6 +528,7 @@ if (!isValidDate(this)) {
       successBanner.style.display = 'block';
 
       setTimeout(function () {
+
         successBanner.style.display = 'none';
         form.submit();
       
@@ -491,26 +537,6 @@ if (!isValidDate(this)) {
     }
 
   });
-
-
-  // const confirmPurchaseButton = document.getElementById('confirmPurchase');
-  // confirmPurchaseButton.addEventListener('click', function () {
-
-  //   // Realiza las validaciones antes de confirmar la compra
-  //   if (validatePurchase()) {
-  //     // Simula una compra exitosa
-
-  //     const successBanner = document.getElementById('successBanner');
-  //     successBanner.style.display = 'block';
-
-  //     setTimeout(function () {
-  //       successBanner.style.display = 'none';
-  //       const checkoutForm = document.getElementById('checkoutForm');
-  //       checkoutForm.submit();
-      
-  //     }, 4000);
-  //   }
-  // });
 
   // Función que realiza las validaciones del método de pago, devolviendo true en caso de que no haya errores
 
@@ -522,11 +548,7 @@ if (!isValidDate(this)) {
     // const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
     const selectionText = document.getElementById('selectionText');
     const cartItems = document.querySelectorAll('.list-group-item');
-   
-    // Limpia mensajes de error
-    // for (const element of document.querySelectorAll('.error-message')) {
-    //   element.innerHTML = "";
-    // }
+  
 
     // Verifica todas las validaciones aquí
     let isValid = true;
@@ -567,6 +589,7 @@ if (!isValidDate(this)) {
         let cont = 0;
         for (const element of creditCardFields) {
           if (!element.checkValidity()){
+
             if (element.id == "creditCardNumber"){
               document.getElementById('cardNumber-error').hidden = false;
             } else if (element.id == "cvv"){
@@ -574,12 +597,16 @@ if (!isValidDate(this)) {
             } else {
               document.getElementById('expirationDate-error').hidden = false;
             }
+
             isValid = false;
+
           } else {
+
             cont++;
             if (cont == creditCardFields.length){
               document.getElementById('selectionText-error').hidden = true;
             }
+
           }
         }
       }
@@ -602,25 +629,34 @@ if (!isValidDate(this)) {
         }
       }
     }
+    
       // Validar las cantidades de productos en el carrito
+
   for (const cartItem of cartItems) {
+
     const quantityInput = cartItem.querySelector('input');
     const quantity = parseInt(quantityInput.value);
 
     if (quantity <= 0) {
+
       // Si la cantidad es menor o igual a cero, muestra un mensaje de error
       const errorDiv = cartItem.querySelector('.invalid-feedback');
       errorDiv.textContent = 'La cantidad debe ser mayor que 0';
       quantityInput.classList.add('is-invalid');
       isValid = false;
+
     } else {
+
       // Si la cantidad es válida, limpia el mensaje de error
       const errorDiv = cartItem.querySelector('.invalid-feedback');
       errorDiv.textContent = '';
       quantityInput.classList.remove('is-invalid');
+
     }
+
   }
 
   return isValid;
+
 }
 });

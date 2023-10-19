@@ -310,11 +310,59 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Eliminamos los caracteres no numéricos de los campos
       let value = this.value.replace(/\D/g, '');
-
-      field.value = value;
       
+      if (field.id == 'expirationDate') {
+        // divide la fecha con / para hacerla formato MM/AA
+        if (value.length > 2) {
+          value = value.slice(0, 2) + '/' + value.slice(2);
+        }
+        if (value.length > 5) {
+          value = value.slice(0, 5);
+        }
+      }
+      
+      field.value = value;
     });
   }
+
+//Validamos la fecha
+
+function isValidDate(input) {
+  const dateValue = input.value;
+
+  
+  if (!/^\d{2}\/\d{2}$/.test(dateValue)) {
+    return false;
+  }
+  
+  const [month, year] = dateValue.split('/');
+
+  const monthNumber = parseInt(month, 10);
+  const yearNumber = parseInt(year, 10);
+
+  if (monthNumber < 1 || monthNumber > 12) {
+    return false;
+  }
+
+  const currentYear = new Date().getFullYear() % 100; 
+  const currentMonth = new Date().getMonth() + 1; 
+
+  // Valida el año (debe ser mayor o igual al año y mes actual)
+  if (yearNumber < currentYear || monthNumber < currentMonth) {
+    return false;
+  }
+
+  return true;
+}
+
+const expirationDateInput = document.getElementById('expirationDate');
+
+ expirationDateInput.addEventListener('blur', function() {
+if (!isValidDate(this)) {
+  alert('Fecha de vencimiento no válida. Por favor ingrese una fecha válida.');
+  this.value = '';
+}
+});
 
   // LLamamos a la función anterior con cada campo del form
 

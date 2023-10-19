@@ -330,9 +330,12 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (field.id == 'expirationDate') {
-        // Limitar el campo a 4 dígitos
-        if (value.length > 4) {
-          value = value.slice(0, 4);
+        // divide la fecha con / para hacerla formato MM/AA
+        if (value.length > 2) {
+          value = value.slice(0, 2) + '/' + value.slice(2);
+        }
+        if (value.length > 5) {
+          value = value.slice(0, 5);
         }
         field.value = value;
       }

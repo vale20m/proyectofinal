@@ -72,18 +72,18 @@
           <h2>Dirección de envío</h2>
           <div class="mb-3">
             <label for="calle" class="form-label">Calle:</label>
-            <input type="text" class="form-control" id="calle" name="calle" required>
-            <div class="invalid-feedback">Ingresa una calle</div>
+            <input type="text" class="form-control" id="calle" name="calle" required pattern="[A-Za-z ]+">
+            <div class="invalid-feedback">Ingresa una calle válida</div>
           </div>
           <div class="mb-3">
             <label for="numero" class="form-label">Número:</label>
-            <input type="number" class="form-control" id="numero" name="numero" required>
-            <div class="invalid-feedback">Ingresa un número</div>
+            <input type="text" class="form-control" id="numero" name="numero" required pattern="[0-9]+">
+            <div class="invalid-feedback">Ingresa un número válido</div>
           </div>
           <div class="mb-5">
             <label for="esquina" class="form-label">Esquina:</label>
-            <input type="text" class="form-control" id="esquina" name="esquina" required>
-            <div class="invalid-feedback">Ingresa una esquina</div>
+            <input type="text" class="form-control" id="esquina" name="esquina" required pattern="[A-Za-z ]+">
+            <div class="invalid-feedback">Ingresa una esquina válida</div>
           </div>
           <hr>
           <h2 class="mt-4">Costos</h2>
@@ -111,7 +111,11 @@
           <span id="selectionText">No ha seleccionado</span>
           <a href="#" class="btn-link" data-bs-toggle="modal" data-bs-target="#paymentModal">Selecciona</a>
           <br>
-          <span class="red-text" class="error-message" id="selectionText-error"></span>
+          <span class="red-text" class="error-message" id="selectionText-error" hidden>Debe seleccionar una forma de pago</span>
+          <div id="cardNumber-error" class="red-text error-message" hidden>El número de tarjeta está incompleto</div>
+          <div id="cvv-error" class="red-text error-message" hidden>El código de seguridad está incompleto</div>
+          <div id="expirationDate-error" class="red-text error-message" hidden>La fecha de vencimiento está incompleta</div>
+          <div id="accountNumber-error" class="red-text error-message" hidden>El número de cuenta está incompleto</div>
           <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -126,15 +130,15 @@
                       <label for="creditCard">Tarjeta de crédito</label>
                       <div id="creditCardFields">
                         <div class="my-3">
-                          <input type="number" class="form-control" id="creditCardNumber" placeholder="Número de tarjeta" minlength="16" maxlength="16" disabled>
+                          <input type="text" class="form-control" id="creditCardNumber" placeholder="Número de tarjeta" minlength="16" maxlength="16" disabled pattern="[0-9]+">
                           <div class="invalid-feedback">Número de tarjeta incompleto</div>
                         </div>
                         <div class="mb-3">
-                          <input type="number" class="form-control" id="cvv" placeholder="Código de seguridad" minlength="3" maxlength="3" disabled>
+                          <input type="text" class="form-control" id="cvv" placeholder="Código de seguridad" minlength="3" maxlength="3" disabled pattern="[0-9]+">
                           <div class="invalid-feedback">Código de seguridad incompleto</div>
                         </div>
                         <div class="mb-3">
-                          <input type="number" class="form-control" id="expirationDate" placeholder="Fecha de vencimiento" minlength="4" maxlength="4" disabled>
+                          <input type="text" class="form-control" id="expirationDate" placeholder="Fecha de vencimiento" minlength="4" maxlength="4" disabled pattern="[0-9]+">
                           <div class="invalid-feedback">Fecha de vencimiento incompleto</div>
                         </div>
                       </div>
@@ -145,7 +149,7 @@
                       <label for="bankTransfer">Transferencia bancaria</label>
                       <div id="bankTransferFields">
                         <div class="my-3">
-                          <input type="number" class="form-control" id="accountNumber" placeholder="Número de cuenta" disabled>
+                          <input type="type" class="form-control" id="accountNumber" placeholder="Número de cuenta" disabled>
                         </div>
                       </div>
                     </div>

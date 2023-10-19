@@ -37,7 +37,7 @@ function calculateCartSubtotal(array){
 
     if (product.currency == "UYU"){
 
-      cartSubtotal += Math.round((product.unitCost * product.count) / currencyValues.USD.sell);
+      cartSubtotal += Math.round((product.unitCost * product.count) / currencyValues.USD.buy);
 
     } else {
 
@@ -269,9 +269,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const creditCard = document.getElementById('creditCard');
   const bankTransfer = document.getElementById('bankTransfer');
-  const expirationDateField = document.getElementById('expirationDate');
-  const creditCardFields = [document.getElementById('creditCardNumber'), document.getElementById('cvv'), expirationDateField];
-  const bankTransferFields = [document.getElementById('accountNumber')];
+  const creditCardFields = document.getElementById("creditCardFields").getElementsByTagName("input");
+  const bankTransferFields = document.getElementById("bankTransferFields").getElementsByTagName("input");
 
   // Función que actualiza el texto según la forma de pago elegida
 
@@ -284,6 +283,7 @@ document.addEventListener('DOMContentLoaded', function () {
       selectionText.textContent = 'No ha seleccionado';
     }
   }
+
   creditCard.addEventListener('change', updateSelectionText);
   bankTransfer.addEventListener('change', updateSelectionText);
 
@@ -308,34 +308,11 @@ document.addEventListener('DOMContentLoaded', function () {
   function validateNumberInput(field) {
     field.addEventListener('input', function () {
 
-      // Primero, eliminamos los caracteres no numéricos de los campos
-
+      // Eliminamos los caracteres no numéricos de los campos
       let value = this.value.replace(/\D/g, '');
-      const input = expirationDateField.value.replace(/\D/g, ''); 
+
+      field.value = value;
       
-      if (field.id == 'creditCardNumber') {
-        // Limitar el campo a 16 dígitos
-        if (value.length > 16) {
-          value = value.slice(0, 16);
-        }
-        field.value = value;
-      }
-
-      if (field.id == 'cvv') {
-        // Limitar el campo a 3 dígitos
-        if (value.length > 3) {
-          value = value.slice(0, 3);
-        }
-        field.value = value;
-      }
-
-      if (field.id == 'expirationDate') {
-        // Limitar el campo a 4 dígitos
-        if (value.length > 4) {
-          value = value.slice(0, 4);
-        }
-        field.value = value;
-      }
     });
   }
 
@@ -366,7 +343,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
-
   // Agrega un evento al botón de confirmación de compra
 
   const purchaseButton = document.getElementById('confirmPurchase');
@@ -380,9 +356,71 @@ document.addEventListener('DOMContentLoaded', function () {
       event.stopPropagation();
     }
 
-    
-
     form.classList.add("was-validated");
+
+    creditCard.addEventListener('change', function () {
+      if (creditCard.checked) {
+        document.getElementById('selectionText-error').hidden = true;
+      }
+    });
+
+    bankTransfer.addEventListener('change', function () {
+      if (bankTransfer.checked) {
+        document.getElementById('selectionText-error').hidden = true;
+      }
+    });
+
+    for (const element of creditCardFields) {
+
+      if (element.id == "creditCardNumber"){
+        element.addEventListener("input", function(){
+          if (element.value.length < 16){
+            element.setCustomValidity("Número de tarjeta incompleto");
+            document.getElementById('cardNumber-error').hidden = false;
+          } else {
+            element.setCustomValidity("");
+            document.getElementById('cardNumber-error').hidden = true;
+          }
+        });
+      }
+
+      if (element.id == "cvv"){
+        element.addEventListener("input", function(){
+          if (element.value.length < 3){
+            element.setCustomValidity("Código de seguridad incompleto");
+            document.getElementById('cvv-error').hidden = false;
+          } else {
+            element.setCustomValidity("");
+            document.getElementById('cvv-error').hidden = true;
+          }
+        });
+      }
+
+      if (element.id == "expirationDate"){
+        element.addEventListener("input", function(){
+          if (element.value.length < 4){
+            element.setCustomValidity("Fecha de vencimiento incompleta");
+            document.getElementById('expirationDate-error').hidden = false;
+          } else {
+            element.setCustomValidity("");
+            document.getElementById('expirationDate-error').hidden = true;
+          }
+        });
+      }
+
+    }
+
+    for (const element of bankTransferFields) {
+      
+      element.addEventListener("input", function(){
+        if (!element.checkValidity()){
+          document.getElementById('accountNumber-error').hidden = false;
+        } else {
+          document.getElementById('accountNumber-error').hidden = true;
+        }
+      });
+
+    }
 
     if (validatePurchase()){
 
@@ -424,11 +462,11 @@ document.addEventListener('DOMContentLoaded', function () {
   // Función que realiza las validaciones del método de pago, devolviendo true en caso de que no haya errores
 
   function validatePurchase() {
-    const shipType = document.getElementById('shipType');
+    // const shipType = document.getElementById('shipType');
     const calle = document.getElementById('calle');
     const numero = document.getElementById('numero');
     const esquina = document.getElementById('esquina');
-    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    // const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
     const selectionText = document.getElementById('selectionText');
    
     // Limpia mensajes de error
@@ -454,13 +492,15 @@ document.addEventListener('DOMContentLoaded', function () {
       isValid = false;
     }
 
-    if (shipType.value == '0') {
-      alert('Debes seleccionar un tipo de envío.');
-      isValid = false;
-    }
+    // shipType no da error
+
+    // if (shipType.value == '0') {
+    //   alert('Debes seleccionar un tipo de envío.');
+    //   isValid = false;
+    // }
 
     if (selectionText.textContent == 'No ha seleccionado') {
-      document.getElementById('selectionText-error').textContent = 'Debe seleccionar una forma de pago';
+      document.getElementById('selectionText-error').hidden = false;
       isValid = false;
     } else {
 
@@ -468,18 +508,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Observamos los campos del radio button "tarjeta de crédito"
 
-      document.getElementById('selectionText-error').textContent = '';
+      document.getElementById('selectionText-error').hidden = true;
       if (selectionText.textContent == 'Tarjeta de crédito') {
+        let cont = 0;
         for (const element of creditCardFields) {
-          if (element.id == "creditCardNumber" && element.value.length < 16){
-            document.getElementById('selectionText-error').innerHTML += 'El número de tarjeta está incompleto<br>';
+          if (!element.checkValidity()){
+            if (element.id == "creditCardNumber"){
+              document.getElementById('cardNumber-error').hidden = false;
+            } else if (element.id == "cvv"){
+              document.getElementById('cvv-error').hidden = false;
+            } else {
+              document.getElementById('expirationDate-error').hidden = false;
+            }
             isValid = false;
-          } else if (element.id == "cvv" && element.value.length < 3){
-            document.getElementById('selectionText-error').innerHTML += 'El código de seguridad está incompleto<br>';
-            isValid = false;
-          } else if (element.id == "expirationDate" && element.value.length < 4){
-            document.getElementById('selectionText-error').innerHTML += 'La fecha de vencimiento está incompleta';
-            isValid = false;
+          } else {
+            cont++;
+            if (cont == creditCardFields.length){
+              document.getElementById('selectionText-error').hidden = true;
+            }
           }
         }
       }
@@ -488,11 +534,16 @@ document.addEventListener('DOMContentLoaded', function () {
       // Observamos los campos del radio button "transferencia bancaria"
 
       else {
-        console.log(bankTransferFields);
+        let cont = 0;
         for (const element of bankTransferFields){
-          if (element.id == "accountNumber" && element.value == ""){
-            document.getElementById('selectionText-error').innerHTML += 'Ingrese un número de cuenta válido';
+          if (!element.checkValidity()){
+            document.getElementById('accountNumber-error').hidden = false;
             isValid = false;
+          } else {
+            cont++;
+            if (cont == bankTransferFields.length){
+              document.getElementById('accountNumber-error').hidden = true;
+            }
           }
         }
       }

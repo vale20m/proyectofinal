@@ -418,6 +418,9 @@ if (!isValidDate(this)) {
 
     form.classList.add("was-validated");
 
+    // Agregamos un addEventListener al radio buton de tarjeta de credito, que hace que cuando cambie (de chequeado a no chequeado y viceversa)
+    // permite mostrar los mensajes de error de los inputs relacionados con el mismo (en caso de que sean incorrectos)
+
     creditCard.addEventListener('change', function () {
 
       if (creditCard.checked) {
@@ -446,6 +449,9 @@ if (!isValidDate(this)) {
 
     });
 
+    // Aquí agregamos otro addEventListener, pero al radio button de transferencia bancaria, el cual realiza lo mismo que la funcion anterior
+    // pero para los inputs relacionados con este
+
     bankTransfer.addEventListener('change', function () {
       if (bankTransfer.checked) {
 
@@ -467,6 +473,9 @@ if (!isValidDate(this)) {
 
       }
     });
+
+    // Ademas de los addEventListeners, al clickear comprar, observamos que inputs de los habilitados son correctos, y en caso
+    // de que alguno no lo sea, se muestra un mensaje de error personalizado.
 
     for (const element of creditCardFields) {
 
@@ -519,6 +528,9 @@ if (!isValidDate(this)) {
       });
 
     }
+
+    // Si la compra es valida (gracias a una funcion que revisa cada campo del form), se muestra un mensaje de realizacion de la misma, ademas de
+    // realizarse un submit del form
 
     if (validatePurchase()){
 

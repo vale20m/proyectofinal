@@ -182,10 +182,6 @@ function showCart(array){
 
 let cartArray = [];
 
-// CREAMOS UN ARRAY QUE CARGA LOS ELEMENTOS DEL LOCAL STORAGE
-
-let localItems = loadCartItems();
-
 // Variable que contendra los distintos cambios de varias monedas a peso uruguayo
 
 let currencyValues;
@@ -198,7 +194,13 @@ async function getCart(url1, url2) {
     // Reemplazamos los elementos en el arreglo cartArray con los nuevos elementos del servidor
     cartArray = responseContentsItems.articles;
 
-    cartArray[0].username = localStorage.getItem("email");
+    for (let i = 0; i < cartArray.length; i++){
+      cartArray[i].username = localStorage.getItem("email");
+    }
+
+    // Creamos un array que carga los elementos del localStorage y los pasamos a cartArray
+
+    const localItems = loadCartItems();
 
     if (localItems){
       // Agregamos los elementos del almacenamiento local al arreglo cartArray
@@ -366,6 +368,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   // Agrega un evento al botón de confirmación de compra
+
+  // const confirmPurchaseButton = document.getElementById('confirmPurchase');
+
+  // const form = document.querySelector("#form");
+
+  // confirmPurchaseButton.addEventListener("click", event => {
+
+  //   console.log("hola");
+    
+  //   if (!form.checkValidity()){
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //   }
+
+  //   form.classList.add("was-validated");
+
+  // });
+
 
   const confirmPurchaseButton = document.getElementById('confirmPurchase');
   confirmPurchaseButton.addEventListener('click', function () {

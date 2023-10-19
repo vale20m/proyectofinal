@@ -101,21 +101,26 @@ function showCart(array){
       <div class="col-md-2 d-md-block d-none">Subtotal</div>
   </div>`
   for (const item of array) {
-
-    // CREAMOS UNA SECCION DE LA TABLA DONDE AGREGAREMOS LOS ELEMENTOS EXTRAIDOS DEL JSON Y DEL LOCAL STORAGE
-
     const div = document.createElement("div");
-    div.innerHTML =
-    `<div class="list-group-item border rounded">
-      <div class="row mx-auto">
-        <div class="col-md-2 col-sm-4 offset-sm-0 col-5 offset-1 my-auto"><img id="cartItemImage" class="img-thumbnail my-auto" src="${item.image}"></div>
-        <h4 class="col-lg-2 col-md-3 col-sm-4 col-6 my-auto mx-auto">${item.name}</h4>
-        <h4 class="col-md-2 col-sm-4 d-sm-block d-none my-auto">${item.currency} ${item.unitCost}</h4>
-        <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-3">Cantidad: </h4><div class="col-md-2 col-sm-3 col-6 my-md-auto mt-3 mt-2"><input type="number" class="form-control w-75" value="${item.count}" min="1"></div>
-        <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-2">Subtotal: </h4><h4 id="subtotal" class="col-md-2 col-sm-3 col-6 my-md-auto mt-2">${calculateSubtotal(item.currency, item.unitCost, item.count)}</h4>
-      </div>
-      <button type="button" id="closeButton" class="close btn position-absolute top-0 end-0" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>`;
+    const quantityInputId = `quantityInput_${item.id}`; // Crea un ID único para cada campo de cantidad
+  
+    // Crea el elemento div y agrega clases de validación y un mensaje de error
+    div.innerHTML = `
+      <div class="list-group-item border rounded">
+        <div class="row mx-auto">
+          <div class="col-md-2 col-sm-4 offset-sm-0 col-5 offset-1 my-auto">
+            <img id="cartItemImage" class="img-thumbnail my-auto" src="${item.image}"></div>
+          <h4 class="col-lg-2 col-md-3 col-sm-4 col-6 my-auto mx-auto">${item.name}</h4>
+          <h4 class="col-md-2 col-sm-4 d-sm-block d-none my-auto">${item.currency} ${item.unitCost}</h4>
+          <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-3">Cantidad: </h4>
+          <div class="col-md-2 col-sm-3 col-6 my-md-auto mt-3 mt-2">
+            <input type="number" class="form-control w-75 ${item.count <= 0 ? 'is-invalid' : ''}" id="${quantityInputId}" value="${item.count}" min="1">
+            <div class="invalid-feedback">La cantidad debe ser mayor que 0</div> <!-- Mensaje de error --></div>
+          <h4 class="d-md-none col-sm-3 offset-sm-0 col-5 offset-1 my-md-auto mt-sm-3 mt-2">Subtotal: </h4>
+          <h4 id="subtotal" class="col-md-2 col-sm-3 col-6 my-md-auto mt-2">${calculateSubtotal(item.currency, item.unitCost, item.count)}</h4></div>
+        <button type="button" id="closeButton" class="close btn position-absolute top-0 end-0" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+      </div>`;
 
 
     // AGREGAMOS UN ADD EVENT LISTENER QUE SE ACTIVA CUANTO SE HACE CLICK EN EL BOTON "CERRAR"

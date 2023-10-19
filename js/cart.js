@@ -369,42 +369,57 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Agrega un evento al botón de confirmación de compra
 
-  // const confirmPurchaseButton = document.getElementById('confirmPurchase');
+  const purchaseButton = document.getElementById('confirmPurchase');
 
-  // const form = document.querySelector("#form");
+  const form = document.querySelector("#form");
 
-  // confirmPurchaseButton.addEventListener("click", event => {
-
-  //   console.log("hola");
+  purchaseButton.addEventListener("click", event => {
     
-  //   if (!form.checkValidity()){
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //   }
+    if (!form.checkValidity()){
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
-  //   form.classList.add("was-validated");
+    
 
-  // });
+    form.classList.add("was-validated");
 
+    if (validatePurchase()){
 
-  const confirmPurchaseButton = document.getElementById('confirmPurchase');
-  confirmPurchaseButton.addEventListener('click', function () {
-
-    // Realiza las validaciones antes de confirmar la compra
-    if (validatePurchase()) {
-      // Simula una compra exitosa
+    // Simula una compra exitosa
 
       const successBanner = document.getElementById('successBanner');
       successBanner.style.display = 'block';
 
       setTimeout(function () {
         successBanner.style.display = 'none';
-        const checkoutForm = document.getElementById('checkoutForm');
-        checkoutForm.submit();
+        form.submit();
       
       }, 4000);
+
     }
+
   });
+
+
+  // const confirmPurchaseButton = document.getElementById('confirmPurchase');
+  // confirmPurchaseButton.addEventListener('click', function () {
+
+  //   // Realiza las validaciones antes de confirmar la compra
+  //   if (validatePurchase()) {
+  //     // Simula una compra exitosa
+
+  //     const successBanner = document.getElementById('successBanner');
+  //     successBanner.style.display = 'block';
+
+  //     setTimeout(function () {
+  //       successBanner.style.display = 'none';
+  //       const checkoutForm = document.getElementById('checkoutForm');
+  //       checkoutForm.submit();
+      
+  //     }, 4000);
+  //   }
+  // });
 
   // Función que realiza las validaciones del método de pago, devolviendo true en caso de que no haya errores
 
@@ -428,24 +443,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // En caso de que alguno este vacío, mostramos un mensaje de error, y lo borramos en caso de que no lo este.
    
    if (calle.value == '') {
-      document.getElementById('calle-error').textContent = 'Ingresa una calle';
       isValid = false;
-    } else {
-      document.getElementById('calle-error').textContent = "";
     }
 
     if (numero.value == '') {
-      document.getElementById('numero-error').textContent = 'Ingresa un numero';
       isValid = false;
-    } else {
-      document.getElementById('numero-error').textContent = "";
     }
 
     if (esquina.value == '') {
-      document.getElementById('esquina-error').textContent = 'Ingresa una esquina';
       isValid = false;
-    } else {
-      document.getElementById('esquina-error').textContent = "";
     }
 
     if (shipType.value == '0') {

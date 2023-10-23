@@ -581,13 +581,6 @@ document.addEventListener('DOMContentLoaded', function () {
       isValid = false;
     }
 
-    // shipType no da error
-
-    // if (shipType.value == '0') {
-    //   alert('Debes seleccionar un tipo de envío.');
-    //   isValid = false;
-    // }
-
     if (selectionText.textContent == 'No ha seleccionado') {
       document.getElementById('selectionText-error').hidden = false;
       isValid = false;

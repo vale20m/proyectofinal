@@ -292,6 +292,81 @@ document.addEventListener('DOMContentLoaded', function () {
   creditCard.addEventListener('change', updateSelectionText);
   bankTransfer.addEventListener('change', updateSelectionText);
 
+
+  // Función que verifica el contenido de los campos de la opción "tarjeta de crédito"
+
+  function validateNumberInput(field) {
+    field.addEventListener('input', function () {
+
+      // Eliminamos los caracteres no numéricos de los campos
+      let value = this.value.replace(/[^0-9]/, '');
+      
+      if (field.id == 'expirationDate') {
+
+        // divide la fecha con / para hacerla formato MM/AA
+        if (value.length > 2) {
+          value = value.slice(0, 2) + '/' + value.slice(2);
+        }
+        
+        if (value.length > 5) {
+          value = value.slice(0, 5);
+        }
+
+      }
+      
+      field.value = value;
+    });
+  }
+
+  // Validamos la fecha
+
+  function isValidDate(input) {
+    
+    const dateValue = input.value;
+    
+    const [month, year] = dateValue.split('/');
+
+    const monthNumber = parseInt(month, 10);
+    const yearNumber = parseInt(year, 10);
+
+    if (monthNumber < 1 || monthNumber > 12) {
+      return false;
+    }
+
+    const currentYear = new Date().getFullYear() % 100;
+    console.log (currentYear);
+    
+    const currentMonth = new Date().getMonth() + 1; 
+    console.log (currentMonth);
+
+    // Valida el año (debe ser mayor o igual al año y mes actual)
+    if (yearNumber > currentYear || (yearNumber == currentYear && monthNumber > currentMonth)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  const expirationDateInput = document.getElementById('expirationDate');
+
+  expirationDateInput.addEventListener('blur', function() {
+  if (!isValidDate(this)) {
+    alert('Fecha de vencimiento no válida. Por favor ingrese una fecha válida.');
+    this.value = '';
+  }
+  });
+
+  // LLamamos a la función anterior con cada campo del form
+
+  for (const element of creditCardFields) {
+    validateNumberInput(element);
+  }
+
+  for (const element of bankTransferFields) {
+    validateNumberInput(element);
+  }
+
+
   // Funciones que activa los campos de una opcion y desactiva los de la otra, según cual este seleccionada.
 
   function enableFields(fields){
@@ -306,80 +381,6 @@ document.addEventListener('DOMContentLoaded', function () {
       field.disabled = true;
       field.required = false;
     }
-  }
-
-  // Función que verifica el contenido de los campos de la opción "tarjeta de crédito"
-
-  function validateNumberInput(field) {
-    field.addEventListener('input', function () {
-
-      // Eliminamos los caracteres no numéricos de los campos
-      let value = this.value.replace(/\D/g, '');
-      
-      if (field.id == 'expirationDate') {
-        // divide la fecha con / para hacerla formato MM/AA
-        if (value.length > 2) {
-          value = value.slice(0, 2) + '/' + value.slice(2);
-        }
-        if (value.length > 5) {
-          value = value.slice(0, 5);
-        }
-      }
-      
-      field.value = value;
-    });
-  }
-
-//Validamos la fecha
-
-function isValidDate(input) {
-  const dateValue = input.value;
-
-  
-  if (!/^\d{2}\/\d{2}$/.test(dateValue)) {
-    return false;
-  }
-  
-  const [month, year] = dateValue.split('/');
-
-  const monthNumber = parseInt(month, 10);
-  const yearNumber = parseInt(year, 10);
-
-  if (monthNumber < 1 || monthNumber > 12) {
-    return false;
-  }
-
-  const currentYear = new Date().getFullYear() % 100;
-  console.log (currentYear);
-  
-  const currentMonth = new Date().getMonth() + 1; 
-  console.log (currentMonth);
-
-  // Valida el año (debe ser mayor o igual al año y mes actual)
-  if (yearNumber > currentYear || (yearNumber == currentYear && monthNumber > currentMonth)) {
-    return true;
-  }
-
-  return false;
-}
-
-const expirationDateInput = document.getElementById('expirationDate');
-
- expirationDateInput.addEventListener('blur', function() {
-if (!isValidDate(this)) {
-  alert('Fecha de vencimiento no válida. Por favor ingrese una fecha válida.');
-  this.value = '';
-}
-});
-
-  // LLamamos a la función anterior con cada campo del form
-
-  for (const element of creditCardFields) {
-    validateNumberInput(element);
-  }
-
-  for (const element of bankTransferFields) {
-    validateNumberInput(element);
   }
 
   // Agregamos un addEventListener a cada radio button, ejecutandose cuando es seleccionado, y haciendo que sus campos se habiliten (y deshabilitando los del otro radio button)

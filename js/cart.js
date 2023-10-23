@@ -571,11 +571,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Simula una compra exitosa
 
       const successBanner = document.getElementById('successBanner');
-      successBanner.style.display = 'block';
+      successBanner.classList.remove("d-none");
+      successBanner.classList.add("d-block");
 
       setTimeout(function () {
 
-        successBanner.style.display = 'none';
+        successBanner.classList.remove("d-block");
+        successBanner.classList.add("d-none");
         form.submit();
       
       }, 4000);

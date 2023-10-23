@@ -270,12 +270,18 @@ shipType.addEventListener("change", () => updateQuantities(cartArray));
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
+
+
   // Guardamos en constantes los elementos de HTML que necesitamos para el funcionamiento del form
 
   const creditCard = document.getElementById('creditCard');
   const bankTransfer = document.getElementById('bankTransfer');
   const creditCardFields = document.getElementById("creditCardFields").getElementsByTagName("input");
   const bankTransferFields = document.getElementById("bankTransferFields").getElementsByTagName("input");
+
+
+
 
   // Función que actualiza el texto según la forma de pago elegida
 
@@ -291,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   creditCard.addEventListener('change', updateSelectionText);
   bankTransfer.addEventListener('change', updateSelectionText);
+
 
 
   // Función que verifica el contenido de los campos de la opción "tarjeta de crédito"
@@ -317,6 +324,8 @@ document.addEventListener('DOMContentLoaded', function () {
       field.value = value;
     });
   }
+
+
 
   // Validamos la fecha
 
@@ -347,6 +356,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return false;
   }
 
+
+
   const expirationDateInput = document.getElementById('expirationDate');
 
   expirationDateInput.addEventListener('blur', function() {
@@ -355,6 +366,9 @@ document.addEventListener('DOMContentLoaded', function () {
     this.value = '';
   }
   });
+
+
+
 
   // LLamamos a la función anterior con cada campo del form
 
@@ -365,6 +379,7 @@ document.addEventListener('DOMContentLoaded', function () {
   for (const element of bankTransferFields) {
     validateNumberInput(element);
   }
+
 
 
   // Funciones que activa los campos de una opcion y desactiva los de la otra, según cual este seleccionada.
@@ -383,6 +398,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+
+
+
   // Agregamos un addEventListener a cada radio button, ejecutandose cuando es seleccionado, y haciendo que sus campos se habiliten (y deshabilitando los del otro radio button)
 
   creditCard.addEventListener('change', function () {
@@ -400,6 +418,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
+
   // Agrega un evento al botón de confirmación de compra
 
   const purchaseButton = document.getElementById('confirmPurchase');
@@ -408,6 +427,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   purchaseButton.addEventListener("click", event => {
 
+
+
     // Si no se cumple que un elemento del form no es valido, finaliza la propagación del código y no ejecuta la caso por defecto
     
     if (!form.checkValidity()){
@@ -415,9 +436,13 @@ document.addEventListener('DOMContentLoaded', function () {
       event.stopPropagation();
     }
 
+
+
     // Agregamos una clase al form que permite ver que campos son correctos y cuales no
 
     form.classList.add("was-validated");
+
+
 
     // Agregamos un addEventListener al radio buton de tarjeta de credito, que hace que cuando cambie (de chequeado a no chequeado y viceversa)
     // permite mostrar los mensajes de error de los inputs relacionados con el mismo (en caso de que sean incorrectos)
@@ -450,6 +475,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
+
     // Aquí agregamos otro addEventListener, pero al radio button de transferencia bancaria, el cual realiza lo mismo que la funcion anterior
     // pero para los inputs relacionados con este
 
@@ -474,6 +501,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
       }
     });
+
+
 
     // Ademas de los addEventListeners, al clickear comprar, observamos que inputs de los habilitados son correctos, y en caso
     // de que alguno no lo sea, se muestra un mensaje de error personalizado.
@@ -518,6 +547,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
+
+
     for (const element of bankTransferFields) {
       
       element.addEventListener("input", function(){
@@ -529,6 +560,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
     }
+
+
 
     // Si la compra es valida (gracias a una funcion que revisa cada campo del form), se muestra un mensaje de realizacion de la misma, ademas de
     // realizarse un submit del form
@@ -554,6 +587,9 @@ document.addEventListener('DOMContentLoaded', function () {
   // Función que realiza las validaciones del método de pago, devolviendo true en caso de que no haya errores
 
   function validatePurchase() {
+
+
+
     // const shipType = document.getElementById('shipType');
     const calle = document.getElementById('calle');
     const numero = document.getElementById('numero');
@@ -638,31 +674,32 @@ document.addEventListener('DOMContentLoaded', function () {
     
       // Validar las cantidades de productos en el carrito
 
-  for (const cartItem of cartItems) {
+    for (const cartItem of cartItems) {
 
-    const quantityInput = cartItem.querySelector('input');
-    const quantity = parseInt(quantityInput.value);
+      const quantityInput = cartItem.querySelector('input');
+      const quantity = parseInt(quantityInput.value);
 
-    if (quantity <= 0) {
+      if (quantity <= 0) {
 
-      // Si la cantidad es menor o igual a cero, muestra un mensaje de error
-      const errorDiv = cartItem.querySelector('.invalid-feedback');
-      errorDiv.textContent = 'La cantidad debe ser mayor que 0';
-      quantityInput.classList.add('is-invalid');
-      isValid = false;
+        // Si la cantidad es menor o igual a cero, muestra un mensaje de error
+        const errorDiv = cartItem.querySelector('.invalid-feedback');
+        errorDiv.textContent = 'La cantidad debe ser mayor que 0';
+        quantityInput.classList.add('is-invalid');
+        isValid = false;
 
-    } else {
+      } else {
 
-      // Si la cantidad es válida, limpia el mensaje de error
-      const errorDiv = cartItem.querySelector('.invalid-feedback');
-      errorDiv.textContent = '';
-      quantityInput.classList.remove('is-invalid');
+        // Si la cantidad es válida, limpia el mensaje de error
+        const errorDiv = cartItem.querySelector('.invalid-feedback');
+        errorDiv.textContent = '';
+        quantityInput.classList.remove('is-invalid');
+
+      }
 
     }
 
+    return isValid;
+
   }
-
-  return isValid;
-
-}
+  
 });

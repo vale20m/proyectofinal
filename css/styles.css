@@ -242,3 +242,15 @@ a.custom-card:hover {
 .red-text {
   color: rgb(211, 65, 65);
 }
+
+.custom-card {
+  transition: transform 0.3s ease-in-out ;
+}
+
+.custom-card:hover {
+  transform: scale(1.05); 
+}
+
+#Inicio:hover {
+  transform: scale(1.05); 
+}

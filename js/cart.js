@@ -218,6 +218,8 @@ async function getCart(url1, url2) {
 
     localStorage.setItem("cartItems", JSON.stringify(cartArray));
 
+    // Realizamos un segundo fetch a una API con el cambio de peso a dolar actualizado
+
     let responseCurrencies = await fetch(url2);
     let responseContentsCurrencies = await responseCurrencies.json();
 

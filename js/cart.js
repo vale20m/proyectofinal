@@ -226,12 +226,6 @@ async function getCart(url1, url2) {
 
     localStorage.setItem("cartItems", JSON.stringify(cartArray));
 
-    // Realizamos un segundo fetch para traer los cambios de otras monedas a peso uruguayo
-
-    // let responseCurrencies = await fetch(url2);
-    // let responseContentsCurrencies = await responseCurrencies.json();
-
-    // currencyValues = responseContentsCurrencies.rates;
 
     // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS ELEMENTOS DEL CARRITO
 

@@ -4,7 +4,7 @@ const URL_USER = "https://japceibal.github.io/emercado-api/user_cart/25801.json"
 
 // API que tiene el valor de las divisas actualizado
 
-const URL_CURRENCIES = "https://cotizaciones-brou-v2-e449.fly.dev/currency/latest";
+const URL_CURRENCIES = "https://v6.exchangerate-api.com/v6/b0fca623d878533edbdf61b4/latest/USD";
 
 const cartItems = document.querySelector("#cartItems");
 
@@ -37,15 +37,7 @@ function calculateCartSubtotal(array){
 
     if (product.currency == "UYU"){
 
-      if (currencyValues != undefined){
-
-        cartSubtotal += Math.round((product.unitCost * product.count) / currencyValues.USD.buy);
-
-      } else {
-
-        cartSubtotal += Math.round((product.unitCost * product.count) / 39);
-
-      }
+      cartSubtotal += Math.round((product.unitCost * product.count) / currencyValues);
 
     } else {
 
@@ -197,7 +189,7 @@ let cartArray = [];
 
 // Variable que contendra los distintos cambios de varias monedas a peso uruguayo
 
-let currencyValues = undefined;
+let currencyValues;
 
 async function getCart(url1, url2) {
   try {
@@ -226,6 +218,10 @@ async function getCart(url1, url2) {
 
     localStorage.setItem("cartItems", JSON.stringify(cartArray));
 
+    let responseCurrencies = await fetch(url2);
+    let responseContentsCurrencies = await responseCurrencies.json();
+
+    currencyValues = responseContentsCurrencies.conversion_rates.UYU;
 
     // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS ELEMENTOS DEL CARRITO
 
@@ -240,26 +236,6 @@ async function getCart(url1, url2) {
   }
 }
 
-async function getExchange(url){
-
-  try {
-
-    // Realizamos un segundo fetch para traer los cambios de otras monedas a peso uruguayo
-
-    let responseCurrencies = await fetch(url);
-    let responseContentsCurrencies = await responseCurrencies.json();
-
-    currencyValues = responseContentsCurrencies.rates;
-
-  } catch (error) {
-    console.log("HTTP ERROR: " + error.message);
-  }
-
-}
-
-// FUNCION QUE TOMA LOS ELEMENTOS DEL LOCAL STORAGE
-
-getExchange(URL_CURRENCIES);
 getCart(URL_USER, URL_CURRENCIES);
 
 function loadCartItems() {

@@ -14,7 +14,7 @@ const cartControls = document.querySelector("#cartControls");
 // PRECIO POR LACANTIDAD, Y AGREGANDO LA MONEDA AL COMIENZO (DEVOLVIENDO UN SITRING)
 
 function calculateSubtotal(string, num1, num2){
-    const x = num1 * num2
+    const x = num1 * num2;
     const subtotal = string + " " + x;
     return subtotal;
 }
@@ -37,7 +37,15 @@ function calculateCartSubtotal(array){
 
     if (product.currency == "UYU"){
 
-      cartSubtotal += Math.round((product.unitCost * product.count) / currencyValues.USD.buy);
+      if (currencyValues != undefined){
+
+        cartSubtotal += Math.round((product.unitCost * product.count) / currencyValues.USD.buy);
+
+      } else {
+
+        cartSubtotal += Math.round((product.unitCost * product.count) / 39);
+
+      }
 
     } else {
 
@@ -189,7 +197,7 @@ let cartArray = [];
 
 // Variable que contendra los distintos cambios de varias monedas a peso uruguayo
 
-let currencyValues;
+let currencyValues = undefined;
 
 async function getCart(url1, url2) {
   try {
@@ -220,12 +228,13 @@ async function getCart(url1, url2) {
 
     // Realizamos un segundo fetch para traer los cambios de otras monedas a peso uruguayo
 
-    let responseCurrencies = await fetch(url2);
-    let responseContentsCurrencies = await responseCurrencies.json();
+    // let responseCurrencies = await fetch(url2);
+    // let responseContentsCurrencies = await responseCurrencies.json();
 
-    currencyValues = responseContentsCurrencies.rates;
+    // currencyValues = responseContentsCurrencies.rates;
 
     // LLAMAMOS A LA FUNCION PARA MOSTRAR LOS ELEMENTOS DEL CARRITO
+
     if (cartArray && cartArray != []){
       showCart(cartArray);
     } else {
@@ -237,8 +246,26 @@ async function getCart(url1, url2) {
   }
 }
 
+async function getExchange(url){
+
+  try {
+
+    // Realizamos un segundo fetch para traer los cambios de otras monedas a peso uruguayo
+
+    let responseCurrencies = await fetch(url);
+    let responseContentsCurrencies = await responseCurrencies.json();
+
+    currencyValues = responseContentsCurrencies.rates;
+
+  } catch (error) {
+    console.log("HTTP ERROR: " + error.message);
+  }
+
+}
+
 // FUNCION QUE TOMA LOS ELEMENTOS DEL LOCAL STORAGE
 
+getExchange(URL_CURRENCIES);
 getCart(URL_USER, URL_CURRENCIES);
 
 function loadCartItems() {

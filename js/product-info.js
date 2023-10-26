@@ -5,6 +5,9 @@ const ProductNum = localStorage.getItem("productID");
 
 const CAT_PRODUCTOS = "https://japceibal.github.io/emercado-api/products/" + ProductNum + ".json";
 
+const CategoryNum = localStorage.getItem("catID");
+const DATA_PRODUCTOS = "https://japceibal.github.io/emercado-api/cats_products/" + CategoryNum + ".json";
+
 // "Traemos" utilizando el DOM el div de id "infoProduct" para colocar la información en él
 
 const container = document.getElementById("infoProduct");
@@ -15,7 +18,8 @@ function showData(product) {
   container.innerHTML += `
   <div class="row col-11 mx-auto"><h1 class="my-3 text-uppercase col-lg-8 col-md-7 col-12">${product.name}</h1>
   <div class="col-lg-1 col-md-2 col-3"><a role="button" id="wishlist" class="fs-1 btn mt-lg-0 mt-md-3">❤</a></div>
-  <button id="buyProduct" type="button" class="btn btn-primary fs-3 col-md-3 col-9 my-auto">Comprar</button></div> <hr>
+  <button id="buyProduct" type="button" class="btn btn-primary fs-3 col-md-3 col-9 my-auto">Comprar</button></div>
+  <div><a class="text-secondary" href="index.html">Inicio ></a><a class="text-secondary" href="categories.html">Categorias ></a><a class="text-secondary" href="products.html">${categoria}</a></div> <hr>
   <p class="fs-3 shadow p-3 mb-3 mt-4 bg-body rounded fst-italic">${product.description}<p>
   <h2 class="shadow p-3 my-3 bg-body rounded">Precio: ${product.currency} ${product.cost}</h2>
   <h2 class="shadow p-3 mb-5 bg-body rounded">Ventas: ${product.soldCount} </h2>
@@ -38,6 +42,19 @@ function showData(product) {
 
 }
 
+//FUNCION PARA TENER NOMBRE DE LOS PRODUCTOS DE LINK ANTERIOR
+let categoria;
+async function tomarDatos (url){
+  let response = await fetch(url);
+  if (response.ok){
+    let responseContents = await response.json();
+      categoria = responseContents.catName;
+     
+  } else {
+    alert("HTTP ERROR: " + response.status);
+  }
+}
+tomarDatos(DATA_PRODUCTOS);
 
 // FUNCION PARA MOSTRAR LOS PRODUCTOS RELACIONADOS
 

@@ -255,7 +255,7 @@ a.custom-card:hover {
   transform: scale(1.05); 
 }
 
-.perfil-image-container {
+.profileImageContainer {
   position: absolute;
   top: 70px; /* Ajusta la posición vertical según tus preferencias */
   right: 280px; /* Ajusta la posición horizontal según tus preferencias */
@@ -266,7 +266,7 @@ a.custom-card:hover {
   overflow: hidden;
 }
 
-.perfil-image {
+.profileImage {
   width: 100%;
   height: 100%;
   object-fit: cover;

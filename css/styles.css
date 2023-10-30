@@ -264,7 +264,6 @@ a.custom-card:hover {
   border: 2px solid #ccc;
   border-radius: 50%;
   overflow: hidden;
-  z-index: 1;
 }
 
 .perfil-image {

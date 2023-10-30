@@ -5,7 +5,7 @@ const wishlistItems = document.querySelector("#wishlistItems");
 function showWishlistedItems(array){
 
     wishlistItems.innerHTML = 
-    `<h1 class="mt-3 mb-5 mx-auto">Actualmente, tienes los siguientes productos en tu lista de deseados:</h1>`
+    `<h1 class="mt-3 mb-5">Actualmente, tienes los siguientes productos en tu lista de deseados:</h1>`
 
     for (const product of array) {
 
@@ -64,7 +64,7 @@ function setItems(array){
     // Si el usuario actual tiene items en la lista, se muestran, y si no, se muestra un mensaje
 
     if (!array || array.length == 0){
-        wishlistItems.innerHTML = `<h1 class="mt-3 mx-auto">Actualmente no hay productos en la lista de deseados</h1>`;
+        wishlistItems.innerHTML = `<h1 class="mt-3">Actualmente no hay productos en la lista de deseados</h1>`;
     } else {
         showWishlistedItems(array);
     }

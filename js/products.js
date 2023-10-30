@@ -5,22 +5,22 @@ los elementos extraidos de la API */
 
 let CategoryNum = localStorage.getItem("catID");
 
-let DATA_PRODUCTOS = "https://japceibal.github.io/emercado-api/cats_products/" + CategoryNum + ".json";
+let DATA_product = "https://japceibal.github.io/emercado-api/cats_products/" + CategoryNum + ".json";
 
 const container = document.getElementById("info");
 
 /* Entrega 3: Función para redireccionar al usuario a "product-info.html" una vez
-   seleccione un producto */
+   seleccione un product */
 
 function selectProduct(productID){
   localStorage.setItem("productID", productID);
   window.location = "product-info.html";
 }
 
-/* Establecemos la estructura con la que se van a incluir los productos de la
+/* Establecemos la estructura con la que se van a incluir los products de la
 API en el documento HTML */
 
-/* Para la entrega 3 agregamos una funcion "onclick" a la tabla que muestra cada producto,
+/* Para la entrega 3 agregamos una funcion "onclick" a la tabla que muestra cada product,
    que ejecuta la funcion "selectProduct" */
 
 function showData(dataArray) {
@@ -41,114 +41,114 @@ function showData(dataArray) {
   }
 }
 
-let arregloProductos = [];
+let productsArray = [];
 
-let precioMayor = 0;
-let precioMenor = Infinity;
+let maxPrice = 0;
+let minPrice = Infinity;
 
-function cambiarPrecio(producto){
-    if(precioMayor < producto.cost){
-      precioMayor = producto.cost;
+function modifyPrice(product){
+    if(maxPrice < product.cost){
+      maxPrice = product.cost;
     }
-    if(precioMenor > producto.cost){
-      precioMenor = producto.cost;
+    if(minPrice > product.cost){
+      minPrice = product.cost;
     }
 }
 
-function guardarProductos(array){
-  for (const producto of array){
-    cambiarPrecio(producto);
-    arregloProductos.push(producto);
+function saveProducts(array){
+  for (const product of array){
+    modifyPrice(product);
+    productsArray.push(product);
   }
 }
 
 // Realizamos la llamada a través del fetch para obtener la información de la API
 
-// Creamos una variable para guardar los productos
+// Creamos una variable para guardar los products
 
-const categoriaConteiner = document.querySelector(".lead");
+const categoryContainer = document.querySelector(".lead");
 
-async function tomarDatos (url){
+async function getData (url){
   let response = await fetch(url);
   if (response.ok){
     let responseContents = await response.json();
 
-    // Agregamos los productos al arreglo "arregloProductos" la funcion "guardarProductos";
-    guardarProductos(responseContents.products);
+    // Agregamos los products al arreglo "productsArray" la funcion "saveProducts";
+    saveProducts(responseContents.products);
 
     showData(responseContents.products);
 
-    const categoria = responseContents.catName;
-    categoriaConteiner.innerHTML += `Aqui podes ver todos nuestros  <u>${categoria}</u>`
+    const category = responseContents.catName;
+    categoryContainer.innerHTML += `Aqui podes ver todos nuestros  <u>${category}</u>`
   } else {
     alert("HTTP ERROR: " + response.status);
   }
 }
 
-tomarDatos(DATA_PRODUCTOS);
+getData(DATA_product);
 
-let arregloFiltrado = arregloProductos;
+let filteredProducts = productsArray;
 
-// Desarrollamos el código para filtrar los productos
+// Desarrollamos el código para filtrar los products
 
 // Botones de orden (ascendente, descendente y por cantidad):
 
-const botonOrdenDesc = document.querySelector("#sortDesc");
-const botonOrdenAsc = document.querySelector("#sortAsc");
-const botonOrdenVentas = document.querySelector("#sortByRel");
+const sortDescButton = document.querySelector("#sortDesc");
+const sortAscButton = document.querySelector("#sortAsc");
+const sortSoldCountButton = document.querySelector("#sortByRel");
 
-botonOrdenDesc.addEventListener("click", function(){
-  arregloFiltrado = arregloProductos.sort((producto1, producto2) => producto2.cost - producto1.cost);
-  showData(arregloFiltrado);
+sortDescButton.addEventListener("click", function(){
+  filteredProducts = productsArray.sort((product1, product2) => product2.cost - product1.cost);
+  showData(filteredProducts);
 });
 
-botonOrdenAsc.addEventListener("click", function(){
-  arregloFiltrado = arregloProductos.sort((producto1, producto2) => producto1.cost - producto2.cost);
-  showData(arregloFiltrado);
+sortAscButton.addEventListener("click", function(){
+  filteredProducts = productsArray.sort((product1, product2) => product1.cost - product2.cost);
+  showData(filteredProducts);
 });
 
-botonOrdenVentas.addEventListener("click", function(){
-  arregloFiltrado = arregloProductos.sort((producto1, producto2) => producto2.soldCount - producto1.soldCount);
-  showData(arregloFiltrado);
+sortSoldCountButton.addEventListener("click", function(){
+  filteredProducts = productsArray.sort((product1, product2) => product2.soldCount - product1.soldCount);
+  showData(filteredProducts);
 });
 
 // Casillas de cantidad (a elección):
 
-const precioMin = document.querySelector("#rangeFilterPriceMin");
-const precioMax = document.querySelector("#rangeFilterPriceMax");
+const minPriceInput = document.querySelector("#rangeFilterPriceMin");
+const maxPriceInput = document.querySelector("#rangeFilterPriceMax");
 
-// Boton para filtrar y limpiar busqueda (en relacion a las casillas anteriores):
+// Botones para filtrar y limpiar busqueda (en relacion a las casillas anteriores):
 
-const filtrar = document.querySelector("#rangeFilterPrice");
-const limpiar = document.querySelector("#clearRangeFilter");
+const filter = document.querySelector("#rangeFilterPrice");
+const clear = document.querySelector("#clearRangeFilter");
 
-filtrar.addEventListener("click", function(){
-  if (precioMin.value <= precioMayor && precioMin.value >= 0 && precioMax.value == ""){
-    arregloFiltrado = arregloProductos.filter((producto) => (producto.cost >= precioMin.value));
+filter.addEventListener("click", function(){
+  if (minPriceInput.value <= maxPrice && minPriceInput.value >= 0 && maxPriceInput.value == ""){
+    filteredProducts = productsArray.filter((product) => (product.cost >= minPriceInput.value));
   } else
-  if (precioMax.value >= precioMenor && precioMin.value == ""){
-    arregloFiltrado = arregloProductos.filter((producto) => (producto.cost <= precioMax.value));
+  if (maxPriceInput.value >= minPrice && minPriceInput.value == ""){
+    filteredProducts = productsArray.filter((product) => (product.cost <= maxPriceInput.value));
   } else
-  if (precioMax.value >= precioMin.value && precioMax.value >= precioMenor && precioMin.value <= precioMayor && precioMin.value >= 0){
-    arregloFiltrado = arregloProductos.filter((producto) => (producto.cost >= precioMin.value && producto.cost <= precioMax.value));
+  if (maxPriceInput.value >= minPriceInput.value && maxPriceInput.value >= minPrice && minPriceInput.value <= maxPrice && minPriceInput.value >= 0){
+    filteredProducts = productsArray.filter((product) => (product.cost >= minPriceInput.value && product.cost <= maxPriceInput.value));
   }
-  showData(arregloFiltrado);
+  showData(filteredProducts);
 });
 
-limpiar.addEventListener("click", function(){
-  precioMax.value = "";
-  precioMin.value = "";
-  showData(arregloProductos);
-  arregloFiltrado = arregloProductos;
+clear.addEventListener("click", function(){
+  maxPriceInput.value = "";
+  minPriceInput.value = "";
+  showData(productsArray);
+  filteredProducts = productsArray;
 });
 
 // Agregamos las funciones para la barra de busqueda
 
-const barraBuscar = document.querySelector("#barraBuscar");
+const searchBar = document.querySelector("#searchBar");
 
 // El evento "input" se activa cuando se modifica el valor de la barra de busqueda
 
-barraBuscar.addEventListener("input", function(){
-  const arregloBusqueda = arregloFiltrado.filter((producto) => (producto.name.toLowerCase().includes(barraBuscar.value.toLowerCase()) || producto.description.toLowerCase().includes(barraBuscar.value.toLowerCase())));
-  showData(arregloBusqueda);
+searchBar.addEventListener("input", function(){
+  const searchedProducts = filteredProducts.filter((product) => (product.name.toLowerCase().includes(searchBar.value.toLowerCase()) || product.description.toLowerCase().includes(searchBar.value.toLowerCase())));
+  showData(searchedProducts);
 });

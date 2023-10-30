@@ -5,7 +5,7 @@ img.login {
     width: 75px;
 }
   
-h1#inicio-sesion{
+h1#loginTitle{
     text-shadow: 1px 1px 1px black;
     font-size: 300%;
 }

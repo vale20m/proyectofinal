@@ -43,8 +43,8 @@ let getJSONData = function(url){
 
 // CONSTANTES PARA ENTREGA 4 FUNCIONALIDAD 2 (MENU DESPLEGABLE)
 
-const botonLogin = document.querySelector("#boton-login");
-const perfil = document.querySelector("#perfil");
+const loginButton = document.querySelector("#loginButton");
+const profile = document.querySelector("#profile");
 const options = document.querySelector("#profile-options");
 const userDropdown = document.querySelector("#userDropdown");
 
@@ -136,9 +136,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
   if(localStorage.getItem("email") == undefined){
 
-      perfil.innerHTML = "Redireccionando en 3...";
+      profile.innerHTML = "Redireccionando en 3...";
       for (let a = 2; a >= 1; a--){
-          setTimeout( () => perfil.innerHTML = "Redireccionando en " + a + "...", 2000/a);
+          setTimeout( () => profile.innerHTML = "Redireccionando en " + a + "...", 2000/a);
       }
       setTimeout( () => window.location.replace('login.html'), 3000);
 
@@ -149,11 +149,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
   } else {
 
-      perfil.innerHTML = localStorage.getItem("email");
-      botonLogin.addEventListener("click", function(){
+      profile.innerHTML = localStorage.getItem("email");
+      loginButton.addEventListener("click", function(){
           localStorage.removeItem("email");
-          //localStorage.removeItem("screenMode");
-          botonLogin.href = "index.html";
+          loginButton.href = "index.html";
       });
 
       // LE AGREGAMOS LA CLASE AL MENU DESPLEGABLE

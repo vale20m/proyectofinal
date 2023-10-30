@@ -3,14 +3,14 @@
 
 const ProductNum = localStorage.getItem("productID");
 
-const CAT_PRODUCTOS = "https://japceibal.github.io/emercado-api/products/" + ProductNum + ".json";
+const CAT_PRODUCTS = "https://japceibal.github.io/emercado-api/products/" + ProductNum + ".json";
 
 const CategoryNum = localStorage.getItem("catID");
-const DATA_PRODUCTOS = "https://japceibal.github.io/emercado-api/cats_products/" + CategoryNum + ".json";
+const DATA_PRODUCTS = "https://japceibal.github.io/emercado-api/cats_products/" + CategoryNum + ".json";
 
-// "Traemos" utilizando el DOM el div de id "infoProduct" para colocar la información en él
+// "Traemos" utilizando el DOM el div de id "productInfo" para colocar la información en él
 
-const container = document.getElementById("infoProduct");
+const container = document.getElementById("productInfo");
 
 const relatedProducts = document.getElementById("relatedProducts");
 
@@ -19,7 +19,7 @@ function showData(product) {
   <div class="row col-11 mx-auto"><h1 class="my-3 text-uppercase col-lg-8 col-md-7 col-12">${product.name}</h1>
   <div class="col-lg-1 col-md-2 col-3"><a role="button" id="wishlist" class="fs-1 btn mt-lg-0 mt-md-3">❤</a></div>
   <button id="buyProduct" type="button" class="btn btn-primary fs-3 col-md-3 col-9 my-auto">Comprar</button></div>
-  <div><a class="text-secondary" href="index.html">Inicio ></a><a class="text-secondary" href="categories.html">Categorias ></a><a class="text-secondary" href="products.html">${categoria}</a></div> <hr>
+  <div><a class="text-secondary" href="index.html">Inicio ></a><a class="text-secondary" href="categories.html">Categorías ></a><a class="text-secondary" href="products.html">${category}</a></div> <hr>
   <p class="fs-3 shadow p-3 mb-3 mt-4 bg-body rounded fst-italic">${product.description}<p>
   <h2 class="shadow p-3 my-3 bg-body rounded">Precio: ${product.currency} ${product.cost}</h2>
   <h2 class="shadow p-3 mb-5 bg-body rounded">Ventas: ${product.soldCount} </h2>
@@ -43,18 +43,20 @@ function showData(product) {
 }
 
 //FUNCION PARA TENER NOMBRE DE LOS PRODUCTOS DE LINK ANTERIOR
-let categoria;
-async function tomarDatos (url){
+let category;
+
+async function getData (url){
   let response = await fetch(url);
   if (response.ok){
     let responseContents = await response.json();
-      categoria = responseContents.catName;
+      category = responseContents.catName;
      
   } else {
     alert("HTTP ERROR: " + response.status);
   }
 }
-tomarDatos(DATA_PRODUCTOS);
+
+getData(DATA_PRODUCTS);
 
 // FUNCION PARA MOSTRAR LOS PRODUCTOS RELACIONADOS
 
@@ -117,7 +119,9 @@ function changeBackground(){
   }
 }
 
-async function tomarProductos (url){
+// Función que permite tomar el producto actual y guardarlo en el localStorage al precionar "Comprar", asi como agregarlo a la Wishlist y cambiar el color de fondo adecuadamente
+
+async function getProducts (url){
   let response = await fetch(url);
   if (response.ok){
     let responseContents = await response.json();
@@ -196,90 +200,87 @@ async function tomarProductos (url){
   }
 }
 
-tomarProductos(CAT_PRODUCTOS);
+getProducts(CAT_PRODUCTS);
 
 
-// CÓDIGO EN RELACIÓN A LOS COMENTARIOS DE LOS PRODUCTOS
 
+// CÓDIGO EN RELACIÓN A LOS comments DE LOS PRODUCTOS
 
 
 // Obtener elementos del formulario
-const commentText = document.getElementById("opinion"); // Obtiene el elemento con el id "opinion"
-const commentScore = document.getElementById("puntuacion"); // Obtiene el elemento con el id "puntuacion"
-const enviarButton = document.getElementById("enviar"); // Obtiene el elemento con el id "enviar"
-const contenedor1 = document.getElementById("contenedor1"); // Obtiene el elemento con el id "contenedor1"
 
-// Obtener el correo del usuario de localStorage (si existe)
-const correoUsuario = localStorage.getItem("email"); // Obtiene el valor del correo del usuario desde el almacenamiento local
+const commentText = document.getElementById("opinion");
+const commentScore = document.getElementById("score");
+const enviarButton = document.getElementById("enviar");
+const commentsContainer = document.getElementById("commentsContainer");
 
-// Obtener el ID del producto de localStorage (si existe)
-const productID = localStorage.getItem("productID"); // Obtiene el valor del ID del producto desde el almacenamiento local
+// Obtener el correo del usuario de localStorage y el ID del item actual (si existen)
+
+const userEmail = localStorage.getItem("email");
+
+const productID = localStorage.getItem("productID");
 
 
-// Funcion para crear las estrellas
+// Función para crear las estrellas
 
-function mostrarEstrellas(puntuacion) {
-  // Crea un contenedor para las estrellas
-  const estrellasContainer = document.createElement("span");
+function showStars(score) {
 
-  // Recorre las estrellas
+  const starsContainer = document.createElement("span");
+
+  // Creamos diferentes estrellas segun la puntuación
+
   for (let i = 1; i <= 5; i++) {
-    // Crea una estrella individual
-    const estrella = document.createElement("span");
 
-    // Aplica clases CSS para mostrar una estrella
-    estrella.classList.add("fa", "fa-star");
+    const star = document.createElement("span");
 
-    // Agrega la clase CSS "text-warning" si la estrella es parte de la puntuación
-    if (i <= puntuacion) {
-      estrella.classList.add("text-warning");
+    star.classList.add("fa", "fa-star");
+
+    if (i <= score) {
+      star.classList.add("text-warning");
     }
 
-    // Agrega la estrella al contenedor
-    estrellasContainer.appendChild(estrella);
+    starsContainer.appendChild(star);
   }
 
-  // Devuelve el contenedor de estrellas
-  return estrellasContainer;
+  return starsContainer;
 }
 
 
 
-// Funcion para establecer el estilo de los comentarios
+// Función para establecer el estilo de los comentarios
 
-
-function setComments(comentario, bool){
+function setComments(comment, bool){
   if (bool){
-    // Crea elementos HTML para mostrar los comentarios en la página
-    const listItem = document.createElement("div"); // Elemento de lista
-    listItem.classList.add("list-group-item"); // Aplica una clase CSS al elemento
 
-    // Crea elementos para mostrar la puntuación en forma de estrellas
-    const estrellasContainer = mostrarEstrellas(comentario.puntuacion);// Contenedor de estrellas
+    const listItem = document.createElement("div");
+    listItem.classList.add("list-group-item");
 
-    // Crea un elemento para mostrar el nombre de usuario en negritas
-    const usuarioElement = document.createElement("span");
-    usuarioElement.classList.add("fw-bold");
-    usuarioElement.textContent = comentario.usuario;
+    // Crea un elemento para mostrar la puntuación en forma de estrellas
+
+    const starsContainer = showStars(comment.score);
+
+    const userElement = document.createElement("span");
+    userElement.classList.add("fw-bold");
+    userElement.textContent = comment.user;
 
     // Agrega el nombre de usuario, la fecha y las estrellas al elemento de lista
-    const comentarioTexto = ` - ${comentario.fecha} - `;
-    listItem.appendChild(usuarioElement);
-    listItem.innerHTML += comentarioTexto;
-    listItem.appendChild(estrellasContainer);
-    // Agrega un salto de línea después de las estrellas
+
+    const commentTexto = ` - ${comment.fecha} - `;
+    listItem.appendChild(userElement);
+    listItem.innerHTML += commentTexto;
+    listItem.appendChild(starsContainer);
+
     listItem.appendChild(document.createElement("br"));
 
-    // Crea un elemento para mostrar el comentario en estilo gris claro
-    const comentarioElement = document.createElement("span");
-    comentarioElement.classList.add("fw-light");
-    comentarioElement.textContent = comentario.texto;
+    const commentElement = document.createElement("span");
+    commentElement.classList.add("fw-light");
+    commentElement.textContent = comment.texto;
 
-    // Agrega el contenido del comentario al elemento de lista
-    listItem.appendChild(comentarioElement);
+    listItem.appendChild(commentElement);
 
     // Agrega el elemento de lista al contenedor en la página
-    contenedor1.appendChild(listItem);
+
+    commentsContainer.appendChild(listItem);
   }
 }
 
@@ -287,96 +288,99 @@ function setComments(comentario, bool){
 
 
 // Función para cargar comentarios desde una URL asociada al ID del producto
-async function ComentariosURL(productID) {
-  // Construye la URL para obtener los comentarios del producto
-  const comentariosURL = `https://japceibal.github.io/emercado-api/products_comments/${productID}.json`;
+
+async function getProductComments(productID) {
+
+  const commentsURL = `https://japceibal.github.io/emercado-api/products_comments/${productID}.json`;
 
   try {
-    const response = await fetch(comentariosURL); // Realiza una solicitud de red para obtener los comentarios
+    const response = await fetch(commentsURL);
 
-    const comentarios = await response.json(); // Convierte la respuesta en un objeto JSON
+    const comments = await response.json();
 
-    if (comentarios && comentarios.length > 0) {
-      // Convierte los comentarios en un formato deseado
-      const comentariosConvertidos = comentarios.map(comentario => ({
-        usuario: comentario.user,
-        fecha: comentario.dateTime,
-        puntuacion: comentario.score,
-        texto: comentario.description
+    if (comments && comments.length > 0) {
+
+      // Convierte los comentarios a objetos
+
+      const commentsConvertidos = comments.map(comment => ({
+        user: comment.user,
+        fecha: comment.dateTime,
+        score: comment.score,
+        texto: comment.description
       }));
 
       // Ordena los comentarios de más viejos a más nuevos por fecha
-      comentariosConvertidos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
-      comentariosConvertidos.forEach((comentario) => {
-        setComments(comentario, true);
+      commentsConvertidos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
+      commentsConvertidos.forEach((comment) => {
+        setComments(comment, true);
       });
 
     }
 
   } catch (error) {
-    console.error("Error:", error); // Registra un error en la consola y muestra una alerta
-    alert("Error al cargar los comentarios.");
+    console.error("Error:", error);
+    alert("Error al cargar los comments.");
   }
-  // Llama a la función para cargar los comentarios al cargar la página
-  cargarComentariosDesdeLocalStorage();
+
+  // Llama a la función para cargar los commentarios al cargar la página
+
+  loadCommentsFromLocalStorage();
 }
-// Llama a la función para cargar los comentarios desde la URL al cargar la página
-ComentariosURL(productID);
+
+// Llama a la función para cargar los commentarios desde la URL al cargar la página
+
+getProductComments(productID);
 
 
 
 // Agregar evento click al botón "Agregar"
 
 enviarButton.addEventListener("click", function () {
-  
-  // Obtener la fecha y hora actual en un formato específico
-  const fecha = obtenerFechaActual();
 
-  // Obtener el valor de la puntuación del comentario
-  const puntuacion = parseInt(commentScore.value);
+  const fecha = getActualDate();
 
-  // Crear un nuevo elemento de lista para mostrar el nuevo comentario
+  const score = parseInt(commentScore.value);
+
   const listItem = document.createElement("li");
   listItem.classList.add("list-group-item");
 
-  // Crear elementos para mostrar la puntuación en forma de estrellas
-  const estrellasContainer = mostrarEstrellas(puntuacion);
+  // Crea un elemento para mostrar la puntuación en forma de estrellas
 
-  // Crear un elemento para mostrar el nombre de usuario en negritas (correo del usuario)
-  const usuarioElement = document.createElement("span");
-  usuarioElement.classList.add("fw-bold");
-  usuarioElement.textContent = correoUsuario;
+  const starsContainer = showStars(score);
+
+  const userElement = document.createElement("span");
+  userElement.classList.add("fw-bold");
+  userElement.textContent = userEmail;
 
   // Agregar el correo del usuario, la fecha y las estrellas al elemento de lista
-  const comentario = ` - ${fecha} - `;
-  listItem.appendChild(usuarioElement);
-  listItem.innerHTML += comentario;
-  listItem.appendChild(estrellasContainer);
-  // Agregar un salto de línea después de las estrellas
+
+  const comment = ` - ${fecha} - `;
+  listItem.appendChild(userElement);
+  listItem.innerHTML += comment;
+  listItem.appendChild(starsContainer);
+
   listItem.appendChild(document.createElement("br"));
 
-  // Crear un elemento para mostrar el texto del comentario en gris claro
-  const comentarioElement = document.createElement("span");
-  comentarioElement.classList.add("fw-light", "text-break");
-  comentarioElement.textContent = commentText.value;
+  const commentElement = document.createElement("span");
+  commentElement.classList.add("fw-light", "text-break");
+  commentElement.textContent = commentText.value;
 
-  // Agregar el contenido del comentario al elemento de lista
-  listItem.appendChild(comentarioElement);
+  listItem.appendChild(commentElement);
 
-  // Agregar el elemento de lista al contenedor en la página
-  contenedor1.appendChild(listItem);
+  commentsContainer.appendChild(listItem);
 
-  // Limpiar el campo de comentario y puntuación después de agregar el comentario
   commentText.value = "";
   commentScore.value = 1;
   
   // Guardar el comentario en localStorage
-  guardarComentarioEnJSON({
-    usuario: correoUsuario,
+
+  saveComment({
+    user: userEmail,
     fecha,
-    puntuacion,
-    texto: comentarioElement.textContent,
+    score,
+    texto: commentElement.textContent,
     productID: ProductNum
   });
 
@@ -386,31 +390,31 @@ enviarButton.addEventListener("click", function () {
 
 // Función para guardar un comentario en formato JSON en localStorage
 
-function guardarComentarioEnJSON(comentario) {
-  let comentariosJSON = localStorage.getItem("comentarios");
+function saveComment(comment) {
+  let commentsJSON = localStorage.getItem("comments");
 
-  if (!comentariosJSON) {
-    comentariosJSON = "[]";
+  if (!commentsJSON) {
+    commentsJSON = "[]";
   }
 
-  const comentarios = JSON.parse(comentariosJSON);
-  comentarios.push(comentario);
+  const comments = JSON.parse(commentsJSON);
+  comments.push(comment);
 
-  localStorage.setItem("comentarios", JSON.stringify(comentarios));
+  localStorage.setItem("comments", JSON.stringify(comments));
 }
 
 
 
-// Función para cargar comentarios desde LocalStorage
+// Función para cargar comments desde LocalStorage
 
-function cargarComentariosDesdeLocalStorage() {
-  const comentariosJSON = localStorage.getItem("comentarios");
+function loadCommentsFromLocalStorage() {
+  const commentsJSON = localStorage.getItem("comments");
 
-  if (comentariosJSON) {
-    const comentarios = JSON.parse(comentariosJSON);
+  if (commentsJSON) {
+    const comments = JSON.parse(commentsJSON);
 
-    comentarios.forEach((comentario) => {
-      setComments(comentario, comentario.productID == ProductNum);
+    comments.forEach((comment) => {
+      setComments(comment, comment.productID == ProductNum);
     });
 
   }
@@ -420,7 +424,7 @@ function cargarComentariosDesdeLocalStorage() {
 
 // Función para obtener la fecha actual en un formato específico
 
-function obtenerFechaActual() {
+function getActualDate() {
   const fecha = new Date();
   const año = fecha.getFullYear();
   const mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
@@ -433,7 +437,7 @@ function obtenerFechaActual() {
 }
 
 // ENTREGA 5: FUNCIONALIDAD PARA GUARDAR PROPIEDADES DEL PRODUCTO SELECCIONADO EN EL LOCAL STORAGE
-// NO LO GUARDA SI EL MISMO USUARIO INTENA GUARDAR EL MISMO ITEM
+// NO LO GUARDA SI EL MISMO user INTENA GUARDAR EL MISMO ITEM
 
 function saveProductProperties(product) {
   let productsJSON = localStorage.getItem("cartItems");
@@ -445,7 +449,9 @@ function saveProductProperties(product) {
 
   for (i = 0; i < products.length; i++){
     if (products[i].id == product.id && products[i].username == product.username){
+
       // Agregar una alerta si el producto ya está en el carrito.
+      
       alert("El producto ya se encuentra en el carrito.");
       return;
     }
@@ -456,6 +462,7 @@ function saveProductProperties(product) {
   localStorage.setItem("cartItems", JSON.stringify(products));
 
   // Agregar una alerta después de agregar el producto al carrito.
+  
   alert("El producto se ha agregado al carrito.");
 
 }

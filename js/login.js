@@ -1,22 +1,20 @@
 // Función para mostrar y ocultar contraseña
 
-const botonMostrar = document.querySelector("#mostrar");
+const showPassword = document.querySelector("#showPassword");
 
-botonMostrar.addEventListener("change", function(){
-    if (botonMostrar.checked){
+showPassword.addEventListener("change", function(){
+    if (showPassword.checked){
         password.type = "text";
-        mostrar = true;
     } else {
         password.type = "password";
-        mostrar = false;
     }
 });
 
 // Función para guardar el "user" y el email del usuario
 
-const formulario = document.querySelector("#formulario");
+const form = document.querySelector("#form");
 const email = document.querySelector("#email");
 
-formulario.addEventListener('submit', function(){
+form.addEventListener('submit', function(){
     localStorage.setItem("email", email.value);
 });

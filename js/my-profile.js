@@ -78,23 +78,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Le damos un feedback al usuario sobre la situación
 
-          alert("Datos del perfil actualizados exitosamente.");
+          const message = document.createElement("div");
+          message.innerHTML =
+          `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+            Datos del perfil actualizados exitosamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`;
+
+          document.body.appendChild(message);
 
         } else {
 
-          alert("Por favor, complete los campos obligatorios.");
+          const message = document.createElement("div");
+          message.innerHTML =
+          `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+          Por favor, complete los campos obligatorios.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`;
+
+          document.body.appendChild(message);
 
         }
 
       } else {
 
-        alert("El correo ingresado no coincide con el correo almacenado. Debe registrarse nuevamente.");
+        const message = document.createElement("div");
+        message.innerHTML =
+        `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+        El correo ingresado no coincide con el correo almacenado. Debe registrarse nuevamente.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+
+        document.body.appendChild(message);
       
       }
 
     } else {
 
-      alert("Por favor, complete el campo de correo.");
+      const message = document.createElement("div");
+      message.innerHTML =
+      `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+      Por favor, complete el campo de correo.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+
+      document.body.appendChild(message);
 
     }
   });

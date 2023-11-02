@@ -280,8 +280,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const bankTransferFields = document.getElementById("bankTransferFields").getElementsByTagName("input");
 
 
-
-
   // Función que actualiza el texto según la forma de pago elegida
 
   function updateSelectionText() {
@@ -304,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function validateNumberInput(field) {
     field.addEventListener('input', function () {
 
-      // Eliminamos los caracteres no numéricos de los campos
+      // Eliminamos los caracteres no numéricos de los campos (utilizando expresiones regulares)
       let value = this.value.replace(/[^0-9]/, '');
       
       if (field.id == 'expirationDate') {
@@ -351,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log (currentMonth);
 
     // Valida el año (debe ser mayor o igual al año y mes actual)
-    if (yearNumber > currentYear || (yearNumber == currentYear && monthNumber > currentMonth)) {
+    if (yearNumber > currentYear || (yearNumber == currentYear && monthNumber >= currentMonth)) {
       return true;
     }
 
@@ -364,8 +362,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   expirationDateInput.addEventListener('blur', function() {
     if (!isValidDate(this)) {
+
       alert('Fecha de vencimiento no válida. Por favor ingrese una fecha válida.');
       this.value = '';
+      
     }
   });
 
@@ -455,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const expirationDateMessage = document.getElementById('expirationDate-error');
     const accountNumberMessage = document.getElementById('accountNumber-error');
 
-    creditCard.addEventListener('change', function () {
+    creditCard.addEventListener('change', function(){
 
       if (creditCard.checked) {
 
@@ -468,17 +468,16 @@ document.addEventListener('DOMContentLoaded', function () {
           if (!element.checkValidity()){
 
             if (element.id == "creditCardNumber"){
+              
               cardNumberMessage.hidden = false;
             } else if (element.id == "cvv"){
               cvvMessage.hidden = false;
             } else {
               expirationDateMessage.hidden = false;
+
             }
-
           }
-
         }
-
       }
 
     });
@@ -488,7 +487,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Aquí agregamos otro addEventListener, pero al radio button de transferencia bancaria, el cual realiza lo mismo que la funcion anterior
     // pero para los inputs relacionados con este
 
-    bankTransfer.addEventListener('change', function () {
+    bankTransfer.addEventListener('change', function(){
+
       if (bankTransfer.checked) {
 
         selectionTextMessage.hidden = true;
@@ -504,79 +504,111 @@ document.addEventListener('DOMContentLoaded', function () {
             accountNumberMessage.hidden = false;
 
           }
-
         }
-
       }
     });
 
 
+    /*
+    Agregamos un addEventListener a cada uno de los campos habilitados (en forma de pago), los cuales ejecutan una función al modificar su contenido
+    que muestra un mensaje de error en caso de no ser válidos
+    */
+    
 
-    // Ademas de los addEventListeners, al clickear comprar, observamos que inputs de los habilitados son correctos, y en caso
-    // de que alguno no lo sea, se muestra un mensaje de error personalizado.
+
+    function checkCreditCardNumber(element){
+
+      element.addEventListener("input", function(){
+
+        if (element.value.length < 16){
+          element.setCustomValidity("Número de tarjeta incompleto");
+          cardNumberMessage.hidden = false;
+        } else {
+          element.setCustomValidity("");
+          cardNumberMessage.hidden = true;
+        }
+
+      });
+
+    }
+
+
+    function checkCVV(element){
+
+      element.addEventListener("input", function(){
+
+        if (element.value.length < 3){
+          element.setCustomValidity("Código de seguridad incompleto");
+          cvvMessage.hidden = false;
+        } else {
+          element.setCustomValidity("");
+          cvvMessage.hidden = true;
+        }
+
+      });
+
+    }
+
+
+    function checkExpirationDate(element){
+
+      element.addEventListener("input", function(){
+
+        if (element.value.length < 4){
+          element.setCustomValidity("Fecha de vencimiento incompleta");
+          expirationDateMessage.hidden = false;
+        } else {
+          element.setCustomValidity("");
+          expirationDateMessage.hidden = true;
+        }
+
+      });
+
+    }
+
 
     function checkCreditCardFields(){
 
       for (const element of creditCardFields) {
 
         if (element.id == "creditCardNumber"){
-          element.addEventListener("input", function(){
-            if (element.value.length < 16){
-              element.setCustomValidity("Número de tarjeta incompleto");
-              document.getElementById('cardNumber-error').hidden = false;
-            } else {
-              element.setCustomValidity("");
-              document.getElementById('cardNumber-error').hidden = true;
-            }
-          });
+          checkCreditCardNumber(element);
         }
-  
+
         if (element.id == "cvv"){
-          element.addEventListener("input", function(){
-            if (element.value.length < 3){
-              element.setCustomValidity("Código de seguridad incompleto");
-              document.getElementById('cvv-error').hidden = false;
-            } else {
-              element.setCustomValidity("");
-              document.getElementById('cvv-error').hidden = true;
-            }
-          });
+          checkCVV(element);
         }
-  
+
         if (element.id == "expirationDate"){
-          element.addEventListener("input", function(){
-            if (element.value.length < 4){
-              element.setCustomValidity("Fecha de vencimiento incompleta");
-              document.getElementById('expirationDate-error').hidden = false;
-            } else {
-              element.setCustomValidity("");
-              document.getElementById('expirationDate-error').hidden = true;
-            }
-          });
+          checkExpirationDate(element);
         }
   
       }
-
     }
 
     checkCreditCardFields();
 
+
+
+    function checkAccountNumber(element){
+
+      element.addEventListener("input", function(){
+        if (!element.checkValidity()){
+          accountNumberMessage.hidden = false;
+        } else {
+          accountNumberMessage.hidden = true;
+        }
+      });
+
+    }
+
     function checkBankTransferFields(){
 
       for (const element of bankTransferFields) {
-
-        const accountNumberMessage = document.getElementById('accountNumber-error');
         
-        element.addEventListener("input", function(){
-          if (!element.checkValidity()){
-            accountNumberMessage.hidden = false;
-          } else {
-            accountNumberMessage.hidden = true;
-          }
-        });
+        checkAccountNumber(element);
   
       }
-
     }
 
     checkBankTransferFields();
@@ -609,6 +641,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function validatePurchase() {
 
+    const street = document.querySelector("#street");
+    const number = document.querySelector("#number");
+    const corner = document.querySelector("#corner");
 
     const selectionText = document.getElementById('selectionText');
     const cartItems = document.querySelectorAll('.list-group-item');
@@ -625,9 +660,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let isValid = true;
 
-    // Observamos el contenido de cada uno de los inputs de calle, número, esquina, tipo de envio, junto con forma de pago para asegurarnos de que ninguno este vacío
+    // Observamos el contenido de cada uno de los inputs de calle, número, esquina, junto con forma de pago para asegurarnos de que ninguno este vacío
     // En caso de que alguno este vacío, mostramos un mensaje de error, y lo borramos en caso de que no lo este.
-   
+
+    if (!street.checkValidity() || !number.checkValidity() || !corner.checkValidity()){
+      isValid = false;
+    }
+
     if (selectionText.textContent == 'No ha seleccionado') {
       selectionTextMessage.hidden = false;
       isValid = false;

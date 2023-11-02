@@ -46,13 +46,23 @@ function showData(product) {
 let category;
 
 async function getData (url){
-  let response = await fetch(url);
-  if (response.ok){
+  try {
+
+    let response = await fetch(url);
     let responseContents = await response.json();
-      category = responseContents.catName;
-     
-  } else {
-    alert("HTTP ERROR: " + response.status);
+    category = responseContents.catName;
+
+  } catch (error) {
+
+    const message = document.createElement("div");
+    message.innerHTML =
+    `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+    HTTP ERROR: ${error.message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>`;
+
+    document.body.appendChild(message);
+
   }
 }
 
@@ -122,8 +132,10 @@ function changeBackground(){
 // Función que permite tomar el producto actual y guardarlo en el localStorage al precionar "Comprar", asi como agregarlo a la Wishlist y cambiar el color de fondo adecuadamente
 
 async function getProducts (url){
-  let response = await fetch(url);
-  if (response.ok){
+
+  try {
+
+    let response = await fetch(url);
     let responseContents = await response.json();
     
     showData(responseContents);
@@ -195,8 +207,17 @@ async function getProducts (url){
       }
     });
 
-  } else {
-    alert("HTTP ERROR: " + response.status);
+  } catch (error) {
+
+    const message = document.createElement("div");
+    message.innerHTML =
+    `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+    HTTP ERROR: ${response.status}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>`;
+
+    document.body.appendChild(message);
+    
   }
 }
 
@@ -320,8 +341,18 @@ async function getProductComments(productID) {
     }
 
   } catch (error) {
+
     console.error("Error:", error);
-    alert("Error al cargar los comments.");
+
+    const message = document.createElement("div");
+    message.innerHTML =
+    `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+    Error al cargar los comentarios.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>`;
+
+    document.body.appendChild(message);
+
   }
 
   // Llama a la función para cargar los commentarios al cargar la página
@@ -451,9 +482,17 @@ function saveProductProperties(product) {
     if (products[i].id == product.id && products[i].username == product.username){
 
       // Agregar una alerta si el producto ya está en el carrito.
-      
-      alert("El producto ya se encuentra en el carrito.");
+
+      const message = document.createElement("div");
+      message.innerHTML =
+      `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+        El producto ya se encuentra en el carrito.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+
+      document.body.appendChild(message);
       return;
+
     }
   }
 
@@ -463,7 +502,14 @@ function saveProductProperties(product) {
 
   // Agregar una alerta después de agregar el producto al carrito.
   
-  alert("El producto se ha agregado al carrito.");
+  const message = document.createElement("div");
+  message.innerHTML =
+  `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+    El producto se ha agregado al carrito.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>`;
+
+  document.body.appendChild(message);
 
 }
 

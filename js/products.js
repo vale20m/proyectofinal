@@ -69,8 +69,10 @@ function saveProducts(array){
 const categoryContainer = document.querySelector(".lead");
 
 async function getData (url){
-  let response = await fetch(url);
-  if (response.ok){
+
+  try {
+    
+    let response = await fetch(url);
     let responseContents = await response.json();
 
     // Agregamos los products al arreglo "productsArray" la funcion "saveProducts";
@@ -80,8 +82,18 @@ async function getData (url){
 
     const category = responseContents.catName;
     categoryContainer.innerHTML += `Aqui podes ver todos nuestros  <u>${category}</u>`
-  } else {
-    alert("HTTP ERROR: " + response.status);
+
+  } catch (error) {
+
+    const message = document.createElement("div");
+    message.innerHTML =
+    `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+      HTTP ERROR: ${error.message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>`;
+
+    document.body.appendChild(message);
+
   }
 }
 

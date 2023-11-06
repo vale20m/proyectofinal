@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    // Si no se cumple que un elemento del form no es valido, finaliza la propagación del código y no ejecuta la caso por defecto
+    // Si no se cumple que un elemento del form no es valido, finaliza la propagación del código y no ejecuta el caso por defecto
     
     if (!form.checkValidity()){
       event.preventDefault();

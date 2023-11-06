@@ -53,7 +53,7 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-sm-10">
-          <form id="perfil-form" class="perfil-form">
+          <form id="profile-form" class="needs-validation" novalidate>
             <br><br>
             <h3>Perfil</h3>
             <br><br>
@@ -64,7 +64,10 @@
             <div class="row">
               <div class="col-sm-6">
                 <label for="name">Nombre*</label>
-                <input type="text" class="form-control" id="name">
+                <input type="text" class="form-control" id="name" minlength="1" pattern="[a-zA-Z]+" required>
+                <div class="invalid-feedback">
+                  Ingresa un nombre válido
+                </div>
               </div>
               <div class="col-sm-6">
                 <label for="secondName">Segundo nombre</label>
@@ -74,17 +77,23 @@
             <div class="row">
               <div class="col-sm-6">
                 <label for ="lastName">Apellido*</label>
-                <input type="text" class="form-control" id="lastName">
+                <input type="text" class="form-control" id="lastName" minlength="1" pattern="[a-zA-Z]+" required>
+                <div class="invalid-feedback">
+                  Ingresa un apellido válido
+                </div>
               </div>
               <div class="col-sm-6">
                 <label for="secondLastName">Segundo apellido</label>
-                <input type="text" class="form-control" id="secondLastName">
+                <input type="text" class="form-control" id="secondLastName" pattern="[a-zA-Z]*">
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
-                <label for="email">Correo electrónico</label>
-                <input type="email" class="form-control" id="email">
+                <label for="email">Correo electrónico*</label>
+                <input type="email" class="form-control" id="email" minlength="1" required>
+                <div class="invalid-feedback">
+                  Ingresa un email válido
+                </div>
               </div>
               <div class="col-md-6">
                 <label for="profileImage">Imagen de perfil</label>
@@ -94,12 +103,15 @@
             <div class="row">
               <div class="col-md-6">
                 <label for="phone">Teléfono*</label>
-                <input type="tel" class="form-control" id="phone">
+                <input type="tel" class="form-control" id="phone" minlength="9" pattern="[0-9]+" required>
+                <div class="invalid-feedback">
+                  Ingresa un teléfono válido
+                </div>
               </div>
             </div>
             <br>
             <hr>
-            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <button id="submitButton" type="button" class="btn btn-primary">Guardar cambios</button>
           </form>
         </div>
       </div>

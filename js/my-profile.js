@@ -13,15 +13,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const secondLastNameInput = document.getElementById("secondLastName");
   const phoneInput = document.getElementById("phone");
 
-  // Verificamos que el usuario este logueado
 
-  if (emailTemp) {
+  // Rellena automáticamente el campo de correo con el valor del `localStorage` (el correo actual)
 
-    // Rellena automáticamente el campo de correo con el valor del `localStorage` (el correo actual)
+  emailInput.value = emailTemp;
 
-    emailInput.value = emailTemp;
+  // En caso de que el usuario ya los haya llenado e ingrese nuevamente, se cargan los datos anteriores
 
-    // En caso de que el usuario ya los haya llenado e ingrese nuevamente, se cargan los datos anteriores
+  function loadInfo(){
 
     const userProfile = JSON.parse(localStorage.getItem(emailTemp));
 
@@ -42,7 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
         defaultProfileImage.src = userProfile.profileImage;
       }
     }
+
   }
+
+  loadInfo();
   
   // Obtener el formulario del perfil
 
@@ -145,11 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
       invalidEmail = true;
     }
 
-    if (phoneInput.value == ""){
-      emptyFields = true;
-    }
-
-    if (!nameInput.checkValidity() || !lastNameInput.checkValidity() || !emailInput.checkValidity() || !phoneInput.checkValidity()){
+    if (!nameInput.checkValidity() || !lastNameInput.checkValidity() || !emailInput.checkValidity() || !phoneInput.checkValidity() || !secondNameInput.checkValidity() || !secondLastNameInput.checkValidity()){
       invalidFields = true;
     }
 

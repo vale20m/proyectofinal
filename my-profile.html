@@ -71,7 +71,10 @@
               </div>
               <div class="col-sm-6">
                 <label for="secondName">Segundo nombre</label>
-                <input type="text" class="form-control" id="secondName">
+                <input type="text" class="form-control" id="secondName" pattern="[a-zA-Z]*">
+                <div class="invalid-feedback">
+                  Ingresa un segundo nombre válido
+                </div>
               </div>
             </div>
             <div class="row">
@@ -85,6 +88,9 @@
               <div class="col-sm-6">
                 <label for="secondLastName">Segundo apellido</label>
                 <input type="text" class="form-control" id="secondLastName" pattern="[a-zA-Z]*">
+                <div class="invalid-feedback">
+                  Ingresa un segundo apellido válido
+                </div>
               </div>
             </div>
             <div class="row">
@@ -102,8 +108,8 @@
             </div>
             <div class="row">
               <div class="col-md-6">
-                <label for="phone">Teléfono*</label>
-                <input type="tel" class="form-control" id="phone" minlength="9" pattern="[0-9]+" required>
+                <label for="phone">Teléfono</label>
+                <input type="tel" class="form-control" id="phone" minlength="9" pattern="[0-9]+">
                 <div class="invalid-feedback">
                   Ingresa un teléfono válido
                 </div>

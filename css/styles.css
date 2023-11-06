@@ -256,11 +256,10 @@ a.custom-card:hover {
 }
 
 .profileImageContainer {
-  position: absolute;
-  top: 70px; /* Ajusta la posición vertical según tus preferencias */
-  right: 280px; /* Ajusta la posición horizontal según tus preferencias */
-  width: 100px; /* Ajusta el ancho de la imagen de perfil */
-  height: 100px; /* Ajusta el alto de la imagen de perfil */
+  top: 70px;
+  right: 280px;
+  width: 100px;
+  height: 100px;
   border: 2px solid #ccc;
   border-radius: 50%;
   overflow: hidden;

@@ -707,8 +707,10 @@ document.addEventListener('DOMContentLoaded', function () {
       // Observamos los campos del radio button "transferencia bancaria"
 
       else {
+
         let cont = 0;
         for (const element of bankTransferFields){
+
           if (!element.checkValidity()){
             accountNumberMessage.hidden = false;
             isValid = false;
@@ -718,7 +720,9 @@ document.addEventListener('DOMContentLoaded', function () {
               accountNumberMessage.hidden = true;
             }
           }
+
         }
+
       }
     }
     
@@ -747,6 +751,21 @@ document.addEventListener('DOMContentLoaded', function () {
         quantityInput.classList.remove('is-invalid');
 
       }
+
+    }
+
+    if (localStorage.getItem("cartItems") == "[]" || localStorage.getItem("cartItems") == undefined){
+
+      const message = document.createElement("div");
+      message.innerHTML =
+      `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+      Para poder realizar la compra, debes tener al menos un producto en el carrito.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+
+      document.body.appendChild(message);
+
+      isValid = false;
 
     }
 

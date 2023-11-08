@@ -149,15 +149,33 @@ async function getProducts (url){
     // ANIDAMOS UN ADD EVENT LISTENER AL MISMO QUE SE ACTIVA CUANDO RECIBE UN CLICK Y GUARDA EL PRODUCTO EN EL LOCAL STORAGE
 
     buyProduct.addEventListener("click", function(){
-      saveProductProperties({
-        name: responseContents.name,
-        unitCost: responseContents.cost,
-        currency: responseContents.currency,
-        image: responseContents.images[0],
-        count: 1,
-        id: responseContents.id,
-        username: localStorage.getItem("email")
-      });
+
+      // Chequeamos que el usuario haya iniciado sesion, y en caso de que no, le mostramos una alerta
+
+      if (localStorage.getItem("email") != undefined){
+
+        saveProductProperties({
+          name: responseContents.name,
+          unitCost: responseContents.cost,
+          currency: responseContents.currency,
+          image: responseContents.images[0],
+          count: 1,
+          id: responseContents.id,
+          username: localStorage.getItem("email")
+        });
+
+      } else {
+
+        const message = document.createElement("div");
+        message.innerHTML =
+        `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+        Inicia sesión para agregar productos al carrito.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+
+        document.body.appendChild(message);
+
+      }
     });
 
     const switchMode = document.querySelector("#switchMode");
@@ -183,28 +201,46 @@ async function getProducts (url){
     // ADD EVENT LISTENER QUE AGREGA UN PRODUCTO A LA WISHLIST AL CLIQUEAR EL CORAZON (O LO QUITA SI YA ESTABA AGREGADO)
 
     wishlistButton.addEventListener("click", function(){
+
+      // Chequeamos que el usuario haya iniciado sesion, y en caso de que no, le mostramos una alerta
       
-      if (!wishlistButton.classList.contains("activeHeart")){
+      if (localStorage.getItem("email") != undefined){
+
+        if (!wishlistButton.classList.contains("activeHeart")){
+          
+          wishlistButton.classList.add("activeHeart");
+          wishlistButton.classList.remove("darkModeHeart");
+          
+          saveWishlistProducts({
+            name: responseContents.name,
+            cost: responseContents.cost,
+            currency: responseContents.currency,
+            image: responseContents.images[0],
+            id: responseContents.id,
+            username: localStorage.getItem("email")
+          });
         
-        wishlistButton.classList.add("activeHeart");
-        wishlistButton.classList.remove("darkModeHeart");
+        } else {
+          
+          checkLocalStorage(wishlistButton);
+          wishlistButton.classList.remove("activeHeart");
+          deleteWishlistProduct(responseContents.id);
         
-        saveWishlistProducts({
-          name: responseContents.name,
-          cost: responseContents.cost,
-          currency: responseContents.currency,
-          image: responseContents.images[0],
-          id: responseContents.id,
-          username: localStorage.getItem("email")
-        });
-      
+        }
+
       } else {
-        
-        checkLocalStorage(wishlistButton);
-        wishlistButton.classList.remove("activeHeart");
-        deleteWishlistProduct(responseContents.id);
-      
+
+        const message = document.createElement("div");
+        message.innerHTML =
+        `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+        Inicia sesión para agregar productos a la lista de deseados.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+
+        document.body.appendChild(message);
+
       }
+
     });
 
   } catch (error) {
@@ -225,7 +261,7 @@ getProducts(CAT_PRODUCTS);
 
 
 
-// CÓDIGO EN RELACIÓN A LOS comments DE LOS PRODUCTOS
+// CÓDIGO EN RELACIÓN A LOS COMENTARIOS DE LOS PRODUCTOS
 
 
 // Obtener elementos del formulario
@@ -370,50 +406,67 @@ getProductComments(productID);
 
 enviarButton.addEventListener("click", function () {
 
-  const fecha = getActualDate();
+  // Chequeamos que el usuario haya iniciado sesion, y en caso de que no, le mostramos una alerta
 
-  const score = parseInt(commentScore.value);
+  if (localStorage.getItem("email") != undefined){
 
-  const listItem = document.createElement("li");
-  listItem.classList.add("list-group-item");
+    const fecha = getActualDate();
 
-  // Crea un elemento para mostrar la puntuación en forma de estrellas
+    const score = parseInt(commentScore.value);
 
-  const starsContainer = showStars(score);
+    const listItem = document.createElement("li");
+    listItem.classList.add("list-group-item");
 
-  const userElement = document.createElement("span");
-  userElement.classList.add("fw-bold");
-  userElement.textContent = userEmail;
+    // Crea un elemento para mostrar la puntuación en forma de estrellas
 
-  // Agregar el correo del usuario, la fecha y las estrellas al elemento de lista
+    const starsContainer = showStars(score);
 
-  const comment = ` - ${fecha} - `;
-  listItem.appendChild(userElement);
-  listItem.innerHTML += comment;
-  listItem.appendChild(starsContainer);
+    const userElement = document.createElement("span");
+    userElement.classList.add("fw-bold");
+    userElement.textContent = userEmail;
 
-  listItem.appendChild(document.createElement("br"));
+    // Agregar el correo del usuario, la fecha y las estrellas al elemento de lista
 
-  const commentElement = document.createElement("span");
-  commentElement.classList.add("fw-light", "text-break");
-  commentElement.textContent = commentText.value;
+    const comment = ` - ${fecha} - `;
+    listItem.appendChild(userElement);
+    listItem.innerHTML += comment;
+    listItem.appendChild(starsContainer);
 
-  listItem.appendChild(commentElement);
+    listItem.appendChild(document.createElement("br"));
 
-  commentsContainer.appendChild(listItem);
+    const commentElement = document.createElement("span");
+    commentElement.classList.add("fw-light", "text-break");
+    commentElement.textContent = commentText.value;
 
-  commentText.value = "";
-  commentScore.value = 1;
+    listItem.appendChild(commentElement);
+
+    commentsContainer.appendChild(listItem);
+
+    commentText.value = "";
+    commentScore.value = 1;
+    
+    // Guardar el comentario en localStorage
+
+    saveComment({
+      user: userEmail,
+      fecha,
+      score,
+      texto: commentElement.textContent,
+      productID: ProductNum
+    });
   
-  // Guardar el comentario en localStorage
+  } else {
 
-  saveComment({
-    user: userEmail,
-    fecha,
-    score,
-    texto: commentElement.textContent,
-    productID: ProductNum
-  });
+    const message = document.createElement("div");
+    message.innerHTML =
+    `<div class="text-center alert alert-warning alert-dismissible fade show" role="alert">
+    Inicia sesión para comentar y puntuar productos.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>`;
+
+    document.body.appendChild(message);
+
+  }
 
 });
 

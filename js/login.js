@@ -15,6 +15,9 @@ showPassword.addEventListener("change", function(){
 const form = document.querySelector("#form");
 const email = document.querySelector("#email");
 
-form.addEventListener('submit', function(){
+form.addEventListener('submit', function(event){
     localStorage.setItem("email", email.value);
+
+     event.preventDefault();
+     window.location.href = "index.html";
 });

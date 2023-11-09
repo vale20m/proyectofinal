@@ -268,7 +268,7 @@ getProducts(CAT_PRODUCTS);
 
 const commentText = document.getElementById("opinion");
 const commentScore = document.getElementById("score");
-const enviarButton = document.getElementById("enviar");
+const sendCommentButton = document.getElementById("sendComment");
 const commentsContainer = document.getElementById("commentsContainer");
 
 // Obtener el correo del usuario de localStorage y el ID del item actual (si existen)
@@ -359,7 +359,7 @@ async function getProductComments(productID) {
 
       // Convierte los comentarios a objetos
 
-      const commentsConvertidos = comments.map(comment => ({
+      const convertedComments = comments.map(comment => ({
         user: comment.user,
         fecha: comment.dateTime,
         score: comment.score,
@@ -368,9 +368,9 @@ async function getProductComments(productID) {
 
       // Ordena los comentarios de más viejos a más nuevos por fecha
 
-      commentsConvertidos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+      convertedComments.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
-      commentsConvertidos.forEach((comment) => {
+      convertedComments.forEach((comment) => {
         setComments(comment, true);
       });
 
@@ -404,7 +404,7 @@ getProductComments(productID);
 
 // Agregar evento click al botón "Agregar"
 
-enviarButton.addEventListener("click", function () {
+sendCommentButton.addEventListener("click", function () {
 
   // Chequeamos que el usuario haya iniciado sesion, y en caso de que no, le mostramos una alerta
 
